@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Archive, ArrowDownToLine, BookOpen, Check, CircleAlert, CircleHelp, FileJson2, FolderOpen, GitMerge, Images, Layers3, RotateCcw, Upload, X } from 'lucide-react';
-import type { BatchReportSummary, ImportedAnalysis, ImportedManifest, MappingResult, PanelReferenceMapping } from '../shared/types';
+import { Archive, ArrowDownToLine, BookOpen, Check, CircleAlert, CircleHelp, Download, FileJson2, FolderOpen, GitMerge, Images, Layers3, RotateCcw, Upload, X } from 'lucide-react';
+import type { BatchReportSummary, ExportDestination, ExportProgress, ExportResult, ImportedAnalysis, ImportedManifest, MappingResult, PanelReferenceMapping } from '../shared/types';
+import { createLogicalPages, type LogicalPageDocument } from '../shared/logical-pages';
+import { validateExport } from '../shared/export-validation';
 import LogicalPageEditor from './LogicalPageEditor';
+import ExportPreview from './ExportPreview';
 
-type Page = 'overview' | 'imports' | 'mapping' | 'guide';
+type Page = 'overview' | 'imports' | 'mapping' | 'export' | 'guide';
 const imageFileKey = (value: string) => value.replace(/\\/g, '/');
 
 export default function App() {
@@ -13,10 +16,16 @@ export default function App() {
   const [analyses, setAnalyses] = useState<ImportedAnalysis[]>([]);
   const [batchReport, setBatchReport] = useState<BatchReportSummary | null>(null);
   const [mapping, setMapping] = useState<MappingResult | null>(null);
+  const [logicalDocument, setLogicalDocument] = useState<LogicalPageDocument>({ pages: [] });
+  const [outputDestination, setOutputDestination] = useState<ExportDestination | null>(null);
+  const [exportBusy, setExportBusy] = useState(false);
+  const [exportProgress, setExportProgress] = useState<ExportProgress | null>(null);
+  const [exportResult, setExportResult] = useState<ExportResult | null>(null);
   const [mappingBusy, setMappingBusy] = useState(false);
   const [previewInvalidFiles, setPreviewInvalidFiles] = useState<Set<string>>(new Set());
   const previewCache = useRef(new Map<string, Promise<string>>());
   const [notice, setNotice] = useState<{ kind: 'error' | 'success'; text: string } | null>(null);
+  useEffect(() => window.panelVidAdapter.onExportProgress(progress => setExportProgress(progress)), []);
   const beats = useMemo(() => analyses.reduce((sum, item) => sum + (item.voiceBeatCount ?? 0), 0), [analyses]);
   const importedCount = Number(Boolean(manifest)) + Number(Boolean(panelFolder)) + Number(analyses.length > 0) + Number(Boolean(batchReport));
   const canBuildMapping = Boolean(manifest && panelFolder && analyses.length > 0);
@@ -28,6 +37,8 @@ export default function App() {
   const showSuccess = (text: string) => setNotice({ kind: 'success', text });
   const invalidateMapping = () => {
     setMapping(null);
+    setLogicalDocument({ pages: [] });
+    setExportResult(null);
     setPreviewInvalidFiles(new Set());
     previewCache.current.clear();
   };
@@ -104,9 +115,28 @@ export default function App() {
         decoded.forEach(file => { if (file) invalidFiles.add(imageFileKey(file)); });
       }
       setPreviewInvalidFiles(invalidFiles);
-      setMapping(result.data);
+      const invalidManifestCount = result.data.manifestPanels.filter(panel => panel.manifestFile && panel.imageStatus === 'found' && invalidFiles.has(imageFileKey(panel.manifestFile))).length;
+      const decodedMapping: MappingResult = {
+        ...result.data,
+        manifestPanels: result.data.manifestPanels.map(panel => panel.manifestFile && invalidFiles.has(imageFileKey(panel.manifestFile))
+          ? { ...panel, imageStatus: 'invalid-image' as const }
+          : panel),
+        chapters: result.data.chapters.map(chapter => ({
+          ...chapter,
+          beats: chapter.beats.map(beat => ({ ...beat, panels: beat.panels.map(panel => panel.manifestFile && invalidFiles.has(imageFileKey(panel.manifestFile))
+            ? { ...panel, imageStatus: 'invalid-image' as const, status: 'image-invalid' as const }
+            : panel) }))
+        })),
+        statistics: {
+          ...result.data.statistics,
+          imagesFound: result.data.statistics.imagesFound - invalidManifestCount,
+          imagesInvalid: result.data.statistics.imagesInvalid + invalidManifestCount
+        }
+      };
+      setMapping(decodedMapping);
+      setLogicalDocument(createLogicalPages(decodedMapping));
       setPage('mapping');
-      showSuccess(`Mapping xong ${result.data.chapters.length} chapter · đã giải mã ${files.length - invalidFiles.size}/${files.length} ảnh${invalidFiles.size ? ` · ${invalidFiles.size} ảnh lỗi` : ''}.`);
+      showSuccess(`Mapping xong ${decodedMapping.chapters.length} chapter · đã giải mã ${files.length - invalidFiles.size}/${files.length} ảnh${invalidFiles.size ? ` · ${invalidFiles.size} ảnh lỗi` : ''}.`);
     } catch (error) {
       showError(error instanceof Error ? error.message : String(error));
     } finally {
@@ -114,7 +144,36 @@ export default function App() {
     }
   }
   function resetAll() {
-    invalidateMapping(); setManifest(null); setPanelFolder(null); setAnalyses([]); setBatchReport(null); setNotice({ kind: 'success', text: 'Đã xóa dữ liệu đã import khỏi phiên làm việc.' });
+    invalidateMapping(); setManifest(null); setPanelFolder(null); setAnalyses([]); setBatchReport(null); setOutputDestination(null); setExportProgress(null); setNotice({ kind: 'success', text: 'Đã xóa dữ liệu đã import khỏi phiên làm việc.' });
+  }
+  async function chooseOutputFolder() {
+    const result = await window.panelVidAdapter.chooseExportFolder();
+    if (!result.ok || !result.data) { if (result.error !== 'Đã hủy chọn thư mục export.') showError(result.error ?? 'Không chọn được thư mục đầu ra.'); return; }
+    setOutputDestination(result.data); setExportResult(null); setExportProgress(null); showSuccess(`Đã chọn thư mục đầu ra: ${result.data.folderName}.`);
+  }
+  function validateForExport() {
+    if (!mapping || !logicalDocument) { showError('Cần chạy UUID Mapping trước khi Preview Export.'); return; }
+    const issues = validateExport(mapping, logicalDocument);
+    const errors = issues.filter(issue => issue.severity === 'error');
+    if (errors.length) showError(`Validation phát hiện ${errors.length} lỗi cần xử lý trước khi export.`);
+    else showSuccess(issues.length ? `Validation đạt, có ${issues.length} cảnh báo cần xem.` : 'Validation đạt; không có lỗi hoặc cảnh báo.');
+  }
+  async function runExport() {
+    if (!mapping || !logicalDocument || !outputDestination) { showError('Chọn thư mục đầu ra và hoàn tất mapping trước khi export.'); return; }
+    const warningCount = validateExport(mapping, logicalDocument).filter(issue => issue.severity === 'warning').length;
+    if (warningCount && !window.confirm(`Có ${warningCount} cảnh báo. Tiếp tục tạo package?`)) return;
+    setExportBusy(true); setExportProgress({ completed: 0, total: 1, current: 'Đang chuẩn bị package…' }); setExportResult(null);
+    try {
+      const result = await window.panelVidAdapter.exportPackage(mapping, logicalDocument, outputDestination.path);
+      if (!result.ok || !result.data) { showError(result.error ?? 'Export package thất bại.'); return; }
+      setExportResult(result.data); setExportProgress(null); showSuccess(`Export hoàn tất: ${result.data.exportedFileCount} file.`);
+    } catch (error) { showError(error instanceof Error ? error.message : String(error)); }
+    finally { setExportBusy(false); }
+  }
+  async function openExportResult() {
+    if (!exportResult) return;
+    const result = await window.panelVidAdapter.openExportFolder(exportResult.outputPath);
+    if (!result.ok) showError(result.error ?? 'Không mở được thư mục kết quả.');
   }
 
   return <div className="app-shell">
@@ -124,13 +183,14 @@ export default function App() {
       <button className={`nav-item ${page === 'overview' ? 'active' : ''}`} onClick={() => setPage('overview')}><Layers3 size={17} /> Tổng quan</button>
       <button className={`nav-item ${page === 'imports' ? 'active' : ''}`} onClick={() => setPage('imports')}><ArrowDownToLine size={17} /> Import dữ liệu {importedCount > 0 && <i>{importedCount}</i>}</button>
       <button className={`nav-item ${page === 'mapping' ? 'active' : ''}`} onClick={() => setPage('mapping')}><GitMerge size={17} /> UUID Mapping {mapping && <i>✓</i>}</button>
+      <button className={`nav-item ${page === 'export' ? 'active' : ''}`} disabled={!mapping} onClick={() => { setPage('export'); setExportResult(null); }}><Download size={17} /> Export Preview {mapping && <i>4</i>}</button>
       <div className="side-label side-label-lower">ỨNG DỤNG</div>
       <button className={`nav-item ${page === 'guide' ? 'active' : ''}`} onClick={() => setPage('guide')}><CircleHelp size={17} /> Hướng dẫn</button>
-      <div className="sidebar-bottom"><div className="offline-dot" /> Hoạt động offline <span>Phase 3</span></div>
+      <div className="sidebar-bottom"><div className="offline-dot" /> Hoạt động offline <span>Phase 4</span></div>
     </aside>
 
     <main className="main-area">
-      <header className="topbar"><div className="breadcrumb">PanelVid Adapter <span>/</span> {page === 'overview' ? 'Tổng quan' : page === 'imports' ? 'Import dữ liệu' : page === 'mapping' ? 'UUID Mapping' : 'Hướng dẫn'}</div><div className="topbar-right"><span className="local-badge"><span /> DỮ LIỆU CHỈ Ở MÁY NÀY</span><button className="reset-button" onClick={resetAll} title="Xóa toàn bộ dữ liệu đã import"><RotateCcw size={15} /> Reset</button></div></header>
+      <header className="topbar"><div className="breadcrumb">PanelVid Adapter <span>/</span> {page === 'overview' ? 'Tổng quan' : page === 'imports' ? 'Import dữ liệu' : page === 'mapping' ? 'UUID Mapping' : page === 'export' ? 'Export Preview' : 'Hướng dẫn'}</div><div className="topbar-right"><span className="local-badge"><span /> DỮ LIỆU CHỈ Ở MÁY NÀY</span><button className="reset-button" onClick={resetAll} title="Xóa toàn bộ dữ liệu đã import"><RotateCcw size={15} /> Reset</button></div></header>
       <div className="page-content">
         {notice && <div className={`notice ${notice.kind}`}><span>{notice.kind === 'success' ? <Check size={16} /> : <X size={16} />}{notice.text}</span><button onClick={() => setNotice(null)} aria-label="Đóng thông báo"><X size={15} /></button></div>}
 
@@ -153,7 +213,7 @@ export default function App() {
             </div></div>
           </section>
           {analyses.length > 0 && <section className="panel-card analysis-card"><div className="card-heading"><div><span className="eyebrow">IMPORTED ANALYSIS</span><h2>AI Analysis đã nạp</h2></div><span className="count-chip">{analyses.length} FILE</span></div><AnalysisList items={analyses} />{batchReport && <div className="batch-summary"><Archive size={16} /><span><b>{batchReport.fileName}</b> · {batchReport.chapterCount ?? '—'} chapter · {batchReport.beatCount ?? '—'} beat · {batchReport.panelReferences ?? '—'} panel reference</span></div>}</section>}
-          <div className="phase-note"><span className="phase-number">03</span><div><b>Phase 3 · Beat Mapper & Logical Pages</b><p>Ánh xạ UUID, tổ chức Scene và preview; xuất dữ liệu vẫn chưa triển khai.</p></div><button className="outline-button" onClick={() => setPage('mapping')}>Mở Mapping</button></div>
+          <div className="phase-note"><span className="phase-number">04</span><div><b>Phase 4 · PanelVid Exporter</b><p>Preview và validate Page/Scene/Panel; xuất ảnh gốc, SRT theo beat và report cục bộ. Không tạo TTS/video.</p></div><button className="outline-button" onClick={() => setPage(mapping ? 'export' : 'mapping')}>{mapping ? 'Mở Export Preview' : 'Mở Mapping'}</button></div>
         </>}
 
         {page === 'imports' && <>
@@ -195,13 +255,15 @@ export default function App() {
             </section>
             <section className="panel-card unused-panels"><details><summary><b>UUID Manifest thiếu, sai format hoặc trùng</b><span>{mapping.manifestPanels.filter(panel => panel.uuidStatus !== 'valid').length} record</span></summary><div className="unused-list">{mapping.manifestPanels.filter(panel => panel.uuidStatus !== 'valid').map(panel => <div className="unused-row" key={panel.entryKey}><code>{panel.uuid ?? '(không có UUID)'}</code><span>{panel.panelId ?? 'Không có panel ID'} · {panel.manifestFile ?? 'Không có panel.file'}</span><small>{panel.uuidStatus === 'duplicate' ? 'UUID trùng' : 'UUID không hợp lệ'}</small></div>)}</div></details></section>
             <section className="panel-card unused-panels"><details><summary><b>Panel chưa được sử dụng</b><span>{mapping.statistics.unusedPanels} panel</span></summary><div className="unused-list">{mapping.manifestPanels.filter(panel => panel.uuidStatus === 'valid' && !panel.used).map(panel => <div className="unused-row" key={panel.entryKey}><code>{panel.uuid}</code><span>{panel.manifestFile ?? 'Không có panel.file'}</span><small>{panel.manifestFile && previewInvalidFiles.has(imageFileKey(panel.manifestFile)) ? 'Không giải mã được ảnh' : imageStatusLabel(panel.imageStatus)}</small></div>)}</div></details></section>
-            <LogicalPageEditor key={mapping.chapters.map(chapter => chapter.chapterKey).join('|')} mapping={mapping} loadPreview={loadPreview} />
+            <LogicalPageEditor mapping={mapping} document={logicalDocument} setDocument={setLogicalDocument} loadPreview={loadPreview} />
           </>}
         </>}
 
+        {page === 'export' && mapping && <ExportPreview mapping={mapping} document={logicalDocument} loadPreview={loadPreview} output={outputDestination} result={exportResult} progress={exportProgress} exporting={exportBusy} onChooseFolder={chooseOutputFolder} onValidate={validateForExport} onExport={runExport} onOpenResult={openExportResult} />}
+
         {page === 'guide' && <>
           <div className="page-heading"><div><div className="eyebrow">GETTING STARTED</div><h1>Hướng dẫn</h1><p>Chuẩn bị dữ liệu và sử dụng UUID Mapping cùng Logical Page/Scene Preview.</p></div></div>
-          <section className="panel-card guide-card"><GuideStep number="01" title="Import Manifest" text="Chọn manifest.json được PanelCutter xuất. Ứng dụng giữ nguyên dữ liệu để tra panel.uuid và resolve panel.file." /><GuideStep number="02" title="Chọn thư mục ảnh" text="Chọn thư mục gốc tương ứng với đường dẫn tương đối panel.file trong Manifest. Thư mục con và Unicode được hỗ trợ." /><GuideStep number="03" title="Import AI Analysis" text="Chọn một hoặc nhiều analysis_result JSON. Các voice_beats[].panel_uuids[] được tìm theo UUID, không theo vị trí hoặc tên file." /><GuideStep number="04" title="Chạy UUID Mapping" text="Mở UUID Mapping, chạy kiểm tra. Mở chapter rồi từng Voice Beat để xem ảnh thật, UUID, file, đường dẫn và validation." /><div className="guide-boundary"><b>Phạm vi hiện tại</b><p>Phase 3 có UUID Mapping, Logical Page theo Voice Beat, Scene editing, Preview và Validation. Chưa có SRT/TXT, export package, TTS hoặc render video.</p></div></section>
+          <section className="panel-card guide-card"><GuideStep number="01" title="Import Manifest" text="Chọn manifest.json được PanelCutter xuất. Ứng dụng giữ nguyên dữ liệu để tra panel.uuid và resolve panel.file." /><GuideStep number="02" title="Chọn thư mục ảnh" text="Chọn thư mục gốc tương ứng với đường dẫn tương đối panel.file trong Manifest. Thư mục con và Unicode được hỗ trợ." /><GuideStep number="03" title="Import AI Analysis" text="Chọn một hoặc nhiều analysis_result JSON. Các voice_beats[].panel_uuids[] được tìm theo UUID, không theo vị trí hoặc tên file." /><GuideStep number="04" title="Mapping → Preview → Export" text="Sau UUID Mapping, chỉnh thứ tự panel/Scene, kiểm tra Export Preview, chọn thư mục đầu ra, Validate rồi export package ảnh/SRT/report." /><div className="guide-boundary"><b>Phạm vi Phase 4</b><p>Exporter tạo ảnh gốc, SRT cue theo Voice Beat và export_report.json. TTS, voice cloning, video rendering và điều khiển PanelVid nằm ngoài phạm vi.</p></div></section>
         </>}
       </div>
     </main>

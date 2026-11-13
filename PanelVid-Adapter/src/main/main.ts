@@ -1,14 +1,17 @@
-import { app, BrowserWindow, dialog, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildPanelMapping, loadPanelImageData } from '../shared/panel-mapping';
 import { parseJsonText, readAnalysisSummary, readBatchReportSummary, readManifestSummary } from '../shared/import-data';
 import { countImagesInFolder } from '../shared/image-files';
-import type { AnalysisDocument, ImportedAnalysis, ImportResult, ManifestDocument, PreviewImageData } from '../shared/types';
+import { exportPackageToDirectory } from './export-package';
+import type { AnalysisDocument, ExportDestination, ExportProgress, ExportResult, ImportedAnalysis, ImportResult, ManifestDocument, PreviewImageData, MappingResult } from '../shared/types';
+import type { LogicalPageDocument } from '../shared/logical-pages';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 let selectedPanelFolderPath: string | null = null;
+let selectedExportParentPath: string | null = null;
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -98,6 +101,33 @@ ipcMain.handle('mapping:preview-image', async (_event, manifestFile: string): Pr
   try {
     return { ok: true, data: await loadPanelImageData(selectedPanelFolderPath, manifestFile) };
   } catch (error) { return failure(error); }
+});
+
+ipcMain.handle('export:choose-folder', async (): Promise<ImportResult<ExportDestination>> => {
+  const selected = await dialog.showOpenDialog({ properties: ['openDirectory', 'createDirectory'] });
+  if (selected.canceled || !selected.filePaths[0]) return { ok: false, error: 'Đã hủy chọn thư mục export.' };
+  selectedExportParentPath = path.resolve(selected.filePaths[0]);
+  return { ok: true, data: { path: selectedExportParentPath, folderName: path.basename(selectedExportParentPath) } };
+});
+
+ipcMain.handle('export:package', async (event, mapping: MappingResult, document: LogicalPageDocument, outputParent: string): Promise<ImportResult<ExportResult>> => {
+  if (!selectedPanelFolderPath) return { ok: false, error: 'Chưa chọn thư mục ảnh nguồn.' };
+  if (!selectedExportParentPath || path.resolve(outputParent) !== selectedExportParentPath) return { ok: false, error: 'Hãy chọn lại thư mục đầu ra trước khi export.' };
+  if (path.resolve(mapping.imageRoot) !== path.resolve(selectedPanelFolderPath)) return { ok: false, error: 'Thư mục ảnh trong mapping không còn khớp lựa chọn hiện tại.' };
+  try {
+    const result = await exportPackageToDirectory(mapping, document, selectedExportParentPath, (progress: ExportProgress) => {
+      if (!event.sender.isDestroyed()) event.sender.send('export:progress', progress);
+    });
+    return { ok: true, data: result };
+  } catch (error) { return failure(error); }
+});
+
+ipcMain.handle('export:open-folder', async (_event, folderPath: string): Promise<ImportResult<null>> => {
+  if (!selectedExportParentPath || !folderPath || path.resolve(path.dirname(folderPath)) !== selectedExportParentPath || path.basename(folderPath) !== 'PanelVid_Output') {
+    return { ok: false, error: 'Đường dẫn package không khớp vị trí export đã chọn.' };
+  }
+  const error = await shell.openPath(folderPath);
+  return error ? { ok: false, error } : { ok: true, data: null };
 });
 
 app.whenReady().then(() => {

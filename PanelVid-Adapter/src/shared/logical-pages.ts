@@ -40,10 +40,20 @@ function updatePage(doc: LogicalPageDocument, pageId: string, updater: (page: Lo
   return { pages: doc.pages.map(page => page.id === pageId ? updater(page) : page) };
 }
 
+export function moveScene(doc: LogicalPageDocument, pageId: string, sceneId: string, direction: -1 | 1): LogicalPageDocument {
+  return updatePage(doc, pageId, page => {
+    const from = page.scenes.findIndex(scene => scene.id === sceneId);
+    const to = from + direction;
+    if (from < 0 || to < 0 || to >= page.scenes.length) return page;
+    const scenes = [...page.scenes];
+    [scenes[from], scenes[to]] = [scenes[to], scenes[from]];
+    return { ...page, scenes };
+  });
+}
+
 export function movePanel(doc: LogicalPageDocument, pageId: string, sceneId: string, panelKey: string, direction: -1 | 1): LogicalPageDocument {
   return updatePage(doc, pageId, page => {
-    const sourceSceneIndex = page.scenes.findIndex(scene => scene.id === sceneId);
-    if (sourceSceneIndex < 0) return page;
+    if (!page.scenes.some(scene => scene.id === sceneId)) return page;
     const scenes = page.scenes.map(scene => ({ ...scene, panels: [...scene.panels] }));
     const flat = scenes.flatMap(scene => scene.panels);
     const from = flat.findIndex(panel => panel.key === panelKey);
@@ -89,6 +99,9 @@ export function mergeSceneWithPrevious(doc: LogicalPageDocument, pageId: string,
 export function validateLogicalPages(doc: LogicalPageDocument, mapping: MappingResult): LogicalPageIssue[] {
   const issues: LogicalPageIssue[] = [];
   const knownChapters = new Set(mapping.chapters.map(chapter => chapter.chapterKey));
+  for (const chapter of mapping.chapters) {
+    if (chapter.beats.length === 0) issues.push({ severity: 'error', code: 'empty-chapter', message: `Chapter ${chapter.fileName} không có Voice Beat/Logical Page.` });
+  }
   const expected = new Map<string, number>();
   mapping.chapters.forEach(chapter => chapter.beats.forEach(beat => beat.panels.forEach(panel => {
     if (panel.status === 'invalid-uuid' || panel.status === 'uuid-not-found' || panel.status === 'duplicate-manifest-uuid') {
@@ -125,6 +138,10 @@ export function validateLogicalPages(doc: LogicalPageDocument, mapping: MappingR
     const id = `${chapter.chapterKey}::beat-${beatIndex}`;
     if (!doc.pages.some(page => page.id === id)) issues.push({ severity: 'error', code: 'missing-page', message: `Logical Page bị mất cho beat ${beat.beatId ?? beatIndex + 1}.`, pageId: id });
   });
+  const expectedOrder = mapping.chapters.flatMap(chapter => chapter.beats.map((_, beatIndex) => `${chapter.chapterKey}::beat-${beatIndex}`));
+  if (doc.pages.length !== expectedOrder.length || doc.pages.some((page, index) => page.id !== expectedOrder[index])) {
+    issues.push({ severity: 'error', code: 'page-sequence', message: 'Thứ tự Chapter/Logical Page không còn khớp thứ tự Voice Beat đầu vào.' });
+  }
   const keys = new Set([...expected.keys(), ...actual.keys()]);
   for (const uuid of keys) if (expected.get(uuid) !== actual.get(uuid)) issues.push({ severity: 'error', code: 'panel-count-mismatch', message: `Số lần xuất hiện UUID ${uuid} thay đổi (${expected.get(uuid) ?? 0} → ${actual.get(uuid) ?? 0}).` });
   return issues;

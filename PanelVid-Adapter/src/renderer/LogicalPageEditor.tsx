@@ -1,14 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowDown, ArrowUp, GitMerge, Scissors, CircleAlert } from 'lucide-react';
 import type { MappingResult, PanelReferenceMapping } from '../shared/types';
-import { createLogicalPages, mergeSceneWithPrevious, movePanel, splitScene, validateLogicalPages, type LogicalPageDocument } from '../shared/logical-pages';
+import { mergeSceneWithPrevious, movePanel, moveScene, splitScene, validateLogicalPages, type LogicalPageDocument } from '../shared/logical-pages';
 
-export default function LogicalPageEditor({ mapping, loadPreview }: { mapping: MappingResult; loadPreview: (file: string) => Promise<string> }) {
-  const [document, setDocument] = useState<LogicalPageDocument>(() => createLogicalPages(mapping));
+export default function LogicalPageEditor({ mapping, document, setDocument, loadPreview }: { mapping: MappingResult; document: LogicalPageDocument; setDocument: React.Dispatch<React.SetStateAction<LogicalPageDocument>>; loadPreview: (file: string) => Promise<string> }) {
   const issues = useMemo(() => validateLogicalPages(document, mapping), [document, mapping]);
-  useEffect(() => {
-    setDocument(createLogicalPages(mapping));
-  }, [mapping]);
 
   return <section className="panel-card logical-editor">
     <div className="card-heading"><div><span className="eyebrow">PHASE 3 · BEAT MAPPER</span><h2>Logical Page & Scene Preview</h2></div><span className="count-chip">{document.pages.length} LOGICAL PAGE</span></div>
@@ -23,7 +19,7 @@ export default function LogicalPageEditor({ mapping, loadPreview }: { mapping: M
       <p className="logical-narration">{page.beat.narration || 'Không có narration trong beat.'}</p>
       <div className="logical-metadata"><span>Emotion: <b>{printValue(page.beat.metadata.emotion)}</b></span><span>Transition: <b>{printValue(page.beat.metadata.transition)}</b></span><span>Order gốc: <b>{printValue(page.beat.order)}</b></span></div>
       {page.scenes.map((scene, sceneIndex) => <section className="logical-scene" key={scene.id}>
-        <div className="logical-scene-title"><b>Scene {sceneIndex + 1}</b><span>{scene.panels.length} panel</span>{sceneIndex > 0 && <button className="scene-action" onClick={() => setDocument(current => mergeSceneWithPrevious(current, page.id, scene.id))}><GitMerge size={13}/> Gộp với Scene trước</button>}</div>
+        <div className="logical-scene-title"><b>Scene {sceneIndex + 1}</b><span>{scene.panels.length} panel</span><div className="scene-action-group"><button className="scene-action" disabled={sceneIndex === 0} onClick={() => setDocument(current => moveScene(current, page.id, scene.id, -1))}><ArrowUp size={13}/> Lên</button><button className="scene-action" disabled={sceneIndex === page.scenes.length - 1} onClick={() => setDocument(current => moveScene(current, page.id, scene.id, 1))}><ArrowDown size={13}/> Xuống</button>{sceneIndex > 0 && <button className="scene-action" onClick={() => setDocument(current => mergeSceneWithPrevious(current, page.id, scene.id))}><GitMerge size={13}/> Gộp với Scene trước</button>}</div></div>
         {!scene.panels.length && <div className="logical-error">Scene rỗng — cần gộp Scene hoặc khôi phục panel.</div>}
         <div className="logical-panels">{scene.panels.map(panel => <LogicalPanelCard key={panel.key} panel={panel} loadPreview={loadPreview} first={orderedPanels[0]?.key === panel.key} last={orderedPanels.at(-1)?.key === panel.key} canSplit={scene.panels.at(-1)?.key !== panel.key} onUp={() => setDocument(current => movePanel(current, page.id, scene.id, panel.key, -1))} onDown={() => setDocument(current => movePanel(current, page.id, scene.id, panel.key, 1))} onSplit={() => setDocument(current => splitScene(current, page.id, scene.id, panel.key))}/>)}</div>
       </section>)}

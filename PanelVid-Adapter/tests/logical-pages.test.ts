@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createLogicalPages, mergeSceneWithPrevious, movePanel, splitScene, validateLogicalPages } from '../src/shared/logical-pages';
+import { createLogicalPages, mergeSceneWithPrevious, movePanel, moveScene, splitScene, validateLogicalPages } from '../src/shared/logical-pages';
 import type { MappingResult, PanelReferenceMapping } from '../src/shared/types';
 
 const uuidA = '11111111-1111-4111-8111-111111111111';
@@ -9,7 +9,7 @@ function ref(uuid: string): PanelReferenceMapping {
 }
 function fixture(): MappingResult {
   const beat = (beatId: string, panels: PanelReferenceMapping[]) => ({ beatId, order: 1, narration: `Text ${beatId}`, metadata: { emotion: 'calm', transition: 'cut', extra: { keep: true } }, panels });
-  return { projectName: 'test', imageRoot: '/images', manifestPanels: [], statistics: { totalPanels: 2, distinctUuidsUsed: 2, imagesFound: 2, imagesMissing: 0, imagesInvalid: 0, imagePathErrors: 0, invalidUuidReferences: 0, unknownUuidReferences: 0, invalidManifestUuids: 0, duplicateManifestUuidGroups: 0, unusedPanels: 0 }, chapters: [{ chapterKey: 'chapter-1', fileName: 'analysis.json', series: 'Series', chapterNumber: 1, chapterTitle: null, beats: [beat('b1', [ref(uuidA), ref(uuidB), ref(uuidA)]), beat('b2', [ref(uuidB)])] }] };
+  return { projectName: 'test', projectId: 'project-1', imageRoot: '/images', manifestPanels: [], statistics: { totalPanels: 2, distinctUuidsUsed: 2, imagesFound: 2, imagesMissing: 0, imagesInvalid: 0, imagePathErrors: 0, invalidUuidReferences: 0, unknownUuidReferences: 0, invalidManifestUuids: 0, duplicateManifestUuidGroups: 0, unusedPanels: 0 }, chapters: [{ chapterKey: 'chapter-1', fileName: 'analysis.json', series: 'Series', chapterNumber: 1, chapterTitle: null, beats: [beat('b1', [ref(uuidA), ref(uuidB), ref(uuidA)]), beat('b2', [ref(uuidB)])] }] };
 }
 
 describe('Logical Page Grouper', () => {
@@ -53,5 +53,16 @@ describe('Logical Page Grouper', () => {
     expect(codes).toContain('empty-scene');
     expect(codes).toContain('panel-count-mismatch');
     expect(codes).toContain('missing-page');
+  });
+
+  it('reorders whole scenes while preserving panel order within each scene', () => {
+    const mapping = fixture();
+    const page = createLogicalPages(mapping).pages[0];
+    let doc = splitScene(createLogicalPages(mapping), page.id, page.scenes[0].id, page.scenes[0].panels[0].key);
+    const right = doc.pages[0].scenes[1];
+    doc = moveScene(doc, page.id, right.id, -1);
+    expect(doc.pages[0].scenes.map(scene => scene.panels.map(panel => panel.reference.referenceUuid))).toEqual([[uuidB, uuidA], [uuidA]]);
+    expect(validateLogicalPages(doc, mapping)).toEqual([]);
+    expect(moveScene(doc, page.id, doc.pages[0].scenes[0].id, -1)).toEqual(doc);
   });
 });

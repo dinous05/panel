@@ -17,5 +17,5 @@
     "noUnusedParameters": true,
     "types": ["vite/client", "vitest/globals", "node"]
   },
-  "include": ["src/renderer/**/*.tsx", "src/shared/**/*.ts", "tests/**/*.ts"]
+  "include": ["src/renderer/**/*.tsx", "src/shared/**/*.ts", "src/main/export-package.ts", "src/main/image-exporter.ts", "tests/**/*.ts"]
 }

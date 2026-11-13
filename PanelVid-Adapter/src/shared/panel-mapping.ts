@@ -106,6 +106,22 @@ export async function loadPanelImageData(root: string, manifestFile: string): Pr
   return { dataUrl: `data:${mime};base64,${content.toString('base64')}`, resolvedPath: actualPath };
 }
 
+export async function resolveVerifiedPanelImage(root: string, manifestFile: string): Promise<{ resolvedPath: string; mimeType: string }> {
+  const safe = await resolveSafePath(root, manifestFile);
+  const actualPath = await realpath(safe.candidatePath);
+  if (!isInside(safe.rootRealPath, actualPath)) throw new Error('Image path is outside the selected panel folder.');
+  const details = await stat(actualPath);
+  if (!details.isFile()) throw new Error('Panel path is not a file.');
+  const file = await open(actualPath, 'r');
+  try {
+    const header = Buffer.alloc(16);
+    const { bytesRead } = await file.read(header, 0, header.length, 0);
+    const mimeType = detectImageMimeType(header.subarray(0, bytesRead));
+    if (!mimeType) throw new Error('Image file has an invalid or unsupported signature.');
+    return { resolvedPath: actualPath, mimeType };
+  } finally { await file.close(); }
+}
+
 function imageReferenceStatus(status: PanelImageStatus): PanelReferenceMapping['status'] {
   if (status === 'missing') return 'image-missing';
   if (status === 'invalid-image' || status === 'not-file') return 'image-invalid';
@@ -238,6 +254,7 @@ export async function buildPanelMapping(
   const project = asObject(manifest.project);
   return {
     projectName: textOrNull(project.project_name),
+    projectId: textOrNull(project.project_id),
     imageRoot,
     chapters,
     manifestPanels,

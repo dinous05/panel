@@ -102,6 +102,7 @@ export interface MappingStatistics {
 
 export interface MappingResult {
   projectName: string | null;
+  projectId: string | null;
   imageRoot: string;
   chapters: ChapterMapping[];
   manifestPanels: ManifestPanelMapping[];
@@ -111,6 +112,15 @@ export interface MappingResult {
 export interface PreviewImageData {
   dataUrl: string;
   resolvedPath: string;
+}
+
+export interface ExportDestination { path: string; folderName: string }
+export interface ExportProgress { completed: number; total: number; current: string }
+export interface ExportResult {
+  outputPath: string;
+  report: import('./export-report').ExportReport;
+  exportedFileCount: number;
+  totalBytes: number;
 }
 
 export interface ImportResult<T> {
@@ -126,6 +136,10 @@ export interface PanelVidAdapterApi {
   chooseBatchReport(): Promise<ImportResult<BatchReportSummary>>;
   buildMapping(manifest: ManifestDocument, analyses: ImportedAnalysis[]): Promise<ImportResult<MappingResult>>;
   loadPanelPreview(manifestFile: string): Promise<ImportResult<PreviewImageData>>;
+  chooseExportFolder(): Promise<ImportResult<ExportDestination>>;
+  exportPackage(mapping: MappingResult, document: import('./logical-pages').LogicalPageDocument, outputParent: string): Promise<ImportResult<ExportResult>>;
+  openExportFolder(folderPath: string): Promise<ImportResult<null>>;
+  onExportProgress(listener: (progress: ExportProgress) => void): () => void;
 }
 
 declare global {
