@@ -1,6 +1,6 @@
-# PanelVid Adapter — Phase 2
+# PanelVid Adapter — Phase 3
 
-Ứng dụng desktop Electron + React + TypeScript, xử lý dữ liệu cục bộ. Phase 1 import Manifest, thư mục ảnh panel, nhiều AI Analysis JSON và Batch Report tùy chọn. Phase 2 bổ sung UUID Mapping, resolve ảnh theo đường dẫn tương đối `panel.file` trong Manifest, validation trạng thái dữ liệu, thống kê và Preview theo cây Chapter → Voice Beat → Panel. Không gọi AI/API, không upload dữ liệu và không ghi/chỉnh sửa file nguồn.
+Ứng dụng desktop Electron + React + TypeScript, xử lý dữ liệu cục bộ. Phase 1 import Manifest, thư mục ảnh panel, nhiều AI Analysis JSON và Batch Report tùy chọn. Phase 2 bổ sung UUID Mapping, resolve ảnh theo đường dẫn tương đối `panel.file` trong Manifest, validation trạng thái dữ liệu, thống kê và Preview theo cây Chapter → Voice Beat → Panel. Phase 3 bổ sung Logical Page mặc định theo từng Voice Beat, Scene structure, preview ảnh/narration/metadata, đổi thứ tự panel, chia/gộp Scene và validation bảo toàn tham chiếu. Không gọi AI/API, không upload dữ liệu và không ghi/chỉnh sửa file nguồn.
 
 ## Chạy trên Windows
 
@@ -28,6 +28,14 @@ npm run dev
 - Kiểm tra ảnh gồm tồn tại, loại file, quyền/truy cập và signature ảnh phổ biến. Preview lấy nội dung cục bộ qua IPC có giới hạn trong thư mục ảnh; trình duyệt giải mã ảnh khi cần hiển thị.
 - Thống kê ảnh đếm trên các panel trong Manifest; UUID dùng tính theo UUID phân biệt; số UUID lỗi tách thành sai định dạng, không tồn tại và Manifest thiếu/trùng UUID; panel chưa dùng là UUID hợp lệ, duy nhất không được beat tham chiếu.
 
+## Beat Mapper & Logical Page Grouper (Phase 3)
+
+- Mỗi Voice Beat tạo một Logical Page, với một Scene ban đầu chứa các panel theo đúng thứ tự reference. Logical Page không đại diện cho trang truyện gốc.
+- Chapter order, beat order, narration, emotion, transition và metadata gốc được giữ trong mapping nội bộ. AI Analysis và Manifest chỉ được đọc, không bị ghi lại.
+- Trong một Logical Page, có thể di chuyển panel lên/xuống trong Scene, tách Scene sau một panel hoặc gộp Scene với Scene đứng trước. Các thao tác không chuyển panel sang chapter/beat khác và dùng occurrence key riêng để hỗ trợ UUID được tham chiếu lặp.
+- Validation báo beat không có panel, mapping/ảnh có lỗi, Scene rỗng, Logical Page bị thiếu/trùng và số panel reference bị thay đổi. Lỗi vẫn được hiển thị để người dùng xử lý; ứng dụng không tự loại bỏ reference.
+- Preview nạp ảnh thực tế cục bộ cùng UUID, filename, mapping status, narration, emotion và transition.
+
 ## Kiểm thử
 
 ```bash
@@ -36,7 +44,7 @@ npm run typecheck
 npm run build
 ```
 
-`npm test` chạy unit/integration tests không cần dữ liệu ảnh ngoài. Bộ test mặc định gồm dữ liệu JSON mẫu thật trong `tests/fixtures/real-sample/`, UUID hợp lệ/sai format/không tồn tại, duplicate UUID, ảnh thiếu/hỏng, đường dẫn tương đối có thư mục lồng và Unicode, nhiều chapter, thứ tự beat/panel, panel lặp ở nhiều beat, `source_file: null` cùng nhiều source regions, traversal protection, preview data URL và test ảnh Phase 1.
+`npm test` chạy unit/integration tests không cần dữ liệu ảnh ngoài. Bộ test mặc định gồm dữ liệu JSON mẫu thật trong `tests/fixtures/real-sample/`, UUID hợp lệ/sai format/không tồn tại, duplicate UUID, ảnh thiếu/hỏng, đường dẫn tương đối có thư mục lồng và Unicode, nhiều chapter, thứ tự beat/panel, panel lặp ở nhiều beat, `source_file: null` cùng nhiều source regions, traversal protection, preview data URL, test ảnh Phase 1 và khởi tạo/chỉnh sửa/validation Logical Page & Scene.
 
 ### Integration với bộ ảnh thật (tùy chọn)
 
@@ -57,6 +65,6 @@ set "PANELVID_REAL_PANEL_ROOT=D:\duong-dan\toi\thu-muc-panel" && npm run test:re
 
 ## Build và giới hạn phạm vi
 
-`npm run build` tạo renderer tại `dist/` và Electron main/preload tại `dist-electron/`. Chưa tạo EXE, installer hoặc portable. Phase 2 chưa bao gồm Beat Mapper, Logical Page Grouper, tạo SRT/TXT, export sang PanelVid, TTS hoặc render video. Chỉ tiếp tục các phase tiếp theo khi người dùng xác nhận.
+`npm run build` tạo renderer tại `dist/` và Electron main/preload tại `dist-electron/`. Chưa tạo EXE, installer hoặc portable. Phase 3 chưa bao gồm tạo SRT/TXT, export package hoặc sang PanelVid, sao chép ảnh, TTS hay render video. Chỉ tiếp tục các phase tiếp theo khi người dùng xác nhận.
 
 Giao diện dùng font cục bộ. Sau khi cài dependencies, ứng dụng không cần Internet trong lúc sử dụng.

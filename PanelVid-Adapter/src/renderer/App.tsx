@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Archive, ArrowDownToLine, BookOpen, Check, CircleAlert, CircleHelp, FileJson2, FolderOpen, GitMerge, Images, Layers3, RotateCcw, Upload, X } from 'lucide-react';
 import type { BatchReportSummary, ImportedAnalysis, ImportedManifest, MappingResult, PanelReferenceMapping } from '../shared/types';
+import LogicalPageEditor from './LogicalPageEditor';
 
 type Page = 'overview' | 'imports' | 'mapping' | 'guide';
 const imageFileKey = (value: string) => value.replace(/\\/g, '/');
@@ -125,7 +126,7 @@ export default function App() {
       <button className={`nav-item ${page === 'mapping' ? 'active' : ''}`} onClick={() => setPage('mapping')}><GitMerge size={17} /> UUID Mapping {mapping && <i>✓</i>}</button>
       <div className="side-label side-label-lower">ỨNG DỤNG</div>
       <button className={`nav-item ${page === 'guide' ? 'active' : ''}`} onClick={() => setPage('guide')}><CircleHelp size={17} /> Hướng dẫn</button>
-      <div className="sidebar-bottom"><div className="offline-dot" /> Hoạt động offline <span>Phase 2</span></div>
+      <div className="sidebar-bottom"><div className="offline-dot" /> Hoạt động offline <span>Phase 3</span></div>
     </aside>
 
     <main className="main-area">
@@ -152,7 +153,7 @@ export default function App() {
             </div></div>
           </section>
           {analyses.length > 0 && <section className="panel-card analysis-card"><div className="card-heading"><div><span className="eyebrow">IMPORTED ANALYSIS</span><h2>AI Analysis đã nạp</h2></div><span className="count-chip">{analyses.length} FILE</span></div><AnalysisList items={analyses} />{batchReport && <div className="batch-summary"><Archive size={16} /><span><b>{batchReport.fileName}</b> · {batchReport.chapterCount ?? '—'} chapter · {batchReport.beatCount ?? '—'} beat · {batchReport.panelReferences ?? '—'} panel reference</span></div>}</section>}
-          <div className="phase-note"><span className="phase-number">02</span><div><b>Phase 2 · UUID Mapping & Preview</b><p>Ánh xạ theo UUID; Beat Mapper và Exporter vẫn chưa triển khai.</p></div><button className="outline-button" onClick={() => setPage('mapping')}>Mở Mapping</button></div>
+          <div className="phase-note"><span className="phase-number">03</span><div><b>Phase 3 · Beat Mapper & Logical Pages</b><p>Ánh xạ UUID, tổ chức Scene và preview; xuất dữ liệu vẫn chưa triển khai.</p></div><button className="outline-button" onClick={() => setPage('mapping')}>Mở Mapping</button></div>
         </>}
 
         {page === 'imports' && <>
@@ -194,12 +195,13 @@ export default function App() {
             </section>
             <section className="panel-card unused-panels"><details><summary><b>UUID Manifest thiếu, sai format hoặc trùng</b><span>{mapping.manifestPanels.filter(panel => panel.uuidStatus !== 'valid').length} record</span></summary><div className="unused-list">{mapping.manifestPanels.filter(panel => panel.uuidStatus !== 'valid').map(panel => <div className="unused-row" key={panel.entryKey}><code>{panel.uuid ?? '(không có UUID)'}</code><span>{panel.panelId ?? 'Không có panel ID'} · {panel.manifestFile ?? 'Không có panel.file'}</span><small>{panel.uuidStatus === 'duplicate' ? 'UUID trùng' : 'UUID không hợp lệ'}</small></div>)}</div></details></section>
             <section className="panel-card unused-panels"><details><summary><b>Panel chưa được sử dụng</b><span>{mapping.statistics.unusedPanels} panel</span></summary><div className="unused-list">{mapping.manifestPanels.filter(panel => panel.uuidStatus === 'valid' && !panel.used).map(panel => <div className="unused-row" key={panel.entryKey}><code>{panel.uuid}</code><span>{panel.manifestFile ?? 'Không có panel.file'}</span><small>{panel.manifestFile && previewInvalidFiles.has(imageFileKey(panel.manifestFile)) ? 'Không giải mã được ảnh' : imageStatusLabel(panel.imageStatus)}</small></div>)}</div></details></section>
+            <LogicalPageEditor key={mapping.chapters.map(chapter => chapter.chapterKey).join('|')} mapping={mapping} loadPreview={loadPreview} />
           </>}
         </>}
 
         {page === 'guide' && <>
-          <div className="page-heading"><div><div className="eyebrow">GETTING STARTED</div><h1>Hướng dẫn</h1><p>Chuẩn bị dữ liệu và sử dụng các chức năng có trong Phase 2.</p></div></div>
-          <section className="panel-card guide-card"><GuideStep number="01" title="Import Manifest" text="Chọn manifest.json được PanelCutter xuất. Ứng dụng giữ nguyên dữ liệu để tra panel.uuid và resolve panel.file." /><GuideStep number="02" title="Chọn thư mục ảnh" text="Chọn thư mục gốc tương ứng với đường dẫn tương đối panel.file trong Manifest. Thư mục con và Unicode được hỗ trợ." /><GuideStep number="03" title="Import AI Analysis" text="Chọn một hoặc nhiều analysis_result JSON. Các voice_beats[].panel_uuids[] được tìm theo UUID, không theo vị trí hoặc tên file." /><GuideStep number="04" title="Chạy UUID Mapping" text="Mở UUID Mapping, chạy kiểm tra. Mở chapter rồi từng Voice Beat để xem ảnh thật, UUID, file, đường dẫn và validation." /><div className="guide-boundary"><b>Phạm vi hiện tại</b><p>Phase 2 có UUID Mapping, Image Resolution, Validation, Statistics và Preview. Chưa có Beat Mapper, Logical Page Grouper, SRT/TXT, Export sang PanelVid, TTS hoặc render video.</p></div></section>
+          <div className="page-heading"><div><div className="eyebrow">GETTING STARTED</div><h1>Hướng dẫn</h1><p>Chuẩn bị dữ liệu và sử dụng UUID Mapping cùng Logical Page/Scene Preview.</p></div></div>
+          <section className="panel-card guide-card"><GuideStep number="01" title="Import Manifest" text="Chọn manifest.json được PanelCutter xuất. Ứng dụng giữ nguyên dữ liệu để tra panel.uuid và resolve panel.file." /><GuideStep number="02" title="Chọn thư mục ảnh" text="Chọn thư mục gốc tương ứng với đường dẫn tương đối panel.file trong Manifest. Thư mục con và Unicode được hỗ trợ." /><GuideStep number="03" title="Import AI Analysis" text="Chọn một hoặc nhiều analysis_result JSON. Các voice_beats[].panel_uuids[] được tìm theo UUID, không theo vị trí hoặc tên file." /><GuideStep number="04" title="Chạy UUID Mapping" text="Mở UUID Mapping, chạy kiểm tra. Mở chapter rồi từng Voice Beat để xem ảnh thật, UUID, file, đường dẫn và validation." /><div className="guide-boundary"><b>Phạm vi hiện tại</b><p>Phase 3 có UUID Mapping, Logical Page theo Voice Beat, Scene editing, Preview và Validation. Chưa có SRT/TXT, export package, TTS hoặc render video.</p></div></section>
         </>}
       </div>
     </main>

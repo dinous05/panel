@@ -207,6 +207,7 @@ export async function buildPanelMapping(
         beatId: textOrNull(beat.beat_id),
         order: primitiveOrNull(beat.order),
         narration: typeof beat.narration === 'string' ? beat.narration : '',
+        metadata: { ...beat },
         panels
       };
     });

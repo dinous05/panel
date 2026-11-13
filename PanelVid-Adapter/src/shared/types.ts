@@ -73,6 +73,7 @@ export interface VoiceBeatMapping {
   beatId: string | null;
   order: string | number | null;
   narration: string;
+  metadata: Record<string, unknown>;
   panels: PanelReferenceMapping[];
 }
 
