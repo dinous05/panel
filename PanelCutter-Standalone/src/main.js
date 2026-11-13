@@ -1,7 +1,7 @@
 import './style.css';
 import { filterPanelBoxes, resolveMinPanelAreaPct } from './panel-detector-core.js';
 import { MAX_MIN_GAP_PX, computeRowProfile, sliceStripProfile, splitLongSegments, stripSegmentCrop } from './strip-slicer.js';
-import { joinStripProfiles, mapStripCropToSources } from './strip-document.js';
+import { joinStripProfiles, mapStripCropToSources, mapStripCropToSourceRegions } from './strip-document.js';
 import { mangaPanelPath, stripPanelPath } from './output-layout.js';
 import { moveMangaPanel, reindexPanelPaths } from './result-editing.js';
 import { combineSourceRegions, makeMergeIdentityKey, makeSplitIdentityKeys, sourceIdentityKey, splitSourceRegions, createProjectMetadata, validateManifest } from './manifest-core.js';
@@ -361,15 +361,6 @@ function mangaSourceRegion(pageIndex, sourceFile, sourceFingerprint, sourceWidth
   return { source_page: pageIndex + 1, source_file: sourceFile, source_fingerprint: sourceFingerprint || null, source_width: sourceWidth, source_height: sourceHeight, crop: { x, y, width, height }, output_y: 0, output_height: 1 };
 }
 
-function stripSourceRegion(fragment, entry, part) {
-  const sourceWidth = part?.sourceWidth || entry?.width || 1, sourceHeight = entry?.height || 1;
-  const x = Math.max(0, Math.min(sourceWidth - 1, Math.floor(fragment.sx)));
-  const y = Math.max(0, Math.min(sourceHeight - 1, Math.floor(fragment.sy)));
-  const width = Math.max(1, Math.min(sourceWidth - x, Math.ceil(fragment.sx + fragment.sw) - x));
-  const height = Math.max(1, Math.min(sourceHeight - y, Math.ceil(fragment.sy + fragment.sh) - y));
-  return { source_page: (part?.sourceIndex ?? fragment.pageIndex) + 1, source_file: part?.sourceFile || null, source_fingerprint: part?.sourceFingerprint || null, source_width: sourceWidth, source_height: sourceHeight, crop: { x, y, width, height }, output_y: fragment.destY, output_height: fragment.destH };
-}
-
 function panelRecord(item, index, dimensions) {
   return { id: item.id, uuid: item.uuid, file: item.relativePath, order: index + 1, source_page: item.sourceRegions.length === 1 ? item.sourceRegions[0].source_page : null, source_file: item.sourceRegions.length === 1 ? item.sourceRegions[0].source_file : null, width: dimensions.width, height: dimensions.height, crop: item.sourceRegions.length === 1 ? item.sourceRegions[0].crop : null, source_regions: item.sourceRegions, decision: item.decision || 'SHOW', review_required: item.reviewRequired === true, edit_history: item.editHistory || [], parent_ids: item.parentIds || [] };
 }
@@ -432,10 +423,11 @@ async function buildStripParts() {
   const parts = [];
   for (let index = 0; index < state.count; index++) {
     setProgress((index / state.count) * 34, `Đang ghép ${state.style === 'manhwa' ? 'Manhwa' : 'Manhua'}`, `Đọc profile dải ${index + 1} / ${state.count}…`);
-    const { image } = await loadImage(index);
+    const loaded = await loadImage(index);
+    const { image } = loaded;
     try {
       const profile = imageRowProfile(image);
-      parts.push({ pageIndex: index, sourceIndex: image.sourceIndex, sourceFile: image.relativePath, sourceFingerprint: image.sourceFingerprint, sourceWidth: image.width, width: profile.cropW || image.width, cropX: profile.cropX || 0, height: image.height, profile });
+      parts.push({ pageIndex: index, sourceIndex: loaded.sourceIndex, sourceFile: loaded.relativePath, sourceFingerprint: loaded.sourceFingerprint, sourceWidth: image.width, width: profile.cropW || image.width, cropX: profile.cropX || 0, height: image.height, profile });
     }
     finally { image.close(); }
   }
@@ -481,8 +473,7 @@ async function processJoinedStrip(parts) {
       const canvas = await drawStripSegment(doc, segments[i], cache, uniformTargetWidth(doc.width));
       try {
         const crop = stripSegmentCrop(segments[i], doc.height);
-        const fragments = mapStripCropToSources(doc, crop);
-        const sourceRegions = fragments.map(fragment => stripSourceRegion(fragment, doc.entries.find(value => value.pageIndex === fragment.pageIndex), sourceParts.find(value => value.pageIndex === fragment.pageIndex)));
+        const sourceRegions = mapStripCropToSourceRegions(doc, crop, sourceParts);
         const keys = [sourceIdentityKey(sourceRegions)]; const identity = (await assignIdentities([{}], keys))[0];
         await stageBlob(await canvasBlob(canvas), state.chapterPrefix + stripPanelPath(i, 'jpg'), { ...identity, sourceRegions });
       }

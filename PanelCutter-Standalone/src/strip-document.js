@@ -75,7 +75,7 @@ export function mapStripCropToSources(document, crop) {
   const fragments = [];
   for (const entry of document.entries) {
     const top = Math.max(y, entry.y0), end = Math.min(bottom, entry.y1);
-    if (end <= top) continue;
+    if (end - top <= 1e-9) continue;
     fragments.push({
       pageIndex: entry.pageIndex,
       sx: (entry.cropX || 0) + x / entry.scale,
@@ -87,6 +87,38 @@ export function mapStripCropToSources(document, crop) {
     });
   }
   return fragments;
+}
+
+export function mapStripCropToSourceRegions(document, crop, sourceParts) {
+  const partsByPage = new Map((sourceParts || []).map(part => [part.pageIndex, part]));
+  return mapStripCropToSources(document, crop).map(fragment => {
+    const entry = document.entries.find(item => item.pageIndex === fragment.pageIndex);
+    const part = partsByPage.get(fragment.pageIndex);
+    if (!entry || !part) throw new Error(`Thiếu source mapping cho ảnh số ${fragment.pageIndex + 1}.`);
+    const sourceWidth = Number(part.sourceWidth), sourceHeight = Number(part.height);
+    const sourcePage = Number(part.sourceIndex) + 1;
+    const sourceFile = part.sourceFile;
+    const sourceFingerprint = part.sourceFingerprint;
+    if (!Number.isInteger(sourceWidth) || sourceWidth < 1 || !Number.isInteger(sourceHeight) || sourceHeight < 1
+      || !Number.isInteger(sourcePage) || sourcePage < 1 || typeof sourceFile !== 'string' || !sourceFile
+      || typeof sourceFingerprint !== 'string' || !/^[a-f0-9]{64}$/i.test(sourceFingerprint)) {
+      throw new Error(`Metadata nguồn không đầy đủ cho ảnh số ${fragment.pageIndex + 1}.`);
+    }
+    const x = Math.max(0, Math.min(sourceWidth - 1, Math.floor(fragment.sx + 1e-9)));
+    const y = Math.max(0, Math.min(sourceHeight - 1, Math.floor(fragment.sy + 1e-9)));
+    const right = Math.max(x + 1, Math.min(sourceWidth, Math.ceil(fragment.sx + fragment.sw - 1e-9)));
+    const bottom = Math.max(y + 1, Math.min(sourceHeight, Math.ceil(fragment.sy + fragment.sh - 1e-9)));
+    return {
+      source_page: sourcePage,
+      source_file: sourceFile,
+      source_fingerprint: sourceFingerprint,
+      source_width: sourceWidth,
+      source_height: sourceHeight,
+      crop: { x, y, width: right - x, height: bottom - y },
+      output_y: fragment.destY,
+      output_height: fragment.destH,
+    };
+  });
 }
 
 // Each panel alternates push-in / pull-out. Peak magnification gently eases
