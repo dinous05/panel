@@ -1,0 +1,33 @@
+{
+  "name": "panelvid-adapter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Offline desktop utility for importing PanelCutter manifests and AI analysis files.",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "predev": "npm run build",
+    "dev": "concurrently -k \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5173 && electron .\"",
+    "build": "tsc -b && vite build && esbuild src/main/main.ts --bundle --platform=node --format=esm --external:electron --outfile=dist-electron/main.js && esbuild src/preload/preload.ts --bundle --platform=node --format=cjs --external:electron --outfile=dist-electron/preload/preload.cjs",
+    "test": "vitest run",
+    "typecheck": "tsc -b --pretty"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "electron": "^45.3.2",
+    "esbuild": "^0.28.2",
+    "typescript": "~5.7.2",
+    "vite": "^6.0.5",
+    "vitest": "^5.1.0",
+    "wait-on": "^8.0.1"
+  }
+}
