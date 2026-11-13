@@ -23,8 +23,17 @@ function createWindow() {
       sandbox: true
     }
   });
-  if (process.env.VITE_DEV_SERVER_URL) void win.loadURL(process.env.VITE_DEV_SERVER_URL);
-  else void win.loadFile(path.join(here, '../dist/index.html'));
+  const devServerUrl = process.env.VITE_DEV_SERVER_URL || (!app.isPackaged ? 'http://127.0.0.1:5173' : null);
+  if (devServerUrl) {
+    void win.loadURL(devServerUrl)
+      .then(() => console.info(`[PanelVid Adapter] Renderer loaded from ${devServerUrl}`))
+      .catch(error => console.error(`[PanelVid Adapter] Could not load dev server ${devServerUrl}:`, error));
+  } else {
+    const rendererPath = path.join(here, '../dist/index.html');
+    void win.loadFile(rendererPath)
+      .then(() => console.info(`[PanelVid Adapter] Renderer loaded from ${rendererPath}`))
+      .catch(error => console.error(`[PanelVid Adapter] Could not load production renderer ${rendererPath}:`, error));
+  }
 }
 
 function failure<T>(error: unknown): ImportResult<T> {

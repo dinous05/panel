@@ -7,9 +7,10 @@
   "main": "dist-electron/main.js",
   "scripts": {
     "predev": "npm run build",
-    "dev": "concurrently -k \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5173 && electron .\"",
+    "dev": "concurrently -k \"vite --host 127.0.0.1 --strictPort\" \"wait-on http://127.0.0.1:5173 && electron .\"",
     "build": "tsc -b && vite build && esbuild src/main/main.ts --bundle --platform=node --format=esm --external:electron --outfile=dist-electron/main.js && esbuild src/preload/preload.ts --bundle --platform=node --format=cjs --external:electron --outfile=dist-electron/preload/preload.cjs",
-    "test": "vitest run",
+    "test": "vitest run --exclude tests/real-images.test.ts",
+    "test:real-images": "vitest run tests/real-images.test.ts",
     "typecheck": "tsc -b --pretty"
   },
   "dependencies": {

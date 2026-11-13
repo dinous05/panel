@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.0",
+  "batch": {
+    "series": "The Regressed Mercenary Has a Plan",
+    "chapters": [
+      1,
+      2
+    ],
+    "manifest_project_id": "fc87f07d-165a-47d7-a188-5f76f67dc284",
+    "manifest_project_name": "The Regressed Mercenary Has a Plan 1-2 - bundle",
+    "manifest_schema_version": "1.0",
+    "files": [
+      "analysis_result_chapter_0001.json",
+      "analysis_result_chapter_0002.json"
+    ],
+    "notes": "One analysis_result.json per chapter, analysed independently in chapter order. Voice beats reference panels only by panel.uuid from the PanelCutter Manifest. estimated_duration_seconds is null in every beat: no duration rule was applied and no timestamps were invented; final duration is to be taken from real TTS audio."
+  },
+  "totals": {
+    "chapters": 2,
+    "beats": 54,
+    "narration_characters": 12905,
+    "panels_in_manifest": 225,
+    "panel_references_total": 219,
+    "panels_used_distinct": 219,
+    "panels_reused_distinct_count": 0,
+    "panels_unused": 6,
+    "invalid_references_count": 0
+  },
+  "chapters": [
+    {
+      "chapter": 1,
+      "file": "analysis_result_chapter_0001.json",
+      "beats": 29,
+      "narration_characters": 6405,
+      "panels_in_manifest": 112,
+      "panel_references_total": 110,
+      "panels_used_distinct": 110,
+      "panels_reused": [],
+      "panels_reused_distinct_count": 0,
+      "panels_unused": 2,
+      "unused_panels": [
+        {
+          "uuid": "b7625ffe-081e-4c1b-a596-dfa3c8f5a3db",
+          "file": "Chapter 0001/panel_0001.jpg",
+          "reason": "credit_page",
+          "detail": "AsuraScans credit/title panel with no story content"
+        },
+        {
+          "uuid": "9336677a-edf3-44d9-9342-dfb96a39e8ea",
+          "file": "Chapter 0001/panel_0022.jpg",
+          "reason": "non_story",
+          "detail": "Korean chapter title card (01) with no story content"
+        }
+      ],
+      "invalid_references": [],
+      "invalid_references_count": 0,
+      "panels_per_beat_min": 1,
+      "panels_per_beat_max": 6,
+      "characters": [
+        {
+          "id": "ghislain_perdium",
+          "name": "Ghislain Perdium"
+        },
+        {
+          "id": "idun",
+          "name": "Idun"
+        },
+        {
+          "id": "ricardo",
+          "name": "Ricardo"
+        },
+        {
+          "id": "skovan",
+          "name": "Skovan"
+        },
+        {
+          "id": "best_knight_of_the_north",
+          "name": "Unnamed knight"
+        }
+      ]
+    },
+    {
+      "chapter": 2,
+      "file": "analysis_result_chapter_0002.json",
+      "beats": 25,
+      "narration_characters": 6500,
+      "panels_in_manifest": 113,
+      "panel_references_total": 109,
+      "panels_used_distinct": 109,
+      "panels_reused": [],
+      "panels_reused_distinct_count": 0,
+      "panels_unused": 4,
+      "unused_panels": [
+        {
+          "uuid": "de987951-fc55-4966-8bf2-b4161030cde2",
+          "file": "Chapter 0002/panel_0001.jpg",
+          "reason": "credit_page",
+          "detail": "AsuraScans credit/title panel with no story content."
+        },
+        {
+          "uuid": "857f62ef-1f8d-45b1-95aa-c7dde871de39",
+          "file": "Chapter 0002/panel_0002.jpg",
+          "reason": "non_story",
+          "detail": "Korean chapter title page (episode 2) with no story content."
+        },
+        {
+          "uuid": "1a6a6bab-a7c5-4660-82ab-b70b9a122a97",
+          "file": "Chapter 0002/panel_0074.jpg",
+          "reason": "other",
+          "detail": "near-blank white sliver with only a few grey specks and no readable story content, between the fall and the darkness sequence."
+        },
+        {
+          "uuid": "25ead48a-fb46-41ba-972f-92f6a44c46c5",
+          "file": "Chapter 0002/panel_0113.jpg",
+          "reason": "non_story",
+          "detail": "AsuraScans end card advertising the scanlation site."
+        }
+      ],
+      "invalid_references": [],
+      "invalid_references_count": 0,
+      "panels_per_beat_min": 3,
+      "panels_per_beat_max": 6,
+      "characters": [
+        {
+          "id": "ghislain_perdium",
+          "name": "Ghislain"
+        },
+        {
+          "id": "skovan",
+          "name": "Skovan"
+        },
+        {
+          "id": "elena",
+          "name": "Elena"
+        },
+        {
+          "id": "belinda",
+          "name": "Belinda"
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "json_parses": true,
+    "all_beat_ids_unique_per_chapter": true,
+    "beat_orders_sequential_per_chapter": true,
+    "all_panel_uuids_exist_in_manifest": true,
+    "panel_uuids_in_increasing_manifest_order_within_each_beat": true,
+    "used_plus_unused_equals_manifest_panels_per_chapter": true,
+    "estimated_duration_seconds_null_in_all_beats": true,
+    "notes": [
+      "Chapter 1 has one single-panel beat (ch01_beat_22, panel_0085): a self-contained thought panel with two text blocks, Ghislain walking through camp weighing whether the men will trust him. Kept as its own beat because the next panel starts the orc ambush.",
+      "Character id ghislain_perdium is shared across chapters; the name is kept as printed per chapter: 'Ghislain Perdium' in chapter 1, 'Ghislain' in chapter 2.",
+      "Chapter 1 character 'best_knight_of_the_north' is the unnamed bloodied knight who calls himself the best knight of the North; no name is printed for him in chapter 1.",
+      "Chapter 2 panel_0111 (Elena pleading 'Please go with me!') was treated as a separate panel from the similar panel_0081 ('Let's go together!'), with their different printed lines in different beats.",
+      "Chapter 1 panel_0046 is an abstract blurred red/black impact panel with no text; treated as the decapitation impact within its beat, not interpreted beyond that.",
+      "Chapter 2 panel_0100: part of the handwritten text is obscured by the characters, so only the clearly readable parts were paraphrased and nothing was quoted from the obscured lines."
+    ]
+  }
+}
