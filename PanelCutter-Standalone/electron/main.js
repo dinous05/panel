@@ -6,8 +6,8 @@ import { spawn } from 'node:child_process';
 import { createHash, randomUUID } from 'node:crypto';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
-import { ensureProject, resolvePanelIdentities } from './identity-registry.js';
-import { remapManifestPaths, validateManifest } from '../src/manifest-core.js';
+import { createSerialQueue, ensureProject, loadRegistryWithRecovery, resolvePanelIdentities, saveRegistryAtomic } from './identity-registry.js';
+import { exportStagedOutput } from './export-core.js';
 
 const require = createRequire(import.meta.url);
 const { path7za } = require('7zip-bin');
@@ -18,6 +18,16 @@ let activeInput = null;
 let activeExport = null;
 const tempDirs = new Set();
 let detectorAssets;
+const serializeRegistry = createSerialQueue();
+const hasSingleInstanceLock = app.requestSingleInstanceLock();
+
+if (!hasSingleInstanceLock) app.quit();
+else app.on('second-instance', () => {
+  if (!mainWindow) return;
+  if (mainWindow.isMinimized()) mainWindow.restore();
+  mainWindow.show();
+  mainWindow.focus();
+});
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -39,6 +49,7 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  if (!hasSingleInstanceLock) return;
   createWindow();
   app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
 });
@@ -187,41 +198,32 @@ ipcMain.handle('cutter:read-image', async (_event, { token, index }) => {
   return { data: data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength), name: activeInput.images[i].name, relativePath: activeInput.images[i].relativePath, sourceFingerprint };
 });
 
-async function loadIdentityRegistry() {
-  const registryPath = path.join(app.getPath('userData'), 'panel-identities.json');
-  try {
-    const parsed = JSON.parse(await fs.readFile(registryPath, 'utf8'));
-    if (parsed?.schema_version !== 1 || !parsed.projects || typeof parsed.projects !== 'object') throw new Error('Registry schema không hợp lệ.');
-    return { registryPath, registry: parsed };
-  } catch (error) {
-    if (error.code !== 'ENOENT') throw new Error(`Không đọc được registry Panel ID: ${error.message}`);
-    return { registryPath, registry: { schema_version: 1, projects: {} } };
-  }
-}
-
-async function saveIdentityRegistry(registryPath, registry) {
-  await fs.mkdir(path.dirname(registryPath), { recursive: true });
-  const temporary = `${registryPath}.${randomUUID()}.tmp`;
-  await fs.writeFile(temporary, `${JSON.stringify(registry, null, 2)}\n`, 'utf8');
-  await fs.rename(temporary, registryPath);
-}
+function identityRegistryPath() { return path.join(app.getPath('userData'), 'panel-identities.json'); }
 
 ipcMain.handle('cutter:project-identity', async (_event, { token }) => {
   if (!activeInput || token !== activeInput.token) throw new Error('Nguồn ảnh không còn hợp lệ.');
-  const { registryPath, registry } = await loadIdentityRegistry();
-  const project = ensureProject(registry, activeInput.projectKey);
-  await saveIdentityRegistry(registryPath, registry);
-  return { projectId: project.projectId, createdAt: project.createdAt, projectName: activeInput.sourceName };
+  return serializeRegistry(async () => {
+    if (!activeInput || token !== activeInput.token) throw new Error('Nguồn ảnh đã thay đổi trước khi cấp project ID.');
+    const registryPath = identityRegistryPath();
+    const registry = await loadRegistryWithRecovery(registryPath);
+    const project = ensureProject(registry, activeInput.projectKey);
+    await saveRegistryAtomic(registryPath, registry);
+    return { projectId: project.projectId, createdAt: project.createdAt, projectName: activeInput.sourceName };
+  });
 });
 
 ipcMain.handle('cutter:resolve-panel-identities', async (_event, { token, keys }) => {
   if (!activeInput || token !== activeInput.token) throw new Error('Nguồn ảnh không còn hợp lệ.');
   if (!Array.isArray(keys) || keys.length > 10000 || keys.some(key => typeof key !== 'string' || !key || key.length > 4000)) throw new Error('Danh sách identity key không hợp lệ.');
-  const { registryPath, registry } = await loadIdentityRegistry();
-  const project = ensureProject(registry, activeInput.projectKey);
-  const identities = resolvePanelIdentities(project, keys);
-  await saveIdentityRegistry(registryPath, registry);
-  return { projectId: project.projectId, createdAt: project.createdAt, identities };
+  return serializeRegistry(async () => {
+    if (!activeInput || token !== activeInput.token) throw new Error('Nguồn ảnh đã thay đổi trước khi cấp Panel ID.');
+    const registryPath = identityRegistryPath();
+    const registry = await loadRegistryWithRecovery(registryPath);
+    const project = ensureProject(registry, activeInput.projectKey);
+    const identities = resolvePanelIdentities(project, keys);
+    await saveRegistryAtomic(registryPath, registry);
+    return { projectId: project.projectId, createdAt: project.createdAt, identities };
+  });
 });
 
 function resolvePanelPath(root, relativePath) {
@@ -270,22 +272,6 @@ ipcMain.handle('cutter:finalize-export', async (_event, { token, outputParent, l
   const stagingDir = requireStaging(token);
   if (!activeInput || token !== activeInput.token) throw new Error('Nguồn ảnh đã thay đổi; hãy chọn lại truyện.');
   if (!['preserve', 'flat'].includes(layout)) throw new Error('Kiểu sắp xếp folder không hợp lệ.');
-  if (!manifest || manifest.schema_version !== '1.0' || !Array.isArray(manifest.panels) || !manifest.project?.project_id) throw new Error('Manifest thiếu hoặc sai schema. Không thể hoàn tất xuất.');
-  const ids = new Set(), orders = new Set();
-  for (const [index, panel] of manifest.panels.entries()) {
-    if (!panel.id || ids.has(panel.id) || !panel.uuid) throw new Error(`Panel ID thiếu hoặc trùng tại vị trí ${index + 1}.`);
-    ids.add(panel.id);
-    if (!Number.isInteger(panel.order) || panel.order < 1 || orders.has(panel.order)) throw new Error(`Thứ tự panel sai hoặc trùng tại vị trí ${index + 1}.`);
-    orders.add(panel.order);
-    if (!Number.isInteger(panel.width) || panel.width < 1 || !Number.isInteger(panel.height) || panel.height < 1) throw new Error(`Kích thước panel không hợp lệ tại vị trí ${index + 1}.`);
-    resolvePanelPath(stagingDir, panel.file);
-  }
-  if ([...orders].sort((a,b)=>a-b).some((order,index)=>order!==index+1)) throw new Error('Thứ tự panel phải liên tục từ 1.');
-  const stagedImages = await walkImages(stagingDir);
-  const stagedPaths = new Set(stagedImages.map(file => file.relativePath.replace(/\\/g, '/')));
-  const manifestPaths = manifest.panels.map(panel => panel.file.replace(/\\/g, '/'));
-  if (new Set(manifestPaths).size !== manifestPaths.length) throw new Error('Một file ảnh được tham chiếu bởi nhiều panel trong manifest.');
-  if (stagedPaths.size !== manifestPaths.length || manifestPaths.some(file => !stagedPaths.has(file))) throw new Error('Manifest không khớp đầy đủ với ảnh trong vùng tạm; chưa hoàn tất xuất.');
   const parent = path.resolve(outputParent || activeInput.defaultOutputParent);
   await fs.mkdir(parent, { recursive: true });
   const styleLabel = activeExport.style === 'manga' ? 'Manga' : activeExport.style === 'manhwa' ? 'Manhwa' : 'Manhua';
@@ -297,38 +283,7 @@ ipcMain.handle('cutter:finalize-export', async (_event, { token, outputParent, l
     catch (error) { if (error.code === 'EEXIST') suffix++; else throw error; }
   }
   try {
-    const exportedPaths = new Map();
-    if (layout === 'preserve') {
-      const entries = await fs.readdir(stagingDir, { withFileTypes: true });
-      for (const entry of entries) {
-        const source = path.join(stagingDir, entry.name), destination = path.join(outputDir, entry.name);
-        if (entry.isDirectory()) await fs.cp(source, destination, { recursive: true, force: false, errorOnExist: true });
-        else await fs.copyFile(source, destination, fs.constants.COPYFILE_EXCL);
-      }
-      for (const panel of manifest.panels) exportedPaths.set(panel.file.replace(/\\/g, '/'), panel.file.replace(/\\/g, '/'));
-    } else {
-      const files = await walkImages(stagingDir);
-      for (let index = 0; index < files.length; index++) {
-        const source = files[index].abs;
-        const relative = files[index].relativePath.split(/[\\/]/).map(part => safeLabel(part)).join('__');
-        const outputName = `${String(index + 1).padStart(6, '0')}__${relative}`;
-        const destination = path.join(outputDir, outputName);
-        await fs.copyFile(source, destination, fs.constants.COPYFILE_EXCL);
-        exportedPaths.set(files[index].relativePath.replace(/\\/g, '/'), outputName);
-      }
-    }
-    const exportedManifest = remapManifestPaths(manifest, exportedPaths);
-    const validation = validateManifest(exportedManifest);
-    if (!validation.valid) throw new Error(`Manifest không hợp lệ: ${validation.errors.join(' ')}`);
-    for (const panel of exportedManifest.panels) {
-      const diskPath = path.resolve(outputDir, ...panel.file.split('/'));
-      if (!diskPath.startsWith(path.resolve(outputDir) + path.sep)) throw new Error(`Đường dẫn manifest vượt ngoài thư mục xuất: ${panel.file}`);
-      const stat = await fs.stat(diskPath);
-      if (!stat.isFile() || stat.size === 0) throw new Error(`Ảnh panel thiếu hoặc rỗng: ${panel.file}`);
-    }
-    const manifestText = `${JSON.stringify(exportedManifest, null, 2)}\n`;
-    JSON.parse(manifestText);
-    await fs.writeFile(path.join(outputDir, 'manifest.json'), manifestText, { encoding: 'utf8', flag: 'wx' });
+    await exportStagedOutput({ stagingDir, outputDir, layout, manifest });
   } catch (error) {
     await fs.rm(outputDir, { recursive: true, force: true });
     throw error;

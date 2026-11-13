@@ -38,13 +38,15 @@ npm run app
 
 Model Manga được phân phối kèm giấy phép trong `resources/MANGA-PANEL-MODEL-LICENSE.txt`. Dependency 7-Zip đi kèm có giấy phép MIT trong gói npm tương ứng.
 
-## Panel ID và manifest.json (v1.1.0)
+## Panel ID và manifest.json (v1.1.1)
 
 Khi lưu kết quả, PanelCutter tạo thêm `manifest.json` ở thư mục gốc của bộ xuất, cho cả hai kiểu `preserve` và `flat`. Manifest gồm `schema_version: "1.0"`, `project`, `source`, `coordinate_system`, `export_layout` và danh sách `panels`. Mỗi panel có `id` dạng `P000001`, UUID nội bộ, đường dẫn ảnh đầu ra, thứ tự đọc, kích thước ảnh thực tế, quyết định mặc định `SHOW`, trạng thái review mặc định `false`, lịch sử chỉnh sửa và các `source_regions`.
 
 Tọa độ crop dùng pixel nguyên, gốc ở góc trên-trái ảnh nguồn; hình chữ nhật là nửa mở `[x, x + width) × [y, y + height)`. Với panel được tạo từ nhiều ảnh nguồn, `source_regions` chứa nhiều vùng; `output_y` và `output_height` là tỷ lệ trong panel đầu ra để mô tả phần đóng góp theo chiều dọc. `source_page` đánh số từ 1 theo thứ tự ảnh nguồn đã sắp xếp. Trong `source_regions`, `source_file`/`source_page` có thể là `null` nếu một pipeline không cung cấp attribution; điều này không chặn lưu. `crop` và `source_page` ở cấp panel chỉ có giá trị khi có đúng một vùng nguồn; nếu có nhiều vùng, các trường đơn nguồn là `null`.
 
 Registry riêng `panel-identities.json` được lưu trong thư mục dữ liệu người dùng của Electron, không nằm trong folder ảnh đầu ra. Registry giữ project ID, bộ đếm và ánh xạ identity key → UUID/Panel ID; ID đã cấp không bị tái sử dụng khi xóa panel. Project được nhận diện bằng loại nguồn và đường dẫn tuyệt đối; di chuyển source sang đường dẫn khác sẽ được coi là project khác. Khóa panel dùng SHA-256 nội dung ảnh nguồn, số trang nguồn và tọa độ crop (không dùng tên file hoặc thứ tự hiển thị); thao tác chia/gộp dùng khóa dẫn xuất từ panel cha/nguồn. Registry không lưu ảnh, draft giao diện hoặc trạng thái staging.
+
+Registry được sao lưu trước mỗi lần cập nhật, ghi qua file tạm và thay thế atomic. Nếu file chính hỏng, ứng dụng thử khôi phục từ `.bak`; nếu không phục hồi được, giữ nguyên các file để khôi phục thủ công và báo lỗi thay vì tạo registry rỗng. Mỗi lần chạy chỉ cho phép một instance ứng dụng; các thao tác cấp ID cũng được tuần tự hóa trong process.
 
 Ví dụ rút gọn:
 

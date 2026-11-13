@@ -24,20 +24,40 @@ export function sourceIdentityKey(regions) {
 }
 
 export function splitSourceRegions(regions, ratio) {
-  const cut = Math.max(0, Math.min(1, Number(ratio)));
+  const cut = Math.max(0, Math.min(1, Number.isFinite(Number(ratio)) ? Number(ratio) : 0.5));
+  if (!(cut > 0 && cut < 1)) throw new Error('Tỷ lệ chia phải nằm giữa 0 và 1.');
   const parts = [[], []];
   for (const region of regions || []) {
-    const top = Number(region.output_y) || 0;
-    const height = Number(region.output_height) || 1;
-    const bottom = top + height;
+    const outputTop = Number(region.output_y) || 0;
+    const outputHeight = Number(region.output_height);
+    if (!Number.isFinite(outputHeight) || outputHeight <= 0) throw new Error('source_region.output_height không hợp lệ.');
+    const outputBottom = outputTop + outputHeight;
+    const crop = region.crop;
+    const cropStart = Number(crop?.y), cropHeight = Number(crop?.height);
+    if (!Number.isInteger(cropStart) || !Number.isInteger(cropHeight) || cropStart < 0 || cropHeight < 1) throw new Error('source_region.crop không hợp lệ khi chia.');
+    const splitPixel = cropStart + Math.round(cropHeight * Math.max(0, Math.min(1, (cut - outputTop) / outputHeight)));
     for (let side = 0; side < 2; side++) {
-      const lo = side === 0 ? top : Math.max(top, cut);
-      const hi = side === 0 ? Math.min(bottom, cut) : bottom;
-      if (hi <= lo) continue;
-      const fraction0 = (lo - top) / height, fraction1 = (hi - top) / height;
-      const c = region.crop;
-      const y0 = c.y + c.height * fraction0, y1 = c.y + c.height * fraction1;
-      parts[side].push({ ...region, crop: { ...c, y: Math.round(y0), height: Math.max(1, Math.round(y1 - y0)) }, output_y: side === 0 ? lo / Math.max(cut, 1e-9) : (lo - cut) / Math.max(1 - cut, 1e-9), output_height: (hi - lo) / Math.max(side === 0 ? cut : 1 - cut, 1e-9) });
+      const panelStart = side === 0 ? 0 : cut;
+      const panelEnd = side === 0 ? cut : 1;
+      const overlapStart = Math.max(outputTop, panelStart);
+      const overlapEnd = Math.min(outputBottom, panelEnd);
+      if (!(overlapEnd > overlapStart)) continue;
+
+      // Pixel boundary is calculated once. When the split crosses this source
+      // region, both output halves share that exact integer edge.
+      let y0, y1;
+      if (overlapStart <= outputTop) y0 = cropStart;
+      else y0 = splitPixel;
+      if (overlapEnd >= outputBottom) y1 = cropStart + cropHeight;
+      else y1 = splitPixel;
+      if (y1 <= y0) continue;
+      const panelHeight = panelEnd - panelStart;
+      parts[side].push({
+        ...region,
+        crop: { ...crop, y: y0, height: y1 - y0 },
+        output_y: (overlapStart - panelStart) / panelHeight,
+        output_height: (overlapEnd - overlapStart) / panelHeight,
+      });
     }
   }
   return parts;
@@ -65,11 +85,13 @@ export function validateManifest(manifest) {
   if (!manifest || manifest.schema_version !== MANIFEST_SCHEMA_VERSION) errors.push('schema_version không hợp lệ.');
   if (!manifest?.project?.project_id) errors.push('Thiếu project.project_id.');
   if (!Array.isArray(manifest?.panels)) errors.push('panels phải là mảng.');
-  const seenIds = new Set(), seenOrders = new Set();
+  const seenIds = new Set(), seenUuids = new Set(), seenOrders = new Set();
   for (const [index, panel] of (manifest?.panels || []).entries()) {
     if (!panel?.id || seenIds.has(panel.id)) errors.push(`ID panel thiếu hoặc trùng tại vị trí ${index + 1}.`);
     seenIds.add(panel?.id);
-    if (typeof panel?.uuid !== 'string' || !panel.uuid) errors.push(`UUID thiếu tại vị trí ${index + 1}.`);
+    if (typeof panel?.uuid !== 'string' || !panel.uuid.trim()) errors.push(`UUID thiếu hoặc sai kiểu tại vị trí ${index + 1}.`);
+    else if (seenUuids.has(panel.uuid)) errors.push(`UUID panel bị trùng tại vị trí ${index + 1}.`);
+    seenUuids.add(panel?.uuid);
     if (!Number.isInteger(panel?.order) || panel.order < 1 || seenOrders.has(panel.order)) errors.push(`order thiếu, sai hoặc trùng tại vị trí ${index + 1}.`);
     seenOrders.add(panel?.order);
     if (typeof panel?.file !== 'string' || !panel.file || panel.file.split(/[\\/]/).includes('..') || panel.file.startsWith('/') || /^[A-Za-z]:/.test(panel.file)) errors.push(`Đường dẫn file không hợp lệ tại vị trí ${index + 1}.`);

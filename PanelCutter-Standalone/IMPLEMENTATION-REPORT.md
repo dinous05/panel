@@ -1,133 +1,78 @@
-# PanelCutter 1.1.0 — Báo cáo nâng cấp Panel ID và Manifest
+# PanelCutter 1.1.1 — Hotfix kỹ thuật và kiểm thử
 
-## Tóm tắt
+## Phạm vi
 
-Đã bổ sung Panel ID bền vững theo registry metadata cục bộ, source tracking cho ảnh Manga/Manhwa/Manhua, lịch sử chỉnh sửa split/merge/reorder và `manifest.json` ở cả hai kiểu xuất `preserve` và `flat`. Không thay đổi thuật toán nhận diện/cắt; thao tác nhập, preview, sửa và lưu vẫn theo luồng hiện có.
+Đã sửa lỗi đóng gói, chia source regions, kiểm tra UUID, độ bền Identity Registry và luồng xuất Preserve/Flat. Không sửa thuật toán nhận diện Manga, thuật toán dò khe Manhwa/Manhua, quy tắc RTL/LTR hoặc giao diện. Theo yêu cầu của người dùng, **không tạo Windows Portable `.exe`**.
 
-## File đã thay đổi/thêm
+## Lỗi đã sửa
 
-- `electron/main.js`: SHA-256 ảnh nguồn; tạo project key; lưu registry tại thư mục `app.getPath('userData')`; IPC lấy project identity và cấp Panel ID; kiểm tra tính toàn vẹn và ghi manifest trong bước finalize; remap đường dẫn cho preserve/flat.
-- `electron/preload.cjs`: thêm hai IPC API giới hạn để lấy project identity và resolve Panel ID.
-- `electron/identity-registry.js` **(mới)**: logic cấp project identity và panel identities, tách riêng để test.
-- `src/main.js`: gắn ID và metadata nguồn vào panel; tính source regions cho Manga, Manhwa/Manhua; giữ ID khi sắp xếp; cấp ID mới cho split/merge; ghi history; decode ảnh staging để ghi kích thước thực vào manifest; hiển thị ID trong preview.
-- `src/manifest-core.js` **(mới)**: schema version, tạo identity keys, theo dõi source regions qua split/merge, validate manifest và remap đường dẫn.
-- `test/identity-registry.test.js` **(mới)**: kiểm tra project identity, cấp lại ID cùng key và không tái sử dụng ID đã xóa.
-- `test/manifest-core.test.js` **(mới)**: kiểm tra identity key, split/merge source regions, schema, ID/order/path validation và remap preserve/flat.
-- `README.md`: hướng dẫn registry, Panel ID, hệ tọa độ crop và manifest.
-- `package.json`, `package-lock.json`: version `1.1.0`.
-- `dist/`: build production cập nhật.
+### 1. Thiếu `src/manifest-core.js` trong gói Electron
 
-## Schema manifest chính thức
+`electron/main.js` nhập `../src/manifest-core.js` thông qua `electron/export-core.js`, nhưng cấu hình electron-builder chỉ đưa `dist/**/*`, `electron/**/*`, `package.json` và dependency vào package. Đã thêm đúng một module nguồn cần thiết, `src/manifest-core.js`, vào `build.files`; không đưa toàn bộ `src` vào app package. `electron/export-core.js` được đưa vào nhờ `electron/**/*`.
 
-Manifest được ghi ở thư mục gốc bộ xuất, tên `manifest.json`.
+Đã chạy electron-builder target Linux `dir` để tạo app.asar phục vụ kiểm tra cấu trúc (không phải Windows app/EXE). `asar list` xác nhận có `/electron/main.js`, `/electron/export-core.js`, `/electron/identity-registry.js`, `/src/manifest-core.js` và `/package.json` ở đúng vị trí tương đối cho import. Đây là kiểm tra nội dung ASAR được tạo trên Linux; không khẳng định Windows Portable build hoặc runtime đã được kiểm thử.
 
-```json
-{
-  "schema_version": "1.0",
-  "project": {
-    "project_id": "UUID",
-    "project_name": "Chapter_001",
-    "created_at": "ISO-8601",
-    "exported_at": "ISO-8601"
-  },
-  "source": {
-    "source_type": "ZIP | CBZ | RAR | CBR / RAR | FOLDER",
-    "source_name": "chapter.zip",
-    "reading_direction": "rtl | ltr | null",
-    "comic_type": "manga | manhwa | manhua"
-  },
-  "coordinate_system": {
-    "units": "pixel",
-    "origin": "top_left",
-    "crop": "half-open rectangle [x,x+width) × [y,y+height) in original source image"
-  },
-  "export_layout": "preserve | flat",
-  "panels": [
-    {
-      "id": "P000001",
-      "uuid": "UUID",
-      "file": "relative/path/to/panel.jpg",
-      "order": 1,
-      "source_page": 1,
-      "source_file": "001.jpg",
-      "width": 1200,
-      "height": 900,
-      "crop": { "x": 0, "y": 0, "width": 1200, "height": 900 },
-      "source_regions": [
-        {
-          "source_page": 1,
-          "source_file": "001.jpg",
-          "source_fingerprint": "sha256 hex digest",
-          "source_width": 1200,
-          "source_height": 1800,
-          "crop": { "x": 0, "y": 0, "width": 1200, "height": 900 },
-          "output_y": 0,
-          "output_height": 1
-        }
-      ],
-      "decision": "SHOW",
-      "review_required": false,
-      "edit_history": [],
-      "parent_ids": []
-    }
-  ]
-}
-```
+### 2. Split source regions làm tròn pixel
 
-`source_page` đánh số từ 1 theo thứ tự ảnh nguồn đã quét. `crop` là hình chữ nhật pixel nguyên, gốc trên-trái, biên phải/dưới không bao gồm. `source_regions` cho phép một panel tham chiếu nhiều ảnh nguồn; `output_y`/`output_height` mô tả vùng đóng góp theo tỷ lệ dọc trong panel đầu ra. Các trường đơn nguồn `source_page`, `source_file`, `crop` ở cấp panel là `null` khi panel có nhiều vùng nguồn. `width` và `height` là kích thước được giải mã từ ảnh staging ngay trước khi xuất.
+`splitSourceRegions()` trước đây làm tròn tọa độ đầu/cuối độc lập, có thể tạo phần crop bị lặp/mất pixel hoặc vượt source boundary. Đã đổi sang tính một tọa độ pixel nguyên duy nhất tại giao điểm split với từng source region. Phần trên kết thúc đúng tại tọa độ đó, phần dưới bắt đầu tại cùng tọa độ; biên gốc được giữ nguyên. Các region không cắt qua split được giữ nguyên crop. Khi split đúng ở ranh giới giữa hai ảnh nguồn, source regions của từng phía không bị gộp nhầm.
 
-`file` luôn là đường dẫn tương đối trong bộ xuất thực tế. Chế độ `flat` đổi sang tên file phẳng có tiền tố thứ tự; manifest được remap theo đúng tên sau copy.
+Test mới kiểm tra crop cao lẻ/chẵn, ratio 0.5 và khác 0.5, crop bắt đầu tại `y != 0`, crop sát source boundary, panel nhiều source regions và split đúng tại ranh giới hai ảnh. Các test xác nhận không mất/trùng pixel, đúng liền kề và không vượt `source_height`.
 
-## Quy tắc định danh
+### 3. UUID trùng lặp trong Manifest
 
-- ID hiển thị là `P000001`, ...; UUID được giữ làm khóa không phụ thuộc tên file hoặc thứ tự preview.
-- Registry nằm trong `app.getPath('userData')/panel-identities.json`, không nằm trong thư mục output và không chứa ảnh/draft.
-- Project key được tạo từ loại nguồn và đường dẫn tuyệt đối nguồn. Cùng nguồn tại cùng đường dẫn giữ project ID; di chuyển nguồn sang đường dẫn khác được coi là project mới.
-- Khóa panel nguồn dùng fingerprint SHA-256 ảnh, số trang nguồn và tọa độ crop; tên file không tham gia khóa panel. Registry không xóa identity đã cấp khi panel bị xóa, nên bộ đếm không tái sử dụng ID.
-- Reorder chỉ cập nhật `edit_history`, không đổi ID. Split tạo hai identity mới dẫn xuất từ UUID panel cha và tỷ lệ chia. Merge tạo identity mới dẫn xuất theo UUID cha theo đúng thứ tự gộp; `parent_ids` chứa ID nguồn.
+`validateManifest()` hiện duy trì `seenUuids`, từ chối UUID trùng, UUID rỗng/whitespace và giá trị UUID sai kiểu. Quy tắc kiểm tra ID/order/path/crop hiện hữu vẫn còn. Registry cũng kiểm tra ID và UUID identity không trùng trong project trước khi đọc/ghi.
 
-## Kiểm tra xuất
+### 4. Identity Registry
 
-Trước khi hoàn tất, ứng dụng kiểm tra schema, UUID/ID không trùng, order liên tục, file path không traversal, kích thước dương, decision/review, crop nằm trong kích thước ảnh nguồn, source regions hợp lệ (source_file/source_page có thể null nếu chưa truy vết được), và danh sách manifest khớp chính xác với ảnh trong staging. Sau khi copy, từng file manifest được stat để bảo đảm tồn tại và không rỗng; JSON được parse lại trước khi ghi `manifest.json`. Lỗi trong copy/ghi manifest sẽ xóa thư mục output chưa hoàn chỉnh và giữ staging để người dùng thử lại.
+- Gọi `app.requestSingleInstanceLock()` và đưa cửa sổ hiện hành lên trước khi cho instance thứ hai tiếp tục; khi thất bại, instance thứ hai thoát.
+- Tuần tự hóa thao tác đọc–sửa–ghi registry trong main process, tránh race cùng tiến trình giữa hai IPC request.
+- Registry schema version 1 được kiểm tra trước khi cập nhật; counter phải lớn hơn mọi ID đã cấp, hạn chế việc reset counter gây tái sử dụng.
+- Ghi registry qua file tạm unique, flush file handle rồi rename; lưu `.bak` hợp lệ trước khi thay primary. Thay backup có xử lý tình huống Windows từ chối rename-over-existing.
+- Khi primary không đọc/parse/validate được, thử backup. Nếu phục hồi, giữ thêm bản primary hỏng với tên `.corrupt-<timestamp>-<uuid>` rồi restore backup. Nếu không có backup hợp lệ, phát lỗi và không ghi đè/xóa primary hoặc backup.
+- Registry giữ identity đã từng cấp, nên xóa một mapping không làm counter lùi hoặc tái sử dụng số ID.
 
-## Bản sửa lỗi lưu (2026-11-13)
+### 5. Preserve/Flat Export
 
-Sau khi nhận ảnh chụp lỗi, validator được nới để `source_file` và `source_page` có thể null/không có; nếu có thì vẫn phải đúng kiểu và source_page phải ≥1. Lỗi metadata truy vết không còn chặn tạo folder/ghi manifest, trong khi crop, kích thước, ID và đường dẫn vẫn được kiểm tra. Đã thêm test hồi quy cho trường hợp attribution null.
+Đã tách logic dùng thực tế bởi Electron IPC sang `electron/export-core.js` để chạy filesystem integration tests. Cả Preserve và Flat đều kiểm tra Manifest với staging, remap đường dẫn đầu ra, xác thực lại sau remap, xác nhận file ảnh có tồn tại/không rỗng, ghi JSON rồi mới báo hoàn tất. Flat đặt prefix theo `manifest.order`, không theo thứ tự duyệt filesystem. Nếu validate/copy/ghi Manifest thất bại, output folder chưa hoàn chỉnh bị xóa và staging được giữ để thử lại.
 
-## Kết quả kiểm thử
+## File đã thay đổi hoặc thêm
 
-- `npm test`: **31 test đạt, 0 lỗi** (24 test cũ + 7 test mới).
-- `node --check`: đạt với `src/main.js`, `src/manifest-core.js`, `electron/main.js`, `electron/identity-registry.js`, `electron/preload.cjs`.
-- `npm run build`: thành công; Vite production build.
-- `npm audit --omit=dev --audit-level=moderate`: không phát hiện lỗ hổng dependency production.
-- `npm ci` báo 8 cảnh báo lỗ hổng trong dependency graph đầy đủ (6 moderate, 2 high); không chạy `npm audit fix` vì nằm ngoài phạm vi và có thể thay đổi dependency/build.
+- `package.json`: version `1.1.1`, thêm chính xác `src/manifest-core.js` vào `build.files`.
+- `package-lock.json`: đồng bộ version gốc `1.1.1`.
+- `src/manifest-core.js`: pixel-safe split và phát hiện UUID duplicate.
+- `electron/main.js`: single-instance lock, registry serialization/recovery và sử dụng export-core.
+- `electron/identity-registry.js`: schema checks, ID/UUID safety, atomic persistence, backup/restore, serial queue.
+- `electron/export-core.js` (mới): export/re-map/validation/rollback.
+- `test/manifest-core.test.js`: split boundary, multi-source và UUID tests.
+- `test/identity-registry.test.js`: uniqueness/counter, recovery/corruption, backup và serialization tests.
+- `test/export-integration.test.js` (mới): Preserve/Flat trên thư mục tạm, final manifest, đường dẫn, lỗi và staging retention.
+- `README.md`: ghi version mới, registry recovery và các quy tắc split.
+- `IMPLEMENTATION-REPORT.md`: báo cáo hotfix này.
+- `dist/`: Vite production build mới.
 
-## Ví dụ manifest từ dự án thật
+## Kết quả xác minh
 
-ZIP đầu vào chỉ chứa source code, không có trang truyện/chapter để chạy một lần export thực tế. Vì vậy chưa thể cung cấp manifest được sinh từ dự án truyện thật mà không bịa dữ liệu. README có ví dụ schema minh họa; các test dùng fixture tổng hợp.
+- `npm test`: **45/45 test đạt, 0 lỗi**. Bao gồm test thuật toán hiện có và test mới cho split, UUID, registry và export. Integration tests dùng filesystem tạm thật; ảnh fixtures là byte mẫu và không thay thế kiểm thử detector/UI với chapter truyện thật.
+- `node --check`: thành công với `electron/main.js`, `electron/identity-registry.js`, `electron/export-core.js`, `src/manifest-core.js` và `src/main.js`.
+- `npm run build`: Vite production build thành công.
+- `npx electron-builder --linux dir --x64`: tạo `release/linux-unpacked/resources/app.asar` để kiểm tra package layout trên Linux.
+- `asar list`: xác nhận `src/manifest-core.js` cùng các module Electron có trong app.asar.
+- Không chạy `npm run dist:win`; không tạo `.exe`; không tuyên bố Windows build/runtime PASS.
 
-## Giới hạn còn lại
+## Chưa thể xác nhận
 
-- Chưa chạy ứng dụng Electron trên Windows hoặc test giao diện end-to-end; build đã xác minh là Vite production build, chưa tạo gói portable `.exe` trong môi trường Linux.
-- Chưa kiểm thử manifest export bằng bộ ảnh truyện thật; module remap/schema, registry và toàn bộ test thuật toán đã chạy tự động.
-- Registry được nhận diện bằng đường dẫn tuyệt đối nguồn; đổi vị trí archive/folder tạo project ID mới. Nếu đổi thứ tự các trang nguồn, `source_page` thay đổi và có thể tạo identity key mới cho các panel đó.
-- Nếu cùng một ảnh nguồn bị lặp lại nhiều lần trong một dự án với cùng crop, khóa còn phân biệt bằng `source_page`; hệ thống coi đó là các vị trí nguồn khác nhau.
-- Registry chứa lịch sử identity keys và tăng theo thời gian; hiện chưa có công cụ quản lý/dọn registry, bởi xóa nhầm registry sẽ làm mất khả năng duy trì ID cũ.
-- `review_required` mặc định `false` và `decision` mặc định `SHOW`; chưa triển khai AI review/contact sheet theo yêu cầu phạm vi.
+- Windows Portable build, mở/chạy `.exe`, `ERR_MODULE_NOT_FOUND` trên Windows thực tế: **chưa kiểm thử**, theo yêu cầu không tạo exe.
+- Electron UI end-to-end với source chapter thật và detector thực: **chưa chạy**. Preserve/Flat được integration test qua export module production trên filesystem fixture; test không giải mã ảnh fixture.
+- Giao diện Windows và hành vi `requestSingleInstanceLock()` khi mở song song trên Windows: **chưa chạy trên Windows**. Registry queue, serialization và recovery được unit-tested trong Node; mã single-instance được kiểm tra qua source.
+- Package ASAR được tạo cho Linux chỉ để kiểm tra include graph; không xem đó là bằng chứng Windows runtime.
+- Dependency audit khi cài đặt vẫn cảnh báo 8 lỗ hổng trong dependency graph đầy đủ (6 moderate, 2 high); không chạy audit fix vì ngoài phạm vi hotfix.
 
-## Cách chạy
-
-Trong thư mục `PanelCutter-Standalone`:
+## Chạy lại kiểm tra
 
 ```bash
 npm ci
 npm test
 npm run build
-npm run app
 ```
 
-Hoặc trên Windows, chạy `CHAY-PANELCUTTER.bat` như trước. Khi xuất, chọn preserve/flat; manifest được tạo tự động cùng các ảnh.
-
-## Lưu ý cho PanelVid Adapter
-
-Adapter nên dùng `uuid` làm khóa nội bộ, `id` làm mã dễ đọc và `file` làm đường dẫn thực tế; không suy luận tên ảnh từ order. Dùng `order` để sắp nội dung, `source_regions` để truy vết nguồn (Manhwa/Manhua có thể nhiều vùng), `parent_ids`/`edit_history` để hiểu panel đã chia/gộp. Schema có `schema_version` để Adapter có thể từ chối hoặc nâng cấp định dạng không hỗ trợ.
+Không có file `.exe` được tạo hoặc đính kèm trong bàn giao này.
