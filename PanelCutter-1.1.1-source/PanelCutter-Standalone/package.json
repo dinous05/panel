@@ -1,0 +1,42 @@
+{
+  "name": "panel-cutter-offline",
+  "version": "1.1.1",
+  "description": "Offline comic panel splitter for Windows",
+  "type": "module",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173",
+    "app": "electron .",
+    "build": "vite build",
+    "dist:win": "npm run build && electron-builder --win portable --x64",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "7zip-bin": "5.2.0",
+    "onnxruntime-web": "1.22.0"
+  },
+  "devDependencies": {
+    "electron": "44.7.2",
+    "electron-builder": "26.15.3",
+    "vite": "7.1.7"
+  },
+  "build": {
+    "appId": "im.manus.panelcutter.offline",
+    "productName": "Panel Cutter Offline",
+    "directories": { "output": "release" },
+    "files": ["dist/**/*", "electron/**/*", "src/manifest-core.js", "package.json", "node_modules/7zip-bin/**/*"],
+    "extraResources": [
+      { "from": "resources/manga-panel-detector.onnx", "to": "manga-panel-detector.onnx" },
+      { "from": "resources/MANGA-PANEL-MODEL-LICENSE.txt", "to": "MANGA-PANEL-MODEL-LICENSE.txt" },
+      { "from": "node_modules/onnxruntime-web/dist/ort-wasm-simd-threaded.wasm", "to": "ort-wasm-simd-threaded.wasm" },
+      { "from": "node_modules/7zip-bin/win/x64/7za.exe", "to": "7za.exe" }
+    ],
+    "asarUnpack": ["node_modules/7zip-bin/**/*"],
+    "win": {
+      "target": ["portable"],
+      "artifactName": "Panel-Cutter-Offline-${version}-win-${arch}.${ext}"
+    },
+    "portable": { "artifactName": "Panel-Cutter-Offline-${version}-win-${arch}.${ext}" },
+    "asar": true
+  }
+}

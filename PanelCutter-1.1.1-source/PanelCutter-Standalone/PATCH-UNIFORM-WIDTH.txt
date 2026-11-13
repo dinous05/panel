@@ -1,0 +1,21 @@
+Panel Cutter v5 - PATCH UNIFORM-WIDTH (26/10/2026)
+Cap nhat tu ban SplitMobile (cac PATCH cu giu nguyen).
+
+Muc tieu: moi anh xuat ra deu co CUNG do rong.
+
+Them o muc 03 (Cat truoc, luu sau): o tick "Dong nhat do rong anh dau ra"
+(mac dinh BAT) + o nhap "Rong ... px".
+- 0 = tu dong: lay theo anh rong nhat trong chap.
+- Nhap so (vd 728, 1080) = co dinh do rong do.
+- Chieu cao tu co theo ti le, khong bi meo. Tat o tick = hanh vi cu.
+- Cai dat duoc nho (localStorage).
+
+Ap dung cho:
+- Manhwa/Manhua dai ghep va tung anh: co ngay luc cat.
+- Manga: do rong tu dong duoc do sau khi cat xong, panel hep hon duoc co
+  len bang panel rong nhat (chi ghi lai anh can doi).
+- Chia tay / Gop trong preview giu nguyen do rong.
+
+File sua: src/main.js, src/style.css.
+Chay: giai nen vao thu muc MOI, chay CHAY-PANELCUTTER.bat (tu build lai).
+Test: 22/22 pass (node --test).
