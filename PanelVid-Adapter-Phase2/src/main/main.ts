@@ -2,11 +2,13 @@ import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildPanelMapping, loadPanelImageData } from '../shared/panel-mapping';
 import { parseJsonText, readAnalysisSummary, readBatchReportSummary, readManifestSummary } from '../shared/import-data';
 import { countImagesInFolder } from '../shared/image-files';
-import type { ImportResult } from '../shared/types';
+import type { AnalysisDocument, ImportedAnalysis, ImportResult, ManifestDocument, PreviewImageData } from '../shared/types';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
+let selectedPanelFolderPath: string | null = null;
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -40,29 +42,30 @@ function failure<T>(error: unknown): ImportResult<T> {
   return { ok: false, error: error instanceof Error ? error.message : String(error) };
 }
 
-ipcMain.handle('import:manifest', async (): Promise<ImportResult<ReturnType<typeof readManifestSummary>>> => {
+ipcMain.handle('import:manifest', async (): Promise<ImportResult<Awaited<ReturnType<typeof readManifestSummary>> & { data: ManifestDocument }>> => {
   const selected = await dialog.showOpenDialog({ properties: ['openFile'], filters: [{ name: 'JSON', extensions: ['json'] }] });
   if (selected.canceled || !selected.filePaths[0]) return { ok: false, error: 'Đã hủy chọn file.' };
   try {
     const filePath = selected.filePaths[0];
     const value = parseJsonText(await readFile(filePath, 'utf8'), path.basename(filePath));
-    return { ok: true, data: readManifestSummary(value, filePath) };
+    const summary = readManifestSummary(value, filePath);
+    return { ok: true, data: { ...summary, data: value as ManifestDocument } };
   } catch (error) { return failure(error); }
 });
 
-ipcMain.handle('import:analysis', async (): Promise<ImportResult<ReturnType<typeof readAnalysisSummary>[]>> => {
+ipcMain.handle('import:analysis', async (): Promise<ImportResult<ImportedAnalysis[]>> => {
   const selected = await dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'], filters: [{ name: 'JSON', extensions: ['json'] }] });
   if (selected.canceled || selected.filePaths.length === 0) return { ok: false, error: 'Chưa chọn file analysis.' };
   try {
-    const summaries = await Promise.all(selected.filePaths.map(async (filePath) => {
+    const summaries = await Promise.all(selected.filePaths.map(async (filePath): Promise<ImportedAnalysis> => {
       const value = parseJsonText(await readFile(filePath, 'utf8'), path.basename(filePath));
-      return readAnalysisSummary(value, filePath);
+      return { ...readAnalysisSummary(value, filePath), data: value as AnalysisDocument };
     }));
     return { ok: true, data: summaries };
   } catch (error) { return failure(error); }
 });
 
-ipcMain.handle('import:batch-report', async (): Promise<ImportResult<ReturnType<typeof readBatchReportSummary>>> => {
+ipcMain.handle('import:batch-report', async (): Promise<ImportResult<Awaited<ReturnType<typeof readBatchReportSummary>>>> => {
   const selected = await dialog.showOpenDialog({ properties: ['openFile'], filters: [{ name: 'JSON', extensions: ['json'] }] });
   if (selected.canceled || !selected.filePaths[0]) return { ok: false, error: 'Đã hủy chọn file.' };
   try {
@@ -77,7 +80,23 @@ ipcMain.handle('import:panel-folder', async (): Promise<ImportResult<{ path: str
   if (selected.canceled || !selected.filePaths[0]) return { ok: false, error: 'Đã hủy chọn thư mục.' };
   try {
     const folder = selected.filePaths[0];
-    return { ok: true, data: { path: folder, folderName: path.basename(folder), imageCount: await countImagesInFolder(folder) } };
+    const imageCount = await countImagesInFolder(folder);
+    selectedPanelFolderPath = folder;
+    return { ok: true, data: { path: folder, folderName: path.basename(folder), imageCount } };
+  } catch (error) { return failure(error); }
+});
+
+ipcMain.handle('mapping:build', async (_event, manifest: ManifestDocument, analyses: ImportedAnalysis[]) => {
+  if (!selectedPanelFolderPath) return { ok: false, error: 'Hãy import thư mục ảnh panel trước khi chạy UUID Mapping.' };
+  try {
+    return { ok: true, data: await buildPanelMapping(manifest, analyses, selectedPanelFolderPath) };
+  } catch (error) { return failure(error); }
+});
+
+ipcMain.handle('mapping:preview-image', async (_event, manifestFile: string): Promise<ImportResult<PreviewImageData>> => {
+  if (!selectedPanelFolderPath) return { ok: false, error: 'Chưa có thư mục ảnh panel được chọn.' };
+  try {
+    return { ok: true, data: await loadPanelImageData(selectedPanelFolderPath, manifestFile) };
   } catch (error) { return failure(error); }
 });
 
