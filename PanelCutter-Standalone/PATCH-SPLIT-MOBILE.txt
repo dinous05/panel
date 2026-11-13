@@ -1,0 +1,54 @@
+Panel Cutter v5 - PATCH SPLIT-MOBILE (26/10/2026)
+Cap nhat tu ban LongFix v5 (PATCH-LONG-FIX.txt van giu nguyen, khong doi).
+
+Ly do:
+- Panel dai len khung video 16:9 (fit chieu cao 1080px) cang hep, chu cang nho.
+  O dai 728px, panel cao > 1700px chi rong 269-452px tren khung 1920px
+  (14-24%), tren dien thoai chi ~55-90px, gan nhu khong doc duoc.
+- Ban chia tay Sword Hound Ch.001 (103 panel) da chung minh: chia 20 panel
+  dai thanh manh ngan thi chu doc ro han, khong cat mat/chu.
+
+Thay doi trong ban nay:
+1. src/strip-slicer.js - ham moi splitLongSegments(segments, profile, width)
+   - Chi chia panel cao hon nguong: 1700px o dai 728px, ti le theo chieu
+     rong dai (dai cang rong thi nguong cang cao, de giu dung ti le 16:9).
+   - Manh toi da: 1284px o dai 728px (len khung 16:9 rong >= 612px).
+     Manh toi thieu: 550px o dai 728px, tranh manh vun.
+   - Diem chia: trong +-300px quanh diem giua, chon hang "phang" nhat
+     (variance thap, spread thap, khong phai hang hop chu trang - phat
+     manh 80 lan nhu ban chia bang Python). Lap lai cho toi khi moi manh
+     deu <= manh toi da.
+   - Panel goc 1400-1700px KHONG tu tach them: chi manh da tach tu panel
+     dai moi duoc tach tiep khi con > manh toi da. Dung ban 103 panel:
+     20 panel > 1700px thanh 46 manh, 57 panel con lai giu nguyen.
+2. src/main.js
+   - Checkbox moi trong cai dat dai: "Chia panel dai cho video 16:9",
+     mac dinh BAT, luu vao localStorage cung cai dat khe.
+   - Ap dung cho ca 2 che do: dai ghep (joined strip) va tung anh.
+   - Tat checkbox neu muon giu nguyen panel dai; van chia tay bang nut
+     Chia trong preview nhu cu.
+3. test/strip-slicer.test.js - 2 test moi cho splitLongSegments:
+   panel 4000px chia thanh manh <= 1284px, panel <= 1700px giu nguyen.
+
+Ket qua kiem thu (chay dung code trong zip nay, node --test):
+- Test suite: 22/22 pass (20 cu + 2 moi).
+- Sword Hound Ch.001, bo qua anh bia 036.png (anh ngang, khong thuoc dai
+  doc): ban LongFix 77 panel -> ban nay 104 panel, 0 panel > 1700px.
+  (104 thay vi 103 ban chia tay: panel_033 goc 2660px duoc chia thanh
+  4 manh thay vi 3, vi diem chia JS o giua lam ca 2 nua deu > 1284px
+  nen moi nua lai tach tiep. Manh ngan hon, van dung luat, khong phai loi.)
+- Diem chia JS khac ban Python toi da ~220px (panel_003: 1171 thay vi 952),
+  vi cost JS dung profile hang (variance/spread/nearWhite) thay vi
+  gradient tung pixel; ca 2 diem deu nam o vung troi phang, khong cat
+  mat hay hop chu.
+
+Cach chay:
+- Giai nen zip nay vao thu muc MOI, xoa ban LongFix v5 cu (tranh chay
+  nham ban cu, nhu bai hoc PanelVid truoc day).
+- Chay CHAY-PANELCUTTER.bat nhu cu (Node.js 22+, lan dau can Internet
+  de npm ci). BAT tu build lai giao dien tu src da va, khong can build tay.
+- Chon Manhwa/Manhua, nap CBZ / folder anh nhu cu. Checkbox chia panel
+  dai nam ngay duoi thanh "Do day khe toi thieu".
+- Luu y: anh bia ngang trong CBZ (vd 036.png 1000x563) se bi ghep vao
+  cuoi dai doc nhu mot trang thuong - hanh vi cu cua app, khong phai do
+  ban va nay. Nen loai anh bia khoi CBZ truoc khi cat chap.
