@@ -1,0 +1,2232 @@
+{
+  "schema_version": "1.0",
+  "project_id": "fc87f07d-165a-47d7-a188-5f76f67dc284",
+  "project_name": "The Regressed Mercenary Has a Plan 1-2 - bundle",
+  "export_timestamp": "2026-11-13T23:45:03.821Z",
+  "total_chapters": 2,
+  "total_pages": 54,
+  "total_panels": 219,
+  "total_srt_cues": 54,
+  "chapter_results": [
+    {
+      "chapter_id": 1,
+      "chapter_name": "The Regressed Mercenary Has a Plan 1",
+      "page_count": 29,
+      "scene_count": 29,
+      "panel_count": 110,
+      "srt_cue_count": 29,
+      "export_status": "success",
+      "panels": [
+        {
+          "uuid": "ecf46a1c-c26e-481d-bec5-f6c9c240cccb",
+          "source_filename": "panel_0002.jpg",
+          "export_filename": "Chapter_001/Page 001/Panel 001.jpg",
+          "logical_page_index": 1,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0002.jpg"
+        },
+        {
+          "uuid": "a133779b-2c26-4a96-b5a2-7e84d7ff57a4",
+          "source_filename": "panel_0003.jpg",
+          "export_filename": "Chapter_001/Page 001/Panel 002.jpg",
+          "logical_page_index": 1,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0003.jpg"
+        },
+        {
+          "uuid": "1e091bb1-f265-4e2c-b1e6-4024e16b3d97",
+          "source_filename": "panel_0004.jpg",
+          "export_filename": "Chapter_001/Page 001/Panel 003.jpg",
+          "logical_page_index": 1,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0004.jpg"
+        },
+        {
+          "uuid": "c5d754ef-8efd-4b84-8db4-45d7e6bb4470",
+          "source_filename": "panel_0005.jpg",
+          "export_filename": "Chapter_001/Page 001/Panel 004.jpg",
+          "logical_page_index": 1,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0005.jpg"
+        },
+        {
+          "uuid": "f1a38c86-3c8b-4c00-8df7-4c2f9e0369c0",
+          "source_filename": "panel_0006.jpg",
+          "export_filename": "Chapter_001/Page 002/Panel 001.jpg",
+          "logical_page_index": 2,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0006.jpg"
+        },
+        {
+          "uuid": "81705969-bc12-491a-afa6-838df5c5b87a",
+          "source_filename": "panel_0007.jpg",
+          "export_filename": "Chapter_001/Page 002/Panel 002.jpg",
+          "logical_page_index": 2,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0007.jpg"
+        },
+        {
+          "uuid": "61c7482e-c632-4e96-8bd0-fa5ce0683bfd",
+          "source_filename": "panel_0008.jpg",
+          "export_filename": "Chapter_001/Page 002/Panel 003.jpg",
+          "logical_page_index": 2,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0008.jpg"
+        },
+        {
+          "uuid": "7ef74ca3-f646-4940-bee4-d8cf23d4a176",
+          "source_filename": "panel_0009.jpg",
+          "export_filename": "Chapter_001/Page 003/Panel 001.jpg",
+          "logical_page_index": 3,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0009.jpg"
+        },
+        {
+          "uuid": "1f1f1779-23b1-46e4-908f-c092c805302b",
+          "source_filename": "panel_0010.jpg",
+          "export_filename": "Chapter_001/Page 003/Panel 002.jpg",
+          "logical_page_index": 3,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0010.jpg"
+        },
+        {
+          "uuid": "2bfaf792-6c5b-480d-93d6-b558e32d7535",
+          "source_filename": "panel_0011.jpg",
+          "export_filename": "Chapter_001/Page 003/Panel 003.jpg",
+          "logical_page_index": 3,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0011.jpg"
+        },
+        {
+          "uuid": "5abdc2e7-af37-4773-b14c-25258b7baea8",
+          "source_filename": "panel_0012.jpg",
+          "export_filename": "Chapter_001/Page 004/Panel 001.jpg",
+          "logical_page_index": 4,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0012.jpg"
+        },
+        {
+          "uuid": "3ef0ba2a-5936-471a-8884-fa3fce569b2b",
+          "source_filename": "panel_0013.jpg",
+          "export_filename": "Chapter_001/Page 004/Panel 002.jpg",
+          "logical_page_index": 4,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0013.jpg"
+        },
+        {
+          "uuid": "dd18431b-b213-4670-82f3-f7672c480d72",
+          "source_filename": "panel_0014.jpg",
+          "export_filename": "Chapter_001/Page 004/Panel 003.jpg",
+          "logical_page_index": 4,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0014.jpg"
+        },
+        {
+          "uuid": "f790c754-46c1-4cc1-92a0-6c80c57ee8ff",
+          "source_filename": "panel_0015.jpg",
+          "export_filename": "Chapter_001/Page 005/Panel 001.jpg",
+          "logical_page_index": 5,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0015.jpg"
+        },
+        {
+          "uuid": "4ea6290b-4260-498c-8db9-614e506e80d6",
+          "source_filename": "panel_0016.jpg",
+          "export_filename": "Chapter_001/Page 005/Panel 002.jpg",
+          "logical_page_index": 5,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0016.jpg"
+        },
+        {
+          "uuid": "a5cde9f8-4eca-4973-b16a-0bfc35b32476",
+          "source_filename": "panel_0017.jpg",
+          "export_filename": "Chapter_001/Page 005/Panel 003.jpg",
+          "logical_page_index": 5,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0017.jpg"
+        },
+        {
+          "uuid": "6421537d-689c-407c-bb8c-36c6f4b3821f",
+          "source_filename": "panel_0018.jpg",
+          "export_filename": "Chapter_001/Page 006/Panel 001.jpg",
+          "logical_page_index": 6,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0018.jpg"
+        },
+        {
+          "uuid": "b91a9086-c0b6-4ec7-a1f4-23e8c4ba5119",
+          "source_filename": "panel_0019.jpg",
+          "export_filename": "Chapter_001/Page 006/Panel 002.jpg",
+          "logical_page_index": 6,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0019.jpg"
+        },
+        {
+          "uuid": "8f484584-85a5-45bb-b56c-7158f3711669",
+          "source_filename": "panel_0020.jpg",
+          "export_filename": "Chapter_001/Page 006/Panel 003.jpg",
+          "logical_page_index": 6,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0020.jpg"
+        },
+        {
+          "uuid": "0a16718a-c1f5-4117-b3d1-f84225cd78ae",
+          "source_filename": "panel_0021.jpg",
+          "export_filename": "Chapter_001/Page 006/Panel 004.jpg",
+          "logical_page_index": 6,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0021.jpg"
+        },
+        {
+          "uuid": "95fff0d4-476f-4210-a0e1-81aaebc9fde4",
+          "source_filename": "panel_0023.jpg",
+          "export_filename": "Chapter_001/Page 007/Panel 001.jpg",
+          "logical_page_index": 7,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0023.jpg"
+        },
+        {
+          "uuid": "fcba6c1e-cc21-47e0-b140-3fe3c649d0f9",
+          "source_filename": "panel_0024.jpg",
+          "export_filename": "Chapter_001/Page 007/Panel 002.jpg",
+          "logical_page_index": 7,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0024.jpg"
+        },
+        {
+          "uuid": "341fea72-7018-47db-8337-d198d514b83f",
+          "source_filename": "panel_0025.jpg",
+          "export_filename": "Chapter_001/Page 007/Panel 003.jpg",
+          "logical_page_index": 7,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0025.jpg"
+        },
+        {
+          "uuid": "937eeee4-9945-48a1-8e6b-3df2cf94e939",
+          "source_filename": "panel_0026.jpg",
+          "export_filename": "Chapter_001/Page 007/Panel 004.jpg",
+          "logical_page_index": 7,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0026.jpg"
+        },
+        {
+          "uuid": "a0cf72c9-9a57-4a7b-90ac-7434e1da8bc1",
+          "source_filename": "panel_0027.jpg",
+          "export_filename": "Chapter_001/Page 008/Panel 001.jpg",
+          "logical_page_index": 8,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0027.jpg"
+        },
+        {
+          "uuid": "ed1057e8-52fd-4dd4-a895-3f200a95a012",
+          "source_filename": "panel_0028.jpg",
+          "export_filename": "Chapter_001/Page 008/Panel 002.jpg",
+          "logical_page_index": 8,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0028.jpg"
+        },
+        {
+          "uuid": "95c40166-cd50-4f18-8a37-8ee7aae53acb",
+          "source_filename": "panel_0029.jpg",
+          "export_filename": "Chapter_001/Page 008/Panel 003.jpg",
+          "logical_page_index": 8,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0029.jpg"
+        },
+        {
+          "uuid": "8da9f848-4ca8-4b85-82de-bbde54ae5c0f",
+          "source_filename": "panel_0030.jpg",
+          "export_filename": "Chapter_001/Page 008/Panel 004.jpg",
+          "logical_page_index": 8,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0030.jpg"
+        },
+        {
+          "uuid": "537595f5-9d4b-48dd-9904-12c0d9c67e5b",
+          "source_filename": "panel_0031.jpg",
+          "export_filename": "Chapter_001/Page 008/Panel 005.jpg",
+          "logical_page_index": 8,
+          "scene_index": 1,
+          "panel_order": 5,
+          "source_path": "Chapter 0001/panel_0031.jpg"
+        },
+        {
+          "uuid": "a30db4f6-a1c2-424b-ad40-d2251e57c5d8",
+          "source_filename": "panel_0032.jpg",
+          "export_filename": "Chapter_001/Page 008/Panel 006.jpg",
+          "logical_page_index": 8,
+          "scene_index": 1,
+          "panel_order": 6,
+          "source_path": "Chapter 0001/panel_0032.jpg"
+        },
+        {
+          "uuid": "111b23bc-ae19-42e1-9f7f-233563ef978c",
+          "source_filename": "panel_0033.jpg",
+          "export_filename": "Chapter_001/Page 009/Panel 001.jpg",
+          "logical_page_index": 9,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0033.jpg"
+        },
+        {
+          "uuid": "e7fd7f2c-cec0-4c9c-9828-99a41e87077c",
+          "source_filename": "panel_0034.jpg",
+          "export_filename": "Chapter_001/Page 009/Panel 002.jpg",
+          "logical_page_index": 9,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0034.jpg"
+        },
+        {
+          "uuid": "55210a0d-ea9c-4498-ab43-4a3e92e3de33",
+          "source_filename": "panel_0035.jpg",
+          "export_filename": "Chapter_001/Page 009/Panel 003.jpg",
+          "logical_page_index": 9,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0035.jpg"
+        },
+        {
+          "uuid": "a461c6b1-278e-4da4-9636-ee9c09bb4569",
+          "source_filename": "panel_0036.jpg",
+          "export_filename": "Chapter_001/Page 009/Panel 004.jpg",
+          "logical_page_index": 9,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0036.jpg"
+        },
+        {
+          "uuid": "e6b754b9-b08c-49ef-bfc2-7b2d718c96ec",
+          "source_filename": "panel_0037.jpg",
+          "export_filename": "Chapter_001/Page 010/Panel 001.jpg",
+          "logical_page_index": 10,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0037.jpg"
+        },
+        {
+          "uuid": "3373638c-7fff-446b-8773-7845ec0d81b4",
+          "source_filename": "panel_0038.jpg",
+          "export_filename": "Chapter_001/Page 010/Panel 002.jpg",
+          "logical_page_index": 10,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0038.jpg"
+        },
+        {
+          "uuid": "f89ac656-84d7-4c52-91e6-c5915bec521d",
+          "source_filename": "panel_0039.jpg",
+          "export_filename": "Chapter_001/Page 010/Panel 003.jpg",
+          "logical_page_index": 10,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0039.jpg"
+        },
+        {
+          "uuid": "107a2c78-dada-4394-8a37-17a5347ad6b8",
+          "source_filename": "panel_0040.jpg",
+          "export_filename": "Chapter_001/Page 010/Panel 004.jpg",
+          "logical_page_index": 10,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0040.jpg"
+        },
+        {
+          "uuid": "6f1e0a92-943b-423a-aa5a-d7fb0b165706",
+          "source_filename": "panel_0041.jpg",
+          "export_filename": "Chapter_001/Page 011/Panel 001.jpg",
+          "logical_page_index": 11,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0041.jpg"
+        },
+        {
+          "uuid": "feb998b3-9442-4acb-8280-0860ecd4b36f",
+          "source_filename": "panel_0042.jpg",
+          "export_filename": "Chapter_001/Page 011/Panel 002.jpg",
+          "logical_page_index": 11,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0042.jpg"
+        },
+        {
+          "uuid": "ee1214ef-384d-47ac-a707-45bbc7eca844",
+          "source_filename": "panel_0043.jpg",
+          "export_filename": "Chapter_001/Page 011/Panel 003.jpg",
+          "logical_page_index": 11,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0043.jpg"
+        },
+        {
+          "uuid": "06db1c0e-cf8e-4782-95b6-a91ea9adff0e",
+          "source_filename": "panel_0044.jpg",
+          "export_filename": "Chapter_001/Page 011/Panel 004.jpg",
+          "logical_page_index": 11,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0044.jpg"
+        },
+        {
+          "uuid": "03a5d12d-d2f8-4ad8-b7b6-743da3af0bdf",
+          "source_filename": "panel_0045.jpg",
+          "export_filename": "Chapter_001/Page 012/Panel 001.jpg",
+          "logical_page_index": 12,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0045.jpg"
+        },
+        {
+          "uuid": "f57ceb53-a6a4-4a60-9859-810b3ab98810",
+          "source_filename": "panel_0046.jpg",
+          "export_filename": "Chapter_001/Page 012/Panel 002.jpg",
+          "logical_page_index": 12,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0046.jpg"
+        },
+        {
+          "uuid": "9406062d-79f8-40cc-bb03-c735f5d2a689",
+          "source_filename": "panel_0047.jpg",
+          "export_filename": "Chapter_001/Page 012/Panel 003.jpg",
+          "logical_page_index": 12,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0047.jpg"
+        },
+        {
+          "uuid": "0b1456c3-c1b7-4c7f-87c0-378a41bb4bd5",
+          "source_filename": "panel_0048.jpg",
+          "export_filename": "Chapter_001/Page 012/Panel 004.jpg",
+          "logical_page_index": 12,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0048.jpg"
+        },
+        {
+          "uuid": "9d46cf19-22b4-45e8-933a-f974eb13e565",
+          "source_filename": "panel_0049.jpg",
+          "export_filename": "Chapter_001/Page 013/Panel 001.jpg",
+          "logical_page_index": 13,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0049.jpg"
+        },
+        {
+          "uuid": "b2e08158-a7db-45dd-84d8-523a5e707933",
+          "source_filename": "panel_0050.jpg",
+          "export_filename": "Chapter_001/Page 013/Panel 002.jpg",
+          "logical_page_index": 13,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0050.jpg"
+        },
+        {
+          "uuid": "ebb112ee-1fe2-475b-8405-a17731d31afc",
+          "source_filename": "panel_0051.jpg",
+          "export_filename": "Chapter_001/Page 013/Panel 003.jpg",
+          "logical_page_index": 13,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0051.jpg"
+        },
+        {
+          "uuid": "e20babc1-da87-4a2c-ab14-4014fa145506",
+          "source_filename": "panel_0052.jpg",
+          "export_filename": "Chapter_001/Page 014/Panel 001.jpg",
+          "logical_page_index": 14,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0052.jpg"
+        },
+        {
+          "uuid": "adf8bcf4-c934-4523-8282-c9eb9c0863f4",
+          "source_filename": "panel_0053.jpg",
+          "export_filename": "Chapter_001/Page 014/Panel 002.jpg",
+          "logical_page_index": 14,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0053.jpg"
+        },
+        {
+          "uuid": "89776cbe-0d2b-4802-9b5c-0fb3c893324c",
+          "source_filename": "panel_0054.jpg",
+          "export_filename": "Chapter_001/Page 014/Panel 003.jpg",
+          "logical_page_index": 14,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0054.jpg"
+        },
+        {
+          "uuid": "30c2bc34-1a37-43d8-ba82-0c3a424db493",
+          "source_filename": "panel_0055.jpg",
+          "export_filename": "Chapter_001/Page 014/Panel 004.jpg",
+          "logical_page_index": 14,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0055.jpg"
+        },
+        {
+          "uuid": "540a7d77-36ad-47c2-911f-228f33d5095f",
+          "source_filename": "panel_0056.jpg",
+          "export_filename": "Chapter_001/Page 014/Panel 005.jpg",
+          "logical_page_index": 14,
+          "scene_index": 1,
+          "panel_order": 5,
+          "source_path": "Chapter 0001/panel_0056.jpg"
+        },
+        {
+          "uuid": "d4f13245-7f15-46ec-968e-c69dadf0fc38",
+          "source_filename": "panel_0057.jpg",
+          "export_filename": "Chapter_001/Page 015/Panel 001.jpg",
+          "logical_page_index": 15,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0057.jpg"
+        },
+        {
+          "uuid": "edf0e179-0472-4255-9ec9-47b44f663a86",
+          "source_filename": "panel_0058.jpg",
+          "export_filename": "Chapter_001/Page 015/Panel 002.jpg",
+          "logical_page_index": 15,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0058.jpg"
+        },
+        {
+          "uuid": "3ae6dfc5-f4cd-46f7-beb4-83cbd5427642",
+          "source_filename": "panel_0059.jpg",
+          "export_filename": "Chapter_001/Page 015/Panel 003.jpg",
+          "logical_page_index": 15,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0059.jpg"
+        },
+        {
+          "uuid": "fee326f8-2bc7-4965-9e05-a7fe09503302",
+          "source_filename": "panel_0060.jpg",
+          "export_filename": "Chapter_001/Page 015/Panel 004.jpg",
+          "logical_page_index": 15,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0060.jpg"
+        },
+        {
+          "uuid": "fabb2c8a-3d02-4a7c-964b-cb74c1aa85df",
+          "source_filename": "panel_0061.jpg",
+          "export_filename": "Chapter_001/Page 016/Panel 001.jpg",
+          "logical_page_index": 16,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0061.jpg"
+        },
+        {
+          "uuid": "0dc55219-80aa-42bd-8fe6-bcb246623cb2",
+          "source_filename": "panel_0062.jpg",
+          "export_filename": "Chapter_001/Page 016/Panel 002.jpg",
+          "logical_page_index": 16,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0062.jpg"
+        },
+        {
+          "uuid": "a6611652-0de5-41d6-b0c6-c7b8f586e1e0",
+          "source_filename": "panel_0063.jpg",
+          "export_filename": "Chapter_001/Page 016/Panel 003.jpg",
+          "logical_page_index": 16,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0063.jpg"
+        },
+        {
+          "uuid": "7a7d8d24-39cf-4f62-bdb6-46b80b3b191b",
+          "source_filename": "panel_0064.jpg",
+          "export_filename": "Chapter_001/Page 016/Panel 004.jpg",
+          "logical_page_index": 16,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0064.jpg"
+        },
+        {
+          "uuid": "edff94d2-75fa-4d0e-848e-d6b0ac263146",
+          "source_filename": "panel_0065.jpg",
+          "export_filename": "Chapter_001/Page 016/Panel 005.jpg",
+          "logical_page_index": 16,
+          "scene_index": 1,
+          "panel_order": 5,
+          "source_path": "Chapter 0001/panel_0065.jpg"
+        },
+        {
+          "uuid": "769b7395-32e8-4e75-892f-d65ac1a2cf0c",
+          "source_filename": "panel_0066.jpg",
+          "export_filename": "Chapter_001/Page 017/Panel 001.jpg",
+          "logical_page_index": 17,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0066.jpg"
+        },
+        {
+          "uuid": "08b21404-4541-4fb2-9b15-57b22b0110e1",
+          "source_filename": "panel_0067.jpg",
+          "export_filename": "Chapter_001/Page 017/Panel 002.jpg",
+          "logical_page_index": 17,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0067.jpg"
+        },
+        {
+          "uuid": "7940fe00-4126-43ea-a0a6-9e3a0929dc19",
+          "source_filename": "panel_0068.jpg",
+          "export_filename": "Chapter_001/Page 017/Panel 003.jpg",
+          "logical_page_index": 17,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0068.jpg"
+        },
+        {
+          "uuid": "86b34ff4-e360-4334-8c96-5fb5c867d637",
+          "source_filename": "panel_0069.jpg",
+          "export_filename": "Chapter_001/Page 017/Panel 004.jpg",
+          "logical_page_index": 17,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0069.jpg"
+        },
+        {
+          "uuid": "48ecb95a-23f0-4034-ba65-11682aeb087f",
+          "source_filename": "panel_0070.jpg",
+          "export_filename": "Chapter_001/Page 018/Panel 001.jpg",
+          "logical_page_index": 18,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0070.jpg"
+        },
+        {
+          "uuid": "bf7992b7-23df-4fd8-8fda-4ec1798a0e53",
+          "source_filename": "panel_0071.jpg",
+          "export_filename": "Chapter_001/Page 018/Panel 002.jpg",
+          "logical_page_index": 18,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0071.jpg"
+        },
+        {
+          "uuid": "5249d239-db7d-45be-b823-3f0acc3b0d2f",
+          "source_filename": "panel_0072.jpg",
+          "export_filename": "Chapter_001/Page 018/Panel 003.jpg",
+          "logical_page_index": 18,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0072.jpg"
+        },
+        {
+          "uuid": "b2b395cf-4777-4509-9bbb-239d639c1fc4",
+          "source_filename": "panel_0073.jpg",
+          "export_filename": "Chapter_001/Page 019/Panel 001.jpg",
+          "logical_page_index": 19,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0073.jpg"
+        },
+        {
+          "uuid": "a0ca8b15-7dbc-4744-829f-49c58aac5eab",
+          "source_filename": "panel_0074.jpg",
+          "export_filename": "Chapter_001/Page 019/Panel 002.jpg",
+          "logical_page_index": 19,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0074.jpg"
+        },
+        {
+          "uuid": "6009dba9-e4b3-4477-a26b-c10a9b92e135",
+          "source_filename": "panel_0075.jpg",
+          "export_filename": "Chapter_001/Page 019/Panel 003.jpg",
+          "logical_page_index": 19,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0075.jpg"
+        },
+        {
+          "uuid": "d6365fca-9a61-4daa-a67f-5cbfd1d71722",
+          "source_filename": "panel_0076.jpg",
+          "export_filename": "Chapter_001/Page 019/Panel 004.jpg",
+          "logical_page_index": 19,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0076.jpg"
+        },
+        {
+          "uuid": "2746c640-df69-468f-91eb-43127eb14db2",
+          "source_filename": "panel_0077.jpg",
+          "export_filename": "Chapter_001/Page 020/Panel 001.jpg",
+          "logical_page_index": 20,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0077.jpg"
+        },
+        {
+          "uuid": "1f9d5c0a-68dd-48a1-b0ce-d262fe05de09",
+          "source_filename": "panel_0078.jpg",
+          "export_filename": "Chapter_001/Page 020/Panel 002.jpg",
+          "logical_page_index": 20,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0078.jpg"
+        },
+        {
+          "uuid": "672176d0-3d77-4056-a251-198e9dd47b20",
+          "source_filename": "panel_0079.jpg",
+          "export_filename": "Chapter_001/Page 020/Panel 003.jpg",
+          "logical_page_index": 20,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0079.jpg"
+        },
+        {
+          "uuid": "74cc0ba8-bc08-4f0c-b0ee-e26277b97777",
+          "source_filename": "panel_0080.jpg",
+          "export_filename": "Chapter_001/Page 020/Panel 004.jpg",
+          "logical_page_index": 20,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0080.jpg"
+        },
+        {
+          "uuid": "c33e6a13-2690-4df7-9df1-8cbb713a8243",
+          "source_filename": "panel_0081.jpg",
+          "export_filename": "Chapter_001/Page 021/Panel 001.jpg",
+          "logical_page_index": 21,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0081.jpg"
+        },
+        {
+          "uuid": "dd5b4edd-de50-496c-a6a9-17d74bd37e7a",
+          "source_filename": "panel_0082.jpg",
+          "export_filename": "Chapter_001/Page 021/Panel 002.jpg",
+          "logical_page_index": 21,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0082.jpg"
+        },
+        {
+          "uuid": "9db13253-5431-4e15-a73c-76ff749acb25",
+          "source_filename": "panel_0083.jpg",
+          "export_filename": "Chapter_001/Page 021/Panel 003.jpg",
+          "logical_page_index": 21,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0083.jpg"
+        },
+        {
+          "uuid": "a8d8ee77-b9cb-45c4-af8e-0a5dbd1c7b18",
+          "source_filename": "panel_0084.jpg",
+          "export_filename": "Chapter_001/Page 021/Panel 004.jpg",
+          "logical_page_index": 21,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0084.jpg"
+        },
+        {
+          "uuid": "b7bec4f6-78d3-449c-a496-7764092a618b",
+          "source_filename": "panel_0085.jpg",
+          "export_filename": "Chapter_001/Page 022/Panel 001.jpg",
+          "logical_page_index": 22,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0085.jpg"
+        },
+        {
+          "uuid": "2f3a836f-90ac-4f45-9cd0-1487da0d3101",
+          "source_filename": "panel_0086.jpg",
+          "export_filename": "Chapter_001/Page 023/Panel 001.jpg",
+          "logical_page_index": 23,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0086.jpg"
+        },
+        {
+          "uuid": "f0d43e8d-b58e-40df-8da4-6bcc4d32855e",
+          "source_filename": "panel_0087.jpg",
+          "export_filename": "Chapter_001/Page 023/Panel 002.jpg",
+          "logical_page_index": 23,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0087.jpg"
+        },
+        {
+          "uuid": "670c743d-84f4-4801-8b1e-b2bccb64b578",
+          "source_filename": "panel_0088.jpg",
+          "export_filename": "Chapter_001/Page 023/Panel 003.jpg",
+          "logical_page_index": 23,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0088.jpg"
+        },
+        {
+          "uuid": "b5722594-c959-4216-afc4-5a9dbaa5a1bd",
+          "source_filename": "panel_0089.jpg",
+          "export_filename": "Chapter_001/Page 023/Panel 004.jpg",
+          "logical_page_index": 23,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0089.jpg"
+        },
+        {
+          "uuid": "c5c0f305-b572-4636-a222-d55212b1fafe",
+          "source_filename": "panel_0090.jpg",
+          "export_filename": "Chapter_001/Page 024/Panel 001.jpg",
+          "logical_page_index": 24,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0090.jpg"
+        },
+        {
+          "uuid": "3801da67-2747-42e7-a67c-9046d60bb8fb",
+          "source_filename": "panel_0091.jpg",
+          "export_filename": "Chapter_001/Page 024/Panel 002.jpg",
+          "logical_page_index": 24,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0091.jpg"
+        },
+        {
+          "uuid": "75533438-855a-4e4a-87f2-2b613c7c45b1",
+          "source_filename": "panel_0092.jpg",
+          "export_filename": "Chapter_001/Page 024/Panel 003.jpg",
+          "logical_page_index": 24,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0092.jpg"
+        },
+        {
+          "uuid": "98fd8587-523a-4245-80c2-d564c968f50f",
+          "source_filename": "panel_0093.jpg",
+          "export_filename": "Chapter_001/Page 025/Panel 001.jpg",
+          "logical_page_index": 25,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0093.jpg"
+        },
+        {
+          "uuid": "25fda7b5-422d-4009-bb4f-2b2052e6bd79",
+          "source_filename": "panel_0094.jpg",
+          "export_filename": "Chapter_001/Page 025/Panel 002.jpg",
+          "logical_page_index": 25,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0094.jpg"
+        },
+        {
+          "uuid": "9faa68b6-7bf0-4c61-976f-b408f584b493",
+          "source_filename": "panel_0095.jpg",
+          "export_filename": "Chapter_001/Page 025/Panel 003.jpg",
+          "logical_page_index": 25,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0095.jpg"
+        },
+        {
+          "uuid": "147bd7bc-fe00-447a-a6cf-05bcf9a3eee4",
+          "source_filename": "panel_0096.jpg",
+          "export_filename": "Chapter_001/Page 025/Panel 004.jpg",
+          "logical_page_index": 25,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0096.jpg"
+        },
+        {
+          "uuid": "6dccb74f-88f8-4398-8826-7eaafafd80f2",
+          "source_filename": "panel_0097.jpg",
+          "export_filename": "Chapter_001/Page 026/Panel 001.jpg",
+          "logical_page_index": 26,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0097.jpg"
+        },
+        {
+          "uuid": "0b39c971-d957-4c6b-a5a8-be1cbf5be897",
+          "source_filename": "panel_0098.jpg",
+          "export_filename": "Chapter_001/Page 026/Panel 002.jpg",
+          "logical_page_index": 26,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0098.jpg"
+        },
+        {
+          "uuid": "29898529-074d-4048-b654-f0f6505d7bc8",
+          "source_filename": "panel_0099.jpg",
+          "export_filename": "Chapter_001/Page 026/Panel 003.jpg",
+          "logical_page_index": 26,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0099.jpg"
+        },
+        {
+          "uuid": "1d1bd400-805d-4c84-b03d-39183d841728",
+          "source_filename": "panel_0100.jpg",
+          "export_filename": "Chapter_001/Page 026/Panel 004.jpg",
+          "logical_page_index": 26,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0100.jpg"
+        },
+        {
+          "uuid": "b0ab0c07-1803-4592-9d33-3d5eb10f71ce",
+          "source_filename": "panel_0101.jpg",
+          "export_filename": "Chapter_001/Page 027/Panel 001.jpg",
+          "logical_page_index": 27,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0101.jpg"
+        },
+        {
+          "uuid": "b926dcef-914d-422c-8908-6d5a93aed325",
+          "source_filename": "panel_0102.jpg",
+          "export_filename": "Chapter_001/Page 027/Panel 002.jpg",
+          "logical_page_index": 27,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0102.jpg"
+        },
+        {
+          "uuid": "a28d8f31-2b03-4687-95ee-484f2b2061d7",
+          "source_filename": "panel_0103.jpg",
+          "export_filename": "Chapter_001/Page 027/Panel 003.jpg",
+          "logical_page_index": 27,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0103.jpg"
+        },
+        {
+          "uuid": "199b8714-b455-41da-a2c2-1a9119e5228f",
+          "source_filename": "panel_0104.jpg",
+          "export_filename": "Chapter_001/Page 027/Panel 004.jpg",
+          "logical_page_index": 27,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0104.jpg"
+        },
+        {
+          "uuid": "1384eb29-9e68-4a66-99fd-b5ac1a7b076f",
+          "source_filename": "panel_0105.jpg",
+          "export_filename": "Chapter_001/Page 028/Panel 001.jpg",
+          "logical_page_index": 28,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0105.jpg"
+        },
+        {
+          "uuid": "07f253be-b1d8-4db0-bfc2-6eff6c8eaf29",
+          "source_filename": "panel_0106.jpg",
+          "export_filename": "Chapter_001/Page 028/Panel 002.jpg",
+          "logical_page_index": 28,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0106.jpg"
+        },
+        {
+          "uuid": "b46e0ba4-1516-4f3c-a934-77eb3b2efddd",
+          "source_filename": "panel_0107.jpg",
+          "export_filename": "Chapter_001/Page 028/Panel 003.jpg",
+          "logical_page_index": 28,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0107.jpg"
+        },
+        {
+          "uuid": "1c010067-6a03-4c23-8b47-1beda0f48614",
+          "source_filename": "panel_0108.jpg",
+          "export_filename": "Chapter_001/Page 028/Panel 004.jpg",
+          "logical_page_index": 28,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0108.jpg"
+        },
+        {
+          "uuid": "227c4c67-f038-42f2-a91c-d46dcc0969a0",
+          "source_filename": "panel_0109.jpg",
+          "export_filename": "Chapter_001/Page 029/Panel 001.jpg",
+          "logical_page_index": 29,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0001/panel_0109.jpg"
+        },
+        {
+          "uuid": "26f7f574-59ba-4a36-912f-d5652cb9c4ca",
+          "source_filename": "panel_0110.jpg",
+          "export_filename": "Chapter_001/Page 029/Panel 002.jpg",
+          "logical_page_index": 29,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0001/panel_0110.jpg"
+        },
+        {
+          "uuid": "e3a9e726-a904-4945-97cb-ebaebaf15e2a",
+          "source_filename": "panel_0111.jpg",
+          "export_filename": "Chapter_001/Page 029/Panel 003.jpg",
+          "logical_page_index": 29,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0001/panel_0111.jpg"
+        },
+        {
+          "uuid": "795eca21-3a64-4cec-a1af-bf3c5a58b847",
+          "source_filename": "panel_0112.jpg",
+          "export_filename": "Chapter_001/Page 029/Panel 004.jpg",
+          "logical_page_index": 29,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0001/panel_0112.jpg"
+        }
+      ]
+    },
+    {
+      "chapter_id": 2,
+      "chapter_name": "The Regressed Mercenary Has a Plan 2",
+      "page_count": 25,
+      "scene_count": 25,
+      "panel_count": 109,
+      "srt_cue_count": 25,
+      "export_status": "success",
+      "panels": [
+        {
+          "uuid": "5859a927-b7c2-4d45-84ce-b8583d5a214f",
+          "source_filename": "panel_0003.jpg",
+          "export_filename": "Chapter_002/Page 001/Panel 001.jpg",
+          "logical_page_index": 1,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0003.jpg"
+        },
+        {
+          "uuid": "6454668f-657e-4c32-83d5-b83579455b5d",
+          "source_filename": "panel_0004.jpg",
+          "export_filename": "Chapter_002/Page 001/Panel 002.jpg",
+          "logical_page_index": 1,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0004.jpg"
+        },
+        {
+          "uuid": "160c02f8-c80a-4cbe-835f-7ed831f8c471",
+          "source_filename": "panel_0005.jpg",
+          "export_filename": "Chapter_002/Page 001/Panel 003.jpg",
+          "logical_page_index": 1,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0005.jpg"
+        },
+        {
+          "uuid": "85039346-5889-4abc-89a7-e51eac29ebfd",
+          "source_filename": "panel_0006.jpg",
+          "export_filename": "Chapter_002/Page 001/Panel 004.jpg",
+          "logical_page_index": 1,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0006.jpg"
+        },
+        {
+          "uuid": "bbbc5363-dddd-47fd-972d-4987d7e9ca57",
+          "source_filename": "panel_0007.jpg",
+          "export_filename": "Chapter_002/Page 002/Panel 001.jpg",
+          "logical_page_index": 2,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0007.jpg"
+        },
+        {
+          "uuid": "9b7e7e6c-4a11-42ff-9420-085896d6e10e",
+          "source_filename": "panel_0008.jpg",
+          "export_filename": "Chapter_002/Page 002/Panel 002.jpg",
+          "logical_page_index": 2,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0008.jpg"
+        },
+        {
+          "uuid": "3954746d-53da-4f29-bb6d-eba7b88773b0",
+          "source_filename": "panel_0009.jpg",
+          "export_filename": "Chapter_002/Page 002/Panel 003.jpg",
+          "logical_page_index": 2,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0009.jpg"
+        },
+        {
+          "uuid": "c0ee8efe-ecaf-4a84-855a-25bbe855bf64",
+          "source_filename": "panel_0010.jpg",
+          "export_filename": "Chapter_002/Page 002/Panel 004.jpg",
+          "logical_page_index": 2,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0010.jpg"
+        },
+        {
+          "uuid": "2398df03-d4aa-4419-a7d0-328c4f7c0307",
+          "source_filename": "panel_0011.jpg",
+          "export_filename": "Chapter_002/Page 003/Panel 001.jpg",
+          "logical_page_index": 3,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0011.jpg"
+        },
+        {
+          "uuid": "497afc55-c83c-429b-9a2a-bdd98ff0f14e",
+          "source_filename": "panel_0012.jpg",
+          "export_filename": "Chapter_002/Page 003/Panel 002.jpg",
+          "logical_page_index": 3,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0012.jpg"
+        },
+        {
+          "uuid": "a96bae1f-e027-467f-a465-63595f530c71",
+          "source_filename": "panel_0013.jpg",
+          "export_filename": "Chapter_002/Page 003/Panel 003.jpg",
+          "logical_page_index": 3,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0013.jpg"
+        },
+        {
+          "uuid": "dc8de209-77d1-43e9-902c-40cbe0fe605b",
+          "source_filename": "panel_0014.jpg",
+          "export_filename": "Chapter_002/Page 003/Panel 004.jpg",
+          "logical_page_index": 3,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0014.jpg"
+        },
+        {
+          "uuid": "1b32dcf2-fd82-46b1-8bf6-443a6da2a39e",
+          "source_filename": "panel_0015.jpg",
+          "export_filename": "Chapter_002/Page 003/Panel 005.jpg",
+          "logical_page_index": 3,
+          "scene_index": 1,
+          "panel_order": 5,
+          "source_path": "Chapter 0002/panel_0015.jpg"
+        },
+        {
+          "uuid": "9cb05959-2a00-4f0b-907a-0183a2f57419",
+          "source_filename": "panel_0016.jpg",
+          "export_filename": "Chapter_002/Page 003/Panel 006.jpg",
+          "logical_page_index": 3,
+          "scene_index": 1,
+          "panel_order": 6,
+          "source_path": "Chapter 0002/panel_0016.jpg"
+        },
+        {
+          "uuid": "da0b969b-5c36-4b9e-9e73-ff600a394f27",
+          "source_filename": "panel_0017.jpg",
+          "export_filename": "Chapter_002/Page 004/Panel 001.jpg",
+          "logical_page_index": 4,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0017.jpg"
+        },
+        {
+          "uuid": "da0a91f2-39fe-465d-a72e-26ee0c099e7d",
+          "source_filename": "panel_0018.jpg",
+          "export_filename": "Chapter_002/Page 004/Panel 002.jpg",
+          "logical_page_index": 4,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0018.jpg"
+        },
+        {
+          "uuid": "6297dbe4-51ae-4733-8eb1-12664d8852c9",
+          "source_filename": "panel_0019.jpg",
+          "export_filename": "Chapter_002/Page 004/Panel 003.jpg",
+          "logical_page_index": 4,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0019.jpg"
+        },
+        {
+          "uuid": "80a6d8bb-a0dc-45e4-8b48-c29f8488bdb0",
+          "source_filename": "panel_0020.jpg",
+          "export_filename": "Chapter_002/Page 004/Panel 004.jpg",
+          "logical_page_index": 4,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0020.jpg"
+        },
+        {
+          "uuid": "b859aac1-646a-44f0-af71-5fa540e42268",
+          "source_filename": "panel_0021.jpg",
+          "export_filename": "Chapter_002/Page 004/Panel 005.jpg",
+          "logical_page_index": 4,
+          "scene_index": 1,
+          "panel_order": 5,
+          "source_path": "Chapter 0002/panel_0021.jpg"
+        },
+        {
+          "uuid": "9cf27f22-6f62-4f0e-a762-fb435a82701b",
+          "source_filename": "panel_0022.jpg",
+          "export_filename": "Chapter_002/Page 004/Panel 006.jpg",
+          "logical_page_index": 4,
+          "scene_index": 1,
+          "panel_order": 6,
+          "source_path": "Chapter 0002/panel_0022.jpg"
+        },
+        {
+          "uuid": "4caa5ec6-52e8-4fd0-b55d-5ed02c0e3f77",
+          "source_filename": "panel_0023.jpg",
+          "export_filename": "Chapter_002/Page 005/Panel 001.jpg",
+          "logical_page_index": 5,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0023.jpg"
+        },
+        {
+          "uuid": "0826aa03-0c6c-415a-a459-6c361fb04d9e",
+          "source_filename": "panel_0024.jpg",
+          "export_filename": "Chapter_002/Page 005/Panel 002.jpg",
+          "logical_page_index": 5,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0024.jpg"
+        },
+        {
+          "uuid": "708c6300-586c-47fc-9126-7e5c0b1d81b2",
+          "source_filename": "panel_0025.jpg",
+          "export_filename": "Chapter_002/Page 005/Panel 003.jpg",
+          "logical_page_index": 5,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0025.jpg"
+        },
+        {
+          "uuid": "0cf425d6-6020-4c5e-807d-1400cd6099fe",
+          "source_filename": "panel_0026.jpg",
+          "export_filename": "Chapter_002/Page 005/Panel 004.jpg",
+          "logical_page_index": 5,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0026.jpg"
+        },
+        {
+          "uuid": "e5e86bde-6813-40b0-92a7-7d9f61d79094",
+          "source_filename": "panel_0027.jpg",
+          "export_filename": "Chapter_002/Page 005/Panel 005.jpg",
+          "logical_page_index": 5,
+          "scene_index": 1,
+          "panel_order": 5,
+          "source_path": "Chapter 0002/panel_0027.jpg"
+        },
+        {
+          "uuid": "5ce256b0-75ec-4853-915e-1e7b3717c2ee",
+          "source_filename": "panel_0028.jpg",
+          "export_filename": "Chapter_002/Page 005/Panel 006.jpg",
+          "logical_page_index": 5,
+          "scene_index": 1,
+          "panel_order": 6,
+          "source_path": "Chapter 0002/panel_0028.jpg"
+        },
+        {
+          "uuid": "dda4eb0e-9fab-480f-bcd1-227e30a260c8",
+          "source_filename": "panel_0029.jpg",
+          "export_filename": "Chapter_002/Page 006/Panel 001.jpg",
+          "logical_page_index": 6,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0029.jpg"
+        },
+        {
+          "uuid": "f0a8b36c-aebd-4a2a-b057-ccb65e2bac17",
+          "source_filename": "panel_0030.jpg",
+          "export_filename": "Chapter_002/Page 006/Panel 002.jpg",
+          "logical_page_index": 6,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0030.jpg"
+        },
+        {
+          "uuid": "4b75eb28-9d10-47ed-b22a-b27849198497",
+          "source_filename": "panel_0031.jpg",
+          "export_filename": "Chapter_002/Page 006/Panel 003.jpg",
+          "logical_page_index": 6,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0031.jpg"
+        },
+        {
+          "uuid": "196ef8aa-01de-47d7-88fd-e9a5af23fd59",
+          "source_filename": "panel_0032.jpg",
+          "export_filename": "Chapter_002/Page 006/Panel 004.jpg",
+          "logical_page_index": 6,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0032.jpg"
+        },
+        {
+          "uuid": "8f0e6bcc-5ea6-4af7-91fa-d7202f777c7e",
+          "source_filename": "panel_0033.jpg",
+          "export_filename": "Chapter_002/Page 007/Panel 001.jpg",
+          "logical_page_index": 7,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0033.jpg"
+        },
+        {
+          "uuid": "4226209b-4945-4b8c-952d-7f2e92691974",
+          "source_filename": "panel_0034.jpg",
+          "export_filename": "Chapter_002/Page 007/Panel 002.jpg",
+          "logical_page_index": 7,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0034.jpg"
+        },
+        {
+          "uuid": "dd1c89bd-65be-4d7d-86f7-5c5dc20e2045",
+          "source_filename": "panel_0035.jpg",
+          "export_filename": "Chapter_002/Page 007/Panel 003.jpg",
+          "logical_page_index": 7,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0035.jpg"
+        },
+        {
+          "uuid": "207a0b29-3ae4-4747-bcd2-34311adb3b3d",
+          "source_filename": "panel_0036.jpg",
+          "export_filename": "Chapter_002/Page 007/Panel 004.jpg",
+          "logical_page_index": 7,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0036.jpg"
+        },
+        {
+          "uuid": "496bf780-ac18-40db-b45d-417c4c1c3344",
+          "source_filename": "panel_0037.jpg",
+          "export_filename": "Chapter_002/Page 007/Panel 005.jpg",
+          "logical_page_index": 7,
+          "scene_index": 1,
+          "panel_order": 5,
+          "source_path": "Chapter 0002/panel_0037.jpg"
+        },
+        {
+          "uuid": "16edfa5b-ce99-4250-8f71-e08bee1948af",
+          "source_filename": "panel_0038.jpg",
+          "export_filename": "Chapter_002/Page 008/Panel 001.jpg",
+          "logical_page_index": 8,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0038.jpg"
+        },
+        {
+          "uuid": "5637162c-5bf5-4acc-a981-35b589ff6eeb",
+          "source_filename": "panel_0039.jpg",
+          "export_filename": "Chapter_002/Page 008/Panel 002.jpg",
+          "logical_page_index": 8,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0039.jpg"
+        },
+        {
+          "uuid": "19da69c7-c89b-41d3-8f2b-399c7ea96d28",
+          "source_filename": "panel_0040.jpg",
+          "export_filename": "Chapter_002/Page 008/Panel 003.jpg",
+          "logical_page_index": 8,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0040.jpg"
+        },
+        {
+          "uuid": "17f6757c-49ff-4e7a-acac-d94c665c9867",
+          "source_filename": "panel_0041.jpg",
+          "export_filename": "Chapter_002/Page 009/Panel 001.jpg",
+          "logical_page_index": 9,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0041.jpg"
+        },
+        {
+          "uuid": "84962e0f-7c26-4b89-adb4-10c4dbc6896a",
+          "source_filename": "panel_0042.jpg",
+          "export_filename": "Chapter_002/Page 009/Panel 002.jpg",
+          "logical_page_index": 9,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0042.jpg"
+        },
+        {
+          "uuid": "a2103cd0-9516-4937-b158-7a5b93acec7e",
+          "source_filename": "panel_0043.jpg",
+          "export_filename": "Chapter_002/Page 009/Panel 003.jpg",
+          "logical_page_index": 9,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0043.jpg"
+        },
+        {
+          "uuid": "7b55f00e-e2b5-425f-8b1f-45cb36d99063",
+          "source_filename": "panel_0044.jpg",
+          "export_filename": "Chapter_002/Page 010/Panel 001.jpg",
+          "logical_page_index": 10,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0044.jpg"
+        },
+        {
+          "uuid": "f8f5ce30-6d48-4952-9bfe-29cdf6ea9061",
+          "source_filename": "panel_0045.jpg",
+          "export_filename": "Chapter_002/Page 010/Panel 002.jpg",
+          "logical_page_index": 10,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0045.jpg"
+        },
+        {
+          "uuid": "648729f2-e59a-43d5-8a54-022ed513e7af",
+          "source_filename": "panel_0046.jpg",
+          "export_filename": "Chapter_002/Page 010/Panel 003.jpg",
+          "logical_page_index": 10,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0046.jpg"
+        },
+        {
+          "uuid": "62f36997-faea-4c47-9879-23f8aeccd01e",
+          "source_filename": "panel_0047.jpg",
+          "export_filename": "Chapter_002/Page 010/Panel 004.jpg",
+          "logical_page_index": 10,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0047.jpg"
+        },
+        {
+          "uuid": "9b14b9fc-116c-465e-ad99-d7989d98b975",
+          "source_filename": "panel_0048.jpg",
+          "export_filename": "Chapter_002/Page 010/Panel 005.jpg",
+          "logical_page_index": 10,
+          "scene_index": 1,
+          "panel_order": 5,
+          "source_path": "Chapter 0002/panel_0048.jpg"
+        },
+        {
+          "uuid": "cd1b53af-70eb-4d69-9ab9-1641b1ca9bf4",
+          "source_filename": "panel_0049.jpg",
+          "export_filename": "Chapter_002/Page 011/Panel 001.jpg",
+          "logical_page_index": 11,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0049.jpg"
+        },
+        {
+          "uuid": "080b0186-fb02-4309-a6f6-6cea73c84a8a",
+          "source_filename": "panel_0050.jpg",
+          "export_filename": "Chapter_002/Page 011/Panel 002.jpg",
+          "logical_page_index": 11,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0050.jpg"
+        },
+        {
+          "uuid": "eef43dfd-0ed8-4a92-8187-de8193a921e2",
+          "source_filename": "panel_0051.jpg",
+          "export_filename": "Chapter_002/Page 011/Panel 003.jpg",
+          "logical_page_index": 11,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0051.jpg"
+        },
+        {
+          "uuid": "be69bc38-f7d4-47c3-a1d8-c25b98b584c8",
+          "source_filename": "panel_0052.jpg",
+          "export_filename": "Chapter_002/Page 011/Panel 004.jpg",
+          "logical_page_index": 11,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0052.jpg"
+        },
+        {
+          "uuid": "b36ced02-d499-4a8c-908d-7e887af8a148",
+          "source_filename": "panel_0053.jpg",
+          "export_filename": "Chapter_002/Page 012/Panel 001.jpg",
+          "logical_page_index": 12,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0053.jpg"
+        },
+        {
+          "uuid": "71aec697-5918-4e69-b0d3-ee0aac3622c3",
+          "source_filename": "panel_0054.jpg",
+          "export_filename": "Chapter_002/Page 012/Panel 002.jpg",
+          "logical_page_index": 12,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0054.jpg"
+        },
+        {
+          "uuid": "532a0fde-b410-4a8a-8627-d43946367e0c",
+          "source_filename": "panel_0055.jpg",
+          "export_filename": "Chapter_002/Page 012/Panel 003.jpg",
+          "logical_page_index": 12,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0055.jpg"
+        },
+        {
+          "uuid": "08c32922-6b53-4621-a4cd-ca0898326055",
+          "source_filename": "panel_0056.jpg",
+          "export_filename": "Chapter_002/Page 012/Panel 004.jpg",
+          "logical_page_index": 12,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0056.jpg"
+        },
+        {
+          "uuid": "65f44770-3e70-4406-92c6-e4bd5a1d4f82",
+          "source_filename": "panel_0057.jpg",
+          "export_filename": "Chapter_002/Page 013/Panel 001.jpg",
+          "logical_page_index": 13,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0057.jpg"
+        },
+        {
+          "uuid": "43a9c792-2162-4ba4-811c-fa3cb83d3ebd",
+          "source_filename": "panel_0058.jpg",
+          "export_filename": "Chapter_002/Page 013/Panel 002.jpg",
+          "logical_page_index": 13,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0058.jpg"
+        },
+        {
+          "uuid": "674daec2-f19e-4b2c-9594-f2b9ef9abfee",
+          "source_filename": "panel_0059.jpg",
+          "export_filename": "Chapter_002/Page 013/Panel 003.jpg",
+          "logical_page_index": 13,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0059.jpg"
+        },
+        {
+          "uuid": "53225280-a68d-4492-8c4e-8a5bde484ad2",
+          "source_filename": "panel_0060.jpg",
+          "export_filename": "Chapter_002/Page 013/Panel 004.jpg",
+          "logical_page_index": 13,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0060.jpg"
+        },
+        {
+          "uuid": "23ff5c70-38b6-4889-ad0b-096c4b664b19",
+          "source_filename": "panel_0061.jpg",
+          "export_filename": "Chapter_002/Page 014/Panel 001.jpg",
+          "logical_page_index": 14,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0061.jpg"
+        },
+        {
+          "uuid": "e6b4d886-cc08-4f98-a154-b333a8e5ec31",
+          "source_filename": "panel_0062.jpg",
+          "export_filename": "Chapter_002/Page 014/Panel 002.jpg",
+          "logical_page_index": 14,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0062.jpg"
+        },
+        {
+          "uuid": "e2dfeeb1-27ca-4bea-bb09-dc341b46f85f",
+          "source_filename": "panel_0063.jpg",
+          "export_filename": "Chapter_002/Page 014/Panel 003.jpg",
+          "logical_page_index": 14,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0063.jpg"
+        },
+        {
+          "uuid": "94faaad6-893d-4514-bef4-1390aeff15e4",
+          "source_filename": "panel_0064.jpg",
+          "export_filename": "Chapter_002/Page 015/Panel 001.jpg",
+          "logical_page_index": 15,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0064.jpg"
+        },
+        {
+          "uuid": "0625d0e7-b202-43da-8261-34f13eeaabab",
+          "source_filename": "panel_0065.jpg",
+          "export_filename": "Chapter_002/Page 015/Panel 002.jpg",
+          "logical_page_index": 15,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0065.jpg"
+        },
+        {
+          "uuid": "562563f0-0ce9-4579-8803-76e92f10ca3b",
+          "source_filename": "panel_0066.jpg",
+          "export_filename": "Chapter_002/Page 015/Panel 003.jpg",
+          "logical_page_index": 15,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0066.jpg"
+        },
+        {
+          "uuid": "6e1bbaa3-6f84-4920-b8d8-c2b35e6ebc50",
+          "source_filename": "panel_0067.jpg",
+          "export_filename": "Chapter_002/Page 016/Panel 001.jpg",
+          "logical_page_index": 16,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0067.jpg"
+        },
+        {
+          "uuid": "d506958c-d141-467d-a584-2034dc156bed",
+          "source_filename": "panel_0068.jpg",
+          "export_filename": "Chapter_002/Page 016/Panel 002.jpg",
+          "logical_page_index": 16,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0068.jpg"
+        },
+        {
+          "uuid": "60af4f32-5b5a-4c22-8dbe-8062aff609cf",
+          "source_filename": "panel_0069.jpg",
+          "export_filename": "Chapter_002/Page 016/Panel 003.jpg",
+          "logical_page_index": 16,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0069.jpg"
+        },
+        {
+          "uuid": "8a212132-c423-49f2-ab62-cf706bb6a8c6",
+          "source_filename": "panel_0070.jpg",
+          "export_filename": "Chapter_002/Page 016/Panel 004.jpg",
+          "logical_page_index": 16,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0070.jpg"
+        },
+        {
+          "uuid": "35b14fc4-7574-4a4e-900c-42e592b13dff",
+          "source_filename": "panel_0071.jpg",
+          "export_filename": "Chapter_002/Page 016/Panel 005.jpg",
+          "logical_page_index": 16,
+          "scene_index": 1,
+          "panel_order": 5,
+          "source_path": "Chapter 0002/panel_0071.jpg"
+        },
+        {
+          "uuid": "a6a9e590-22c7-46f2-bf05-f9315ff1ba72",
+          "source_filename": "panel_0072.jpg",
+          "export_filename": "Chapter_002/Page 016/Panel 006.jpg",
+          "logical_page_index": 16,
+          "scene_index": 1,
+          "panel_order": 6,
+          "source_path": "Chapter 0002/panel_0072.jpg"
+        },
+        {
+          "uuid": "ee596fd0-84a6-4a8a-b814-cac47742d294",
+          "source_filename": "panel_0073.jpg",
+          "export_filename": "Chapter_002/Page 017/Panel 001.jpg",
+          "logical_page_index": 17,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0073.jpg"
+        },
+        {
+          "uuid": "2afca0a0-5d40-4d9c-99cb-a535b755ccfb",
+          "source_filename": "panel_0075.jpg",
+          "export_filename": "Chapter_002/Page 017/Panel 002.jpg",
+          "logical_page_index": 17,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0075.jpg"
+        },
+        {
+          "uuid": "e3400974-17f4-4728-9c5c-2c1f733421a7",
+          "source_filename": "panel_0076.jpg",
+          "export_filename": "Chapter_002/Page 017/Panel 003.jpg",
+          "logical_page_index": 17,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0076.jpg"
+        },
+        {
+          "uuid": "c797343d-8a0a-41dd-8073-681f7af3098b",
+          "source_filename": "panel_0077.jpg",
+          "export_filename": "Chapter_002/Page 018/Panel 001.jpg",
+          "logical_page_index": 18,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0077.jpg"
+        },
+        {
+          "uuid": "de4bb293-0a8e-4a0b-8b7c-33e26055a608",
+          "source_filename": "panel_0078.jpg",
+          "export_filename": "Chapter_002/Page 018/Panel 002.jpg",
+          "logical_page_index": 18,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0078.jpg"
+        },
+        {
+          "uuid": "3429173b-63aa-4903-becb-d7418704616d",
+          "source_filename": "panel_0079.jpg",
+          "export_filename": "Chapter_002/Page 018/Panel 003.jpg",
+          "logical_page_index": 18,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0079.jpg"
+        },
+        {
+          "uuid": "1a4d63f9-7d0d-4d6c-8276-a2d9b5de1aad",
+          "source_filename": "panel_0080.jpg",
+          "export_filename": "Chapter_002/Page 018/Panel 004.jpg",
+          "logical_page_index": 18,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0080.jpg"
+        },
+        {
+          "uuid": "fc63fcf7-ee85-46bd-b66a-e1335bb6c324",
+          "source_filename": "panel_0081.jpg",
+          "export_filename": "Chapter_002/Page 018/Panel 005.jpg",
+          "logical_page_index": 18,
+          "scene_index": 1,
+          "panel_order": 5,
+          "source_path": "Chapter 0002/panel_0081.jpg"
+        },
+        {
+          "uuid": "bc44c7a0-733e-4b75-882a-83045db57a4a",
+          "source_filename": "panel_0082.jpg",
+          "export_filename": "Chapter_002/Page 019/Panel 001.jpg",
+          "logical_page_index": 19,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0082.jpg"
+        },
+        {
+          "uuid": "e80802fd-e88e-4332-9ba7-196fba2e16ce",
+          "source_filename": "panel_0083.jpg",
+          "export_filename": "Chapter_002/Page 019/Panel 002.jpg",
+          "logical_page_index": 19,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0083.jpg"
+        },
+        {
+          "uuid": "6e11e0c0-5b6e-41df-9923-9925b7dac1c5",
+          "source_filename": "panel_0084.jpg",
+          "export_filename": "Chapter_002/Page 019/Panel 003.jpg",
+          "logical_page_index": 19,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0084.jpg"
+        },
+        {
+          "uuid": "9d26fa05-2870-4410-ac30-6413a51cf6a5",
+          "source_filename": "panel_0085.jpg",
+          "export_filename": "Chapter_002/Page 019/Panel 004.jpg",
+          "logical_page_index": 19,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0085.jpg"
+        },
+        {
+          "uuid": "1995f487-ea53-45f6-b25e-30675f837526",
+          "source_filename": "panel_0086.jpg",
+          "export_filename": "Chapter_002/Page 019/Panel 005.jpg",
+          "logical_page_index": 19,
+          "scene_index": 1,
+          "panel_order": 5,
+          "source_path": "Chapter 0002/panel_0086.jpg"
+        },
+        {
+          "uuid": "ef6f54a9-935e-425a-8ea1-db37cfef1f61",
+          "source_filename": "panel_0087.jpg",
+          "export_filename": "Chapter_002/Page 019/Panel 006.jpg",
+          "logical_page_index": 19,
+          "scene_index": 1,
+          "panel_order": 6,
+          "source_path": "Chapter 0002/panel_0087.jpg"
+        },
+        {
+          "uuid": "33be9058-5d5e-49d4-81de-2a3742900665",
+          "source_filename": "panel_0088.jpg",
+          "export_filename": "Chapter_002/Page 020/Panel 001.jpg",
+          "logical_page_index": 20,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0088.jpg"
+        },
+        {
+          "uuid": "653fcc4a-fb44-4d30-8b30-87292d0f6b3a",
+          "source_filename": "panel_0089.jpg",
+          "export_filename": "Chapter_002/Page 020/Panel 002.jpg",
+          "logical_page_index": 20,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0089.jpg"
+        },
+        {
+          "uuid": "4b4ea8dc-9312-44f8-876f-80f5aa8447ec",
+          "source_filename": "panel_0090.jpg",
+          "export_filename": "Chapter_002/Page 020/Panel 003.jpg",
+          "logical_page_index": 20,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0090.jpg"
+        },
+        {
+          "uuid": "61159b91-5d76-4baf-99fa-b30e4d13a215",
+          "source_filename": "panel_0091.jpg",
+          "export_filename": "Chapter_002/Page 020/Panel 004.jpg",
+          "logical_page_index": 20,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0091.jpg"
+        },
+        {
+          "uuid": "3e22f78f-0b12-4462-bec5-bb4fcf527aec",
+          "source_filename": "panel_0092.jpg",
+          "export_filename": "Chapter_002/Page 020/Panel 005.jpg",
+          "logical_page_index": 20,
+          "scene_index": 1,
+          "panel_order": 5,
+          "source_path": "Chapter 0002/panel_0092.jpg"
+        },
+        {
+          "uuid": "bd4a7a6a-f2a5-4a4b-b07f-c6cb414052e9",
+          "source_filename": "panel_0093.jpg",
+          "export_filename": "Chapter_002/Page 021/Panel 001.jpg",
+          "logical_page_index": 21,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0093.jpg"
+        },
+        {
+          "uuid": "7882688f-f734-4eb5-b59f-8eb79137f488",
+          "source_filename": "panel_0094.jpg",
+          "export_filename": "Chapter_002/Page 021/Panel 002.jpg",
+          "logical_page_index": 21,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0094.jpg"
+        },
+        {
+          "uuid": "267be2e3-ee55-444c-a95e-e69ba2c1c279",
+          "source_filename": "panel_0095.jpg",
+          "export_filename": "Chapter_002/Page 021/Panel 003.jpg",
+          "logical_page_index": 21,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0095.jpg"
+        },
+        {
+          "uuid": "36f67546-e3a2-4440-8807-e5d8012a153b",
+          "source_filename": "panel_0096.jpg",
+          "export_filename": "Chapter_002/Page 021/Panel 004.jpg",
+          "logical_page_index": 21,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0096.jpg"
+        },
+        {
+          "uuid": "5a129284-2223-4fef-aecb-b1dd0be6f24f",
+          "source_filename": "panel_0097.jpg",
+          "export_filename": "Chapter_002/Page 022/Panel 001.jpg",
+          "logical_page_index": 22,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0097.jpg"
+        },
+        {
+          "uuid": "d3647d3c-c178-4d53-bbee-b69855a2a9f2",
+          "source_filename": "panel_0098.jpg",
+          "export_filename": "Chapter_002/Page 022/Panel 002.jpg",
+          "logical_page_index": 22,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0098.jpg"
+        },
+        {
+          "uuid": "57d69b8b-596a-4a74-bac4-cb1d5ddbd14f",
+          "source_filename": "panel_0099.jpg",
+          "export_filename": "Chapter_002/Page 022/Panel 003.jpg",
+          "logical_page_index": 22,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0099.jpg"
+        },
+        {
+          "uuid": "8b6a62a6-9866-4570-9b8c-6aa6439b0f1b",
+          "source_filename": "panel_0100.jpg",
+          "export_filename": "Chapter_002/Page 022/Panel 004.jpg",
+          "logical_page_index": 22,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0100.jpg"
+        },
+        {
+          "uuid": "91676872-e31f-4d21-9813-a9cec37cdfd6",
+          "source_filename": "panel_0101.jpg",
+          "export_filename": "Chapter_002/Page 023/Panel 001.jpg",
+          "logical_page_index": 23,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0101.jpg"
+        },
+        {
+          "uuid": "0f42944b-2de5-4b34-85e6-ea5decf392be",
+          "source_filename": "panel_0102.jpg",
+          "export_filename": "Chapter_002/Page 023/Panel 002.jpg",
+          "logical_page_index": 23,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0102.jpg"
+        },
+        {
+          "uuid": "6dc1adbc-f2f3-4f22-be8e-b0fda70dae3c",
+          "source_filename": "panel_0103.jpg",
+          "export_filename": "Chapter_002/Page 023/Panel 003.jpg",
+          "logical_page_index": 23,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0103.jpg"
+        },
+        {
+          "uuid": "e1aa84db-f451-46ec-aa4e-cc572880415e",
+          "source_filename": "panel_0104.jpg",
+          "export_filename": "Chapter_002/Page 023/Panel 004.jpg",
+          "logical_page_index": 23,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0104.jpg"
+        },
+        {
+          "uuid": "b3297f5b-d208-48d9-a2c7-e29cbcd29c46",
+          "source_filename": "panel_0105.jpg",
+          "export_filename": "Chapter_002/Page 024/Panel 001.jpg",
+          "logical_page_index": 24,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0105.jpg"
+        },
+        {
+          "uuid": "72daf6a3-fa97-46f3-b272-bcc25a619b7e",
+          "source_filename": "panel_0106.jpg",
+          "export_filename": "Chapter_002/Page 024/Panel 002.jpg",
+          "logical_page_index": 24,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0106.jpg"
+        },
+        {
+          "uuid": "797eecf8-7aef-44f4-ad8b-c755bdab594f",
+          "source_filename": "panel_0107.jpg",
+          "export_filename": "Chapter_002/Page 024/Panel 003.jpg",
+          "logical_page_index": 24,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0107.jpg"
+        },
+        {
+          "uuid": "53afdd08-a91d-44ee-b391-52586ba8924b",
+          "source_filename": "panel_0108.jpg",
+          "export_filename": "Chapter_002/Page 024/Panel 004.jpg",
+          "logical_page_index": 24,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0108.jpg"
+        },
+        {
+          "uuid": "a9537d8b-b526-4349-9495-15cf452b25d9",
+          "source_filename": "panel_0109.jpg",
+          "export_filename": "Chapter_002/Page 025/Panel 001.jpg",
+          "logical_page_index": 25,
+          "scene_index": 1,
+          "panel_order": 1,
+          "source_path": "Chapter 0002/panel_0109.jpg"
+        },
+        {
+          "uuid": "02055270-7544-4443-83b5-8218ad8bdd81",
+          "source_filename": "panel_0110.jpg",
+          "export_filename": "Chapter_002/Page 025/Panel 002.jpg",
+          "logical_page_index": 25,
+          "scene_index": 1,
+          "panel_order": 2,
+          "source_path": "Chapter 0002/panel_0110.jpg"
+        },
+        {
+          "uuid": "224f6c25-3909-454c-b933-e1d972b3d9b6",
+          "source_filename": "panel_0111.jpg",
+          "export_filename": "Chapter_002/Page 025/Panel 003.jpg",
+          "logical_page_index": 25,
+          "scene_index": 1,
+          "panel_order": 3,
+          "source_path": "Chapter 0002/panel_0111.jpg"
+        },
+        {
+          "uuid": "70fb4b6e-d746-4ad2-b45c-20f474cb7e16",
+          "source_filename": "panel_0112.jpg",
+          "export_filename": "Chapter_002/Page 025/Panel 004.jpg",
+          "logical_page_index": 25,
+          "scene_index": 1,
+          "panel_order": 4,
+          "source_path": "Chapter 0002/panel_0112.jpg"
+        }
+      ]
+    }
+  ],
+  "validation_errors": [],
+  "validation_warnings": [],
+  "exported_files": [
+    "Chapter_001/Page 001/Panel 001.jpg",
+    "Chapter_001/Page 001/Panel 002.jpg",
+    "Chapter_001/Page 001/Panel 003.jpg",
+    "Chapter_001/Page 001/Panel 004.jpg",
+    "Chapter_001/Page 002/Panel 001.jpg",
+    "Chapter_001/Page 002/Panel 002.jpg",
+    "Chapter_001/Page 002/Panel 003.jpg",
+    "Chapter_001/Page 003/Panel 001.jpg",
+    "Chapter_001/Page 003/Panel 002.jpg",
+    "Chapter_001/Page 003/Panel 003.jpg",
+    "Chapter_001/Page 004/Panel 001.jpg",
+    "Chapter_001/Page 004/Panel 002.jpg",
+    "Chapter_001/Page 004/Panel 003.jpg",
+    "Chapter_001/Page 005/Panel 001.jpg",
+    "Chapter_001/Page 005/Panel 002.jpg",
+    "Chapter_001/Page 005/Panel 003.jpg",
+    "Chapter_001/Page 006/Panel 001.jpg",
+    "Chapter_001/Page 006/Panel 002.jpg",
+    "Chapter_001/Page 006/Panel 003.jpg",
+    "Chapter_001/Page 006/Panel 004.jpg",
+    "Chapter_001/Page 007/Panel 001.jpg",
+    "Chapter_001/Page 007/Panel 002.jpg",
+    "Chapter_001/Page 007/Panel 003.jpg",
+    "Chapter_001/Page 007/Panel 004.jpg",
+    "Chapter_001/Page 008/Panel 001.jpg",
+    "Chapter_001/Page 008/Panel 002.jpg",
+    "Chapter_001/Page 008/Panel 003.jpg",
+    "Chapter_001/Page 008/Panel 004.jpg",
+    "Chapter_001/Page 008/Panel 005.jpg",
+    "Chapter_001/Page 008/Panel 006.jpg",
+    "Chapter_001/Page 009/Panel 001.jpg",
+    "Chapter_001/Page 009/Panel 002.jpg",
+    "Chapter_001/Page 009/Panel 003.jpg",
+    "Chapter_001/Page 009/Panel 004.jpg",
+    "Chapter_001/Page 010/Panel 001.jpg",
+    "Chapter_001/Page 010/Panel 002.jpg",
+    "Chapter_001/Page 010/Panel 003.jpg",
+    "Chapter_001/Page 010/Panel 004.jpg",
+    "Chapter_001/Page 011/Panel 001.jpg",
+    "Chapter_001/Page 011/Panel 002.jpg",
+    "Chapter_001/Page 011/Panel 003.jpg",
+    "Chapter_001/Page 011/Panel 004.jpg",
+    "Chapter_001/Page 012/Panel 001.jpg",
+    "Chapter_001/Page 012/Panel 002.jpg",
+    "Chapter_001/Page 012/Panel 003.jpg",
+    "Chapter_001/Page 012/Panel 004.jpg",
+    "Chapter_001/Page 013/Panel 001.jpg",
+    "Chapter_001/Page 013/Panel 002.jpg",
+    "Chapter_001/Page 013/Panel 003.jpg",
+    "Chapter_001/Page 014/Panel 001.jpg",
+    "Chapter_001/Page 014/Panel 002.jpg",
+    "Chapter_001/Page 014/Panel 003.jpg",
+    "Chapter_001/Page 014/Panel 004.jpg",
+    "Chapter_001/Page 014/Panel 005.jpg",
+    "Chapter_001/Page 015/Panel 001.jpg",
+    "Chapter_001/Page 015/Panel 002.jpg",
+    "Chapter_001/Page 015/Panel 003.jpg",
+    "Chapter_001/Page 015/Panel 004.jpg",
+    "Chapter_001/Page 016/Panel 001.jpg",
+    "Chapter_001/Page 016/Panel 002.jpg",
+    "Chapter_001/Page 016/Panel 003.jpg",
+    "Chapter_001/Page 016/Panel 004.jpg",
+    "Chapter_001/Page 016/Panel 005.jpg",
+    "Chapter_001/Page 017/Panel 001.jpg",
+    "Chapter_001/Page 017/Panel 002.jpg",
+    "Chapter_001/Page 017/Panel 003.jpg",
+    "Chapter_001/Page 017/Panel 004.jpg",
+    "Chapter_001/Page 018/Panel 001.jpg",
+    "Chapter_001/Page 018/Panel 002.jpg",
+    "Chapter_001/Page 018/Panel 003.jpg",
+    "Chapter_001/Page 019/Panel 001.jpg",
+    "Chapter_001/Page 019/Panel 002.jpg",
+    "Chapter_001/Page 019/Panel 003.jpg",
+    "Chapter_001/Page 019/Panel 004.jpg",
+    "Chapter_001/Page 020/Panel 001.jpg",
+    "Chapter_001/Page 020/Panel 002.jpg",
+    "Chapter_001/Page 020/Panel 003.jpg",
+    "Chapter_001/Page 020/Panel 004.jpg",
+    "Chapter_001/Page 021/Panel 001.jpg",
+    "Chapter_001/Page 021/Panel 002.jpg",
+    "Chapter_001/Page 021/Panel 003.jpg",
+    "Chapter_001/Page 021/Panel 004.jpg",
+    "Chapter_001/Page 022/Panel 001.jpg",
+    "Chapter_001/Page 023/Panel 001.jpg",
+    "Chapter_001/Page 023/Panel 002.jpg",
+    "Chapter_001/Page 023/Panel 003.jpg",
+    "Chapter_001/Page 023/Panel 004.jpg",
+    "Chapter_001/Page 024/Panel 001.jpg",
+    "Chapter_001/Page 024/Panel 002.jpg",
+    "Chapter_001/Page 024/Panel 003.jpg",
+    "Chapter_001/Page 025/Panel 001.jpg",
+    "Chapter_001/Page 025/Panel 002.jpg",
+    "Chapter_001/Page 025/Panel 003.jpg",
+    "Chapter_001/Page 025/Panel 004.jpg",
+    "Chapter_001/Page 026/Panel 001.jpg",
+    "Chapter_001/Page 026/Panel 002.jpg",
+    "Chapter_001/Page 026/Panel 003.jpg",
+    "Chapter_001/Page 026/Panel 004.jpg",
+    "Chapter_001/Page 027/Panel 001.jpg",
+    "Chapter_001/Page 027/Panel 002.jpg",
+    "Chapter_001/Page 027/Panel 003.jpg",
+    "Chapter_001/Page 027/Panel 004.jpg",
+    "Chapter_001/Page 028/Panel 001.jpg",
+    "Chapter_001/Page 028/Panel 002.jpg",
+    "Chapter_001/Page 028/Panel 003.jpg",
+    "Chapter_001/Page 028/Panel 004.jpg",
+    "Chapter_001/Page 029/Panel 001.jpg",
+    "Chapter_001/Page 029/Panel 002.jpg",
+    "Chapter_001/Page 029/Panel 003.jpg",
+    "Chapter_001/Page 029/Panel 004.jpg",
+    "Chapter_001/Chapter 001.srt",
+    "Chapter_002/Page 001/Panel 001.jpg",
+    "Chapter_002/Page 001/Panel 002.jpg",
+    "Chapter_002/Page 001/Panel 003.jpg",
+    "Chapter_002/Page 001/Panel 004.jpg",
+    "Chapter_002/Page 002/Panel 001.jpg",
+    "Chapter_002/Page 002/Panel 002.jpg",
+    "Chapter_002/Page 002/Panel 003.jpg",
+    "Chapter_002/Page 002/Panel 004.jpg",
+    "Chapter_002/Page 003/Panel 001.jpg",
+    "Chapter_002/Page 003/Panel 002.jpg",
+    "Chapter_002/Page 003/Panel 003.jpg",
+    "Chapter_002/Page 003/Panel 004.jpg",
+    "Chapter_002/Page 003/Panel 005.jpg",
+    "Chapter_002/Page 003/Panel 006.jpg",
+    "Chapter_002/Page 004/Panel 001.jpg",
+    "Chapter_002/Page 004/Panel 002.jpg",
+    "Chapter_002/Page 004/Panel 003.jpg",
+    "Chapter_002/Page 004/Panel 004.jpg",
+    "Chapter_002/Page 004/Panel 005.jpg",
+    "Chapter_002/Page 004/Panel 006.jpg",
+    "Chapter_002/Page 005/Panel 001.jpg",
+    "Chapter_002/Page 005/Panel 002.jpg",
+    "Chapter_002/Page 005/Panel 003.jpg",
+    "Chapter_002/Page 005/Panel 004.jpg",
+    "Chapter_002/Page 005/Panel 005.jpg",
+    "Chapter_002/Page 005/Panel 006.jpg",
+    "Chapter_002/Page 006/Panel 001.jpg",
+    "Chapter_002/Page 006/Panel 002.jpg",
+    "Chapter_002/Page 006/Panel 003.jpg",
+    "Chapter_002/Page 006/Panel 004.jpg",
+    "Chapter_002/Page 007/Panel 001.jpg",
+    "Chapter_002/Page 007/Panel 002.jpg",
+    "Chapter_002/Page 007/Panel 003.jpg",
+    "Chapter_002/Page 007/Panel 004.jpg",
+    "Chapter_002/Page 007/Panel 005.jpg",
+    "Chapter_002/Page 008/Panel 001.jpg",
+    "Chapter_002/Page 008/Panel 002.jpg",
+    "Chapter_002/Page 008/Panel 003.jpg",
+    "Chapter_002/Page 009/Panel 001.jpg",
+    "Chapter_002/Page 009/Panel 002.jpg",
+    "Chapter_002/Page 009/Panel 003.jpg",
+    "Chapter_002/Page 010/Panel 001.jpg",
+    "Chapter_002/Page 010/Panel 002.jpg",
+    "Chapter_002/Page 010/Panel 003.jpg",
+    "Chapter_002/Page 010/Panel 004.jpg",
+    "Chapter_002/Page 010/Panel 005.jpg",
+    "Chapter_002/Page 011/Panel 001.jpg",
+    "Chapter_002/Page 011/Panel 002.jpg",
+    "Chapter_002/Page 011/Panel 003.jpg",
+    "Chapter_002/Page 011/Panel 004.jpg",
+    "Chapter_002/Page 012/Panel 001.jpg",
+    "Chapter_002/Page 012/Panel 002.jpg",
+    "Chapter_002/Page 012/Panel 003.jpg",
+    "Chapter_002/Page 012/Panel 004.jpg",
+    "Chapter_002/Page 013/Panel 001.jpg",
+    "Chapter_002/Page 013/Panel 002.jpg",
+    "Chapter_002/Page 013/Panel 003.jpg",
+    "Chapter_002/Page 013/Panel 004.jpg",
+    "Chapter_002/Page 014/Panel 001.jpg",
+    "Chapter_002/Page 014/Panel 002.jpg",
+    "Chapter_002/Page 014/Panel 003.jpg",
+    "Chapter_002/Page 015/Panel 001.jpg",
+    "Chapter_002/Page 015/Panel 002.jpg",
+    "Chapter_002/Page 015/Panel 003.jpg",
+    "Chapter_002/Page 016/Panel 001.jpg",
+    "Chapter_002/Page 016/Panel 002.jpg",
+    "Chapter_002/Page 016/Panel 003.jpg",
+    "Chapter_002/Page 016/Panel 004.jpg",
+    "Chapter_002/Page 016/Panel 005.jpg",
+    "Chapter_002/Page 016/Panel 006.jpg",
+    "Chapter_002/Page 017/Panel 001.jpg",
+    "Chapter_002/Page 017/Panel 002.jpg",
+    "Chapter_002/Page 017/Panel 003.jpg",
+    "Chapter_002/Page 018/Panel 001.jpg",
+    "Chapter_002/Page 018/Panel 002.jpg",
+    "Chapter_002/Page 018/Panel 003.jpg",
+    "Chapter_002/Page 018/Panel 004.jpg",
+    "Chapter_002/Page 018/Panel 005.jpg",
+    "Chapter_002/Page 019/Panel 001.jpg",
+    "Chapter_002/Page 019/Panel 002.jpg",
+    "Chapter_002/Page 019/Panel 003.jpg",
+    "Chapter_002/Page 019/Panel 004.jpg",
+    "Chapter_002/Page 019/Panel 005.jpg",
+    "Chapter_002/Page 019/Panel 006.jpg",
+    "Chapter_002/Page 020/Panel 001.jpg",
+    "Chapter_002/Page 020/Panel 002.jpg",
+    "Chapter_002/Page 020/Panel 003.jpg",
+    "Chapter_002/Page 020/Panel 004.jpg",
+    "Chapter_002/Page 020/Panel 005.jpg",
+    "Chapter_002/Page 021/Panel 001.jpg",
+    "Chapter_002/Page 021/Panel 002.jpg",
+    "Chapter_002/Page 021/Panel 003.jpg",
+    "Chapter_002/Page 021/Panel 004.jpg",
+    "Chapter_002/Page 022/Panel 001.jpg",
+    "Chapter_002/Page 022/Panel 002.jpg",
+    "Chapter_002/Page 022/Panel 003.jpg",
+    "Chapter_002/Page 022/Panel 004.jpg",
+    "Chapter_002/Page 023/Panel 001.jpg",
+    "Chapter_002/Page 023/Panel 002.jpg",
+    "Chapter_002/Page 023/Panel 003.jpg",
+    "Chapter_002/Page 023/Panel 004.jpg",
+    "Chapter_002/Page 024/Panel 001.jpg",
+    "Chapter_002/Page 024/Panel 002.jpg",
+    "Chapter_002/Page 024/Panel 003.jpg",
+    "Chapter_002/Page 024/Panel 004.jpg",
+    "Chapter_002/Page 025/Panel 001.jpg",
+    "Chapter_002/Page 025/Panel 002.jpg",
+    "Chapter_002/Page 025/Panel 003.jpg",
+    "Chapter_002/Page 025/Panel 004.jpg",
+    "Chapter_002/Chapter 002.srt",
+    "export_report.json"
+  ],
+  "export_status": "success"
+}
