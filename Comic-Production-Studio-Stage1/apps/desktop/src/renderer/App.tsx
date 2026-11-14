@@ -10,6 +10,7 @@ declare global {
       chooseExistingProject: () => Promise<string | null>;
       createProject: (parent: string, name: string) => Promise<ProjectSummary>;
       openProject: (path: string) => Promise<ProjectSummary>;
+      inspectProjectAccess: (path: string) => Promise<{ projectId: string; writable: Record<string, boolean>; readOnlyModules: string[] }>;
       listProjects: (path: string) => Promise<ProjectSummary[]>;
       backupProject: (path: string, backupParent: string) => Promise<string>;
       restoreProject: (backupPath: string, destinationPath: string) => Promise<ProjectSummary>;
@@ -35,6 +36,15 @@ export default function App() {
   const [projectName, setProjectName] = useState('');
   const selected = DEFAULT_MODULES.find(item => item.id === active)!;
 
+  async function setCurrentProject(value: ProjectSummary) {
+    setProject(value);
+    try {
+      const access = await window.cps.inspectProjectAccess(value.path);
+      if (access.readOnlyModules.length) setNotice(`Project đã mở nhưng các thư mục sau không có quyền ghi: ${access.readOnlyModules.join(', ')}. Hãy kiểm tra quyền thư mục trước khi chạy module.`);
+      else setNotice(`Project sẵn sàng: ${value.metadata.name}`);
+    } catch (error) { setNotice(messageFor(error)); }
+  }
+
   async function beginCreate() {
     const parent = await window.cps.chooseProjectParent();
     if (parent) { setCreateParent(parent); setProjectName(''); }
@@ -45,9 +55,8 @@ export default function App() {
     setBusy(true);
     try {
       const created = await window.cps.createProject(createParent, projectName.trim());
-      setProject(created);
       setCreateParent(null);
-      setNotice(`Đã tạo Project “${created.metadata.name}” tại ${created.path}`);
+      await setCurrentProject(created);
     } catch (error) { setNotice(messageFor(error)); }
     finally { setBusy(false); }
   }
@@ -57,8 +66,7 @@ export default function App() {
     setBusy(true);
     try {
       const opened = await window.cps.openProject(selectedPath);
-      setProject(opened);
-      setNotice(`Đã mở Project: ${opened.metadata.name}`);
+      await setCurrentProject(opened);
     } catch (error) {
       setNotice(messageFor(error));
     } finally { setBusy(false); }
@@ -82,8 +90,7 @@ export default function App() {
     setBusy(true);
     try {
       const restored = await window.cps.restoreProject(backupPath, `${parent}/${name}`);
-      setProject(restored);
-      setNotice(`Đã khôi phục Project vào thư mục mới: ${restored.path}`);
+      await setCurrentProject(restored);
     } catch (error) { setNotice(messageFor(error)); }
     finally { setBusy(false); }
   }
@@ -116,7 +123,7 @@ export default function App() {
             <div className="actions"><button className="btn-secondary" disabled={busy} onClick={open}>Mở Project</button><button className="btn-primary" disabled={busy} onClick={beginCreate}>＋ Tạo Project</button><button className="btn-secondary" disabled={busy} onClick={restore}>Khôi phục backup</button>{project && <button className="btn-secondary" disabled={busy} onClick={backup}>Backup</button>}</div>
           </div>
           <div className="section-head"><div><h2>Các module</h2><p>Mỗi module có ranh giới mã nguồn, dữ liệu và kiểm thử riêng.</p></div><button className="text-button" onClick={showProjects}>Chọn thư mục để xem Project</button></div>
-          {recent.length > 0 && <div className="recent">{recent.map(item => <button key={item.path} onClick={async () => { try { const opened = await window.cps.openProject(item.path); setProject(opened); setNotice(`Đã mở ${opened.metadata.name}`); } catch (error) { setNotice(messageFor(error)); } }}><b>{item.metadata.name}</b><small>{item.path}</small></button>)}</div>}
+          {recent.length > 0 && <div className="recent">{recent.map(item => <button key={item.path} onClick={async () => { try { await setCurrentProject(await window.cps.openProject(item.path)); } catch (error) { setNotice(messageFor(error)); } }}><b>{item.metadata.name}</b><small>{item.path}</small></button>)}</div>}
           <div className="module-grid">{DEFAULT_MODULES.filter(item => !['dashboard', 'settings'].includes(item.id)).map(item => <button key={item.id} className="module-card" onClick={() => setActive(item.id)}>
             <span className="module-symbol">{item.id === 'panel-cutter' ? '▧' : item.id === 'ai-import' ? '⇩' : item.id === 'adapter' ? '⧉' : item.id === 'video-studio' ? '▶' : '◷'}</span><span className="status-pill">{item.status === 'available' ? 'Sẵn sàng' : 'Đang chờ tích hợp'}</span><h3>{item.title}</h3><p>{item.description}</p><span className="module-link">Mở module <b>→</b></span>
           </button>)}</div>
