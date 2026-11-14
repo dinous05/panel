@@ -87,14 +87,13 @@ export function makePanelModelInput(rgba, width, height) {
   return { tensor, padX, padY, gain };
 }
 
-// Ngưỡng diện tích panel tối thiểu (v6j): mặc định mới 4% (bộ lọc cũ mặc định 25%
-// gộp mất panel nhỏ). Giá trị lưu đúng 25 được coi là mặc định cũ chưa ai cố ý chọn
-// -> migrate về 4. Giá trị khác giữ nguyên, kẹp 1..100; rác -> 4.
+// Manga ưu tiên giữ panel nhỏ. Ngưỡng mặc định 0.5% diện tích trang;
+// vẫn hỗ trợ giá trị cũ và giữ nguyên giá trị người dùng truyền vào.
 export function resolveMinPanelAreaPct(raw) {
   const value = Number(raw);
-  if (!Number.isFinite(value)) return 4;
-  if (value === 25) return 4;
-  return value >= 1 && value <= 100 ? Math.round(value) : 4;
+  if (!Number.isFinite(value)) return 0.5;
+  if (value === 25) return 4; // migrate giá trị mặc định cũ
+  return value >= 0.25 && value <= 100 ? Math.round(value * 10) / 10 : 0.5;
 }
 
 function boxIou(a, b) {
@@ -106,20 +105,95 @@ function boxIou(a, b) {
   return intersection / Math.max(1e-8, areaA + areaB - intersection);
 }
 
-// Bộ lọc panel v6j — giữ panel thật, chỉ gộp mảnh vụn:
-// 1) Bỏ box không hợp lệ; bỏ box toàn trang khi còn box khác.
-// 2) Bỏ box lồng: box nhỏ bị box LỚN hơn phủ >= 70% diện tích và tâm nằm trong
-//    box lớn (cho phép lệch 2.5% trang) thì loại, tránh cắt lại nội dung bên trong panel.
-// 3) Box có diện tích >= minAreaPercent (% diện tích trang) được giữ nguyên.
-// 4) Mảnh nhỏ hơn ngưỡng: gộp vào box đã giữ GẦN NHẤT trong khoảng gap 8% (nới bounds
-//    của box đó). Không có box giữ gần -> thử gom các mảnh với nhau; nhóm nào có
-//    bounds đạt ngưỡng thì thành 1 box, còn lại bỏ hẳn.
-// 5) Cuối cùng nới mọi box +1.5% mỗi phía (kẹp trong trang) để viền không cắt chữ.
-export function filterPanelBoxes(boxes, minAreaPercent = 4, reading = 'rtl') {
-  const threshold = Math.min(100, Math.max(1, Number(minAreaPercent) || 4));
-  let candidates = boxes.filter(box => Number.isFinite(box.x) && Number.isFinite(box.y) && Number.isFinite(box.w) && Number.isFinite(box.h)
-    && box.w > 0 && box.h > 0);
+// Sắp xếp theo hàng đọc thích ứng. Hai box được xem là cùng hàng khi
+// vùng Y giao nhau đủ lớn hoặc tâm Y đủ gần so với chiều cao panel.
+export function sortPanelBoxes(boxes, reading = 'rtl') {
+  const direction = reading === 'ltr' ? 'ltr' : 'rtl';
+  const entries = (Array.isArray(boxes) ? boxes : [])
+    .map((box, index) => ({ ...box, index, centerY: box.y + box.h / 2 }))
+    .filter(box => Number.isFinite(box.x) && Number.isFinite(box.y)
+      && Number.isFinite(box.w) && Number.isFinite(box.h) && box.w > 0 && box.h > 0)
+    .sort((a, b) => a.centerY - b.centerY || a.y - b.y || a.index - b.index);
 
+  const rows = [];
+  for (const box of entries) {
+    let bestRow = null;
+    let bestScore = -Infinity;
+    for (const row of rows) {
+      const overlap = Math.max(0, Math.min(box.y + box.h, row.bottom) - Math.max(box.y, row.top));
+      const overlapRatio = overlap / Math.max(0.001, Math.min(box.h, row.height));
+      const centerDistance = Math.abs(box.centerY - row.centerY);
+      const tolerance = Math.max(1.25, Math.min(box.h, row.height) * 0.35);
+      const sameRow = overlapRatio >= 0.45 || centerDistance <= tolerance;
+      if (!sameRow) continue;
+      const score = Math.max(overlapRatio, 1 - centerDistance / tolerance);
+      if (score > bestScore) {
+        bestScore = score;
+        bestRow = row;
+      }
+    }
+
+    if (!bestRow) {
+      rows.push({
+        items: [box],
+        top: box.y,
+        bottom: box.y + box.h,
+        height: box.h,
+        centerY: box.centerY,
+      });
+      continue;
+    }
+
+    bestRow.items.push(box);
+    bestRow.top = Math.min(bestRow.top, box.y);
+    bestRow.bottom = Math.max(bestRow.bottom, box.y + box.h);
+    bestRow.height = bestRow.bottom - bestRow.top;
+    bestRow.centerY = bestRow.items.reduce((sum, item) => sum + item.centerY * item.h, 0)
+      / bestRow.items.reduce((sum, item) => sum + item.h, 0);
+  }
+
+  rows.sort((a, b) => a.top - b.top || a.centerY - b.centerY);
+  return rows.flatMap(row => row.items
+    .sort((a, b) => direction === 'rtl'
+      ? (b.x + b.w / 2) - (a.x + a.w / 2) || a.index - b.index
+      : (a.x + a.w / 2) - (b.x + b.w / 2) || a.index - b.index)
+    .map(({ index, centerY, ...box }) => box));
+}
+
+function normalizedBoxIou(a, b) {
+  const left = Math.max(a.x, b.x);
+  const top = Math.max(a.y, b.y);
+  const right = Math.min(a.x + a.w, b.x + b.w);
+  const bottom = Math.min(a.y + a.h, b.y + b.h);
+  const intersection = Math.max(0, right - left) * Math.max(0, bottom - top);
+  const union = a.w * a.h + b.w * b.h - intersection;
+  return intersection / Math.max(1e-8, union);
+}
+
+// Bộ lọc Manga:
+// - Chỉ loại box sai hình học và box trùng gần như hoàn toàn.
+// - Không loại panel inset chỉ vì nó nằm trong panel lớn.
+// - Hạ ngưỡng diện tích và không tự gộp panel nhỏ vào panel lân cận.
+// - Nới crop thích ứng theo kích thước box để tránh panel nhỏ bị ăn sang khung bên cạnh.
+export function filterPanelBoxes(boxes, minAreaPercent = 0.5, reading = 'rtl') {
+  const rawThreshold = Number(minAreaPercent);
+  const threshold = Number.isFinite(rawThreshold)
+    ? Math.min(100, Math.max(0.25, rawThreshold))
+    : 0.5;
+
+  let candidates = (Array.isArray(boxes) ? boxes : [])
+    .filter(box => Number.isFinite(box.x) && Number.isFinite(box.y)
+      && Number.isFinite(box.w) && Number.isFinite(box.h)
+      && box.w > 0 && box.h > 0)
+    .map(box => ({
+      x: Math.max(0, Math.min(100, box.x)),
+      y: Math.max(0, Math.min(100, box.y)),
+      w: Math.max(0, Math.min(100 - Math.max(0, box.x), box.w)),
+      h: Math.max(0, Math.min(100 - Math.max(0, box.y), box.h)),
+    }))
+    .filter(box => box.w > 0 && box.h > 0);
+
+  // Bỏ box bao toàn trang nếu detector đồng thời trả về các panel con.
   if (candidates.length > 1) {
     const pageBoxes = candidates.filter(box => box.x <= 2 && box.y <= 2 && box.w >= 96 && box.h >= 96);
     if (pageBoxes.length && candidates.some(box => !pageBoxes.includes(box))) {
@@ -127,84 +201,28 @@ export function filterPanelBoxes(boxes, minAreaPercent = 4, reading = 'rtl') {
     }
   }
 
-  const nonNested = candidates.filter((box, index) => {
-    const area = box.w * box.h;
-    return !candidates.some((other, otherIndex) => {
-      if (index === otherIndex) return false;
-      const otherArea = other.w * other.h;
-      if (otherArea <= area) return false;
-      const intersectionWidth = Math.max(0, Math.min(box.x + box.w, other.x + other.w) - Math.max(box.x, other.x));
-      const intersectionHeight = Math.max(0, Math.min(box.y + box.h, other.y + other.h) - Math.max(box.y, other.y));
-      const overlapOfSmaller = intersectionWidth * intersectionHeight / area;
-      const centerX = box.x + box.w / 2, centerY = box.y + box.h / 2;
-      const centerInsideLarger = centerX >= other.x - 2.5 && centerX <= other.x + other.w + 2.5
-        && centerY >= other.y - 2.5 && centerY <= other.y + other.h + 2.5;
-      return overlapOfSmaller >= 0.7 && centerInsideLarger;
-    });
-  });
-
-  const minArea = threshold * 100; // diện tích theo % trang: w*h (w,h theo %)
-  const maxGap = 8;
-  const gapBetween = (a, b) => {
-    const gapX = Math.max(0, a.x - (b.x + b.w), b.x - (a.x + a.w));
-    const gapY = Math.max(0, a.y - (b.y + b.h), b.y - (a.y + a.h));
-    return Math.hypot(gapX, gapY);
-  };
-  const boundsOf = group => group.reduce((bounds, box) => ({
-    x: Math.min(bounds.x, box.x), y: Math.min(bounds.y, box.y),
-    w: Math.max(bounds.x + bounds.w, box.x + box.w) - Math.min(bounds.x, box.x),
-    h: Math.max(bounds.y + bounds.h, box.y + box.h) - Math.min(bounds.y, box.y),
-  }), { ...group[0] });
-
-  const kept = nonNested.filter(box => box.w * box.h >= minArea).map(box => ({ ...box }));
-  const fragments = nonNested.filter(box => box.w * box.h < minArea).map(box => ({ ...box }));
-
-  // Mảnh -> gộp vào box đã giữ gần nhất trong gap 8 (nới bounds của box đó).
-  const homeless = [];
-  for (const fragment of fragments) {
-    let nearest = -1, nearestGap = Infinity;
-    for (let i = 0; i < kept.length; i++) {
-      const gap = gapBetween(kept[i], fragment);
-      if (gap <= maxGap && gap < nearestGap) { nearest = i; nearestGap = gap; }
-    }
-    if (nearest >= 0) kept[nearest] = boundsOf([kept[nearest], fragment]);
-    else homeless.push(fragment);
+  // Khử box trùng gần như hoàn toàn. Không dùng containment suppression:
+  // panel inset có thể hợp lệ dù nằm bên trong panel lớn.
+  const unique = [];
+  for (const box of candidates) {
+    if (box.w * box.h < Math.max(0.25, Math.min(1.5, threshold)) * 100) continue;
+    if (box.w < 0.8 || box.h < 0.8) continue;
+    if (unique.some(existing => normalizedBoxIou(existing, box) >= 0.88)) continue;
+    unique.push(box);
   }
 
-  // Mảnh vô gia cư: gom với nhau; nhóm đạt ngưỡng thì giữ làm 1 box, không đạt thì bỏ.
-  const grouped = [];
-  const pending = [...homeless];
-  while (pending.length) {
-    let seedIndex = 0;
-    for (let i = 1; i < pending.length; i++) if (pending[i].w * pending[i].h > pending[seedIndex].w * pending[seedIndex].h) seedIndex = i;
-    const group = [pending.splice(seedIndex, 1)[0]];
-    let bounds = boundsOf(group);
-    while (bounds.w * bounds.h < minArea) {
-      let bestIndex = -1, bestGap = Infinity, bestBounds = null;
-      for (let i = 0; i < pending.length; i++) {
-        const gap = gapBetween(bounds, pending[i]);
-        if (gap > maxGap || gap >= bestGap) continue;
-        bestIndex = i; bestGap = gap; bestBounds = boundsOf([...group, pending[i]]);
-      }
-      if (bestIndex < 0) break;
-      group.push(pending.splice(bestIndex, 1)[0]);
-      bounds = bestBounds;
-    }
-    if (bounds.w * bounds.h >= minArea) grouped.push(bounds);
-  }
-
-  const result = kept.concat(grouped);
-  // Nới +1.5% mỗi phía, kẹp trong [0,100].
-  for (const box of result) {
-    const x2 = Math.min(100, box.x + box.w + 1.5);
-    const y2 = Math.min(100, box.y + box.h + 1.5);
-    box.x = Math.max(0, box.x - 1.5);
-    box.y = Math.max(0, box.y - 1.5);
+  for (const box of unique) {
+    const padX = Math.min(1, Math.max(0.08, box.w * 0.025));
+    const padY = Math.min(1, Math.max(0.08, box.h * 0.025));
+    const x2 = Math.min(100, box.x + box.w + padX);
+    const y2 = Math.min(100, box.y + box.h + padY);
+    box.x = Math.max(0, box.x - padX);
+    box.y = Math.max(0, box.y - padY);
     box.w = x2 - box.x;
     box.h = y2 - box.y;
   }
-  result.sort((a, b) => Math.abs(a.y - b.y) > 3.5 ? a.y - b.y : reading === 'rtl' ? b.x - a.x : a.x - b.x);
-  return result;
+
+  return sortPanelBoxes(unique, reading);
 }
 
 export function decodePanelPredictions(predictions, width, height, reading = 'rtl') {
@@ -223,12 +241,12 @@ export function decodePanelPredictions(predictions, width, height, reading = 'rt
     const x2 = Math.max(0, Math.min(width, (cx + boxWidth / 2 - offsetX) / gain));
     const y2 = Math.max(0, Math.min(height, (cy + boxHeight / 2 - offsetY) / gain));
     const boxW = x2 - x1, boxH = y2 - y1;
-    if (boxW < width * 0.025 || boxH < height * 0.025 || boxW * boxH < width * height * 0.001) continue;
+    if (boxW < width * 0.01 || boxH < height * 0.01 || boxW * boxH < width * height * 0.0001) continue;
     candidates.push({ x1, y1, x2, y2, confidence });
   }
   candidates.sort((a, b) => b.confidence - a.confidence);
   const kept = [];
-  while (candidates.length && kept.length < 60) {
+  while (candidates.length && kept.length < 100) {
     const best = candidates.shift();
     kept.push(best);
     for (let i = candidates.length - 1; i >= 0; i--) {
@@ -241,6 +259,5 @@ export function decodePanelPredictions(predictions, width, height, reading = 'rt
     w: (box.x2 - box.x1) / width * 100,
     h: (box.y2 - box.y1) / height * 100,
   }));
-  boxes.sort((a, b) => Math.abs(a.y - b.y) > 3.5 ? a.y - b.y : reading === 'rtl' ? b.x - a.x : a.x - b.x);
-  return boxes;
+  return sortPanelBoxes(boxes, reading);
 }
