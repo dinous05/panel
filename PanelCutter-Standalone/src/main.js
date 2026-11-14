@@ -318,13 +318,13 @@ function detectPanelsHeuristic(image) {
   }
   split({ x: 0, y: 0, w: sw, h: sh });
   const boxes = leaves.map(rect => ({ x: rect.x / sw * 100, y: rect.y / sh * 100, w: rect.w / sw * 100, h: rect.h / sh * 100 }));
-  return filterPanelBoxes(boxes, 4, state.reading);
+  return boxes;
 }
 
 async function detectMangaCrops(image) {
   let boxes = [];
   try { boxes = await detectWithModel(image); } catch (error) { console.warn('ONNX detector không sẵn sàng, dùng heuristic:', error); }
-  let filtered = filterPanelBoxes(boxes, resolveMinPanelAreaPct(4), state.reading);
+  let filtered = filterPanelBoxes(boxes, resolveMinPanelAreaPct(0.5), state.reading);
   if (!filtered.length) filtered = detectPanelsHeuristic(image);
   return filtered.length ? filtered : [{ x: 0, y: 0, w: 100, h: 100 }];
 }
