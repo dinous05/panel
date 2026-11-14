@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { DEFAULT_MODULES, type ModuleId, type ProjectSummary } from '../../../../packages/contracts/src/index';
+import AiImport from './AiImport';
 import './style.css';
 import './modal.css';
 
@@ -14,6 +15,8 @@ declare global {
       listProjects: (path: string) => Promise<ProjectSummary[]>;
       backupProject: (path: string, backupParent: string) => Promise<string>;
       restoreProject: (backupPath: string, destinationPath: string) => Promise<ProjectSummary>;
+      chooseAnalysisFiles: () => Promise<string[]>;
+      importAnalysisFiles: (projectPath: string, files: string[]) => Promise<{ sourceName: string; fileName: string; path: string; bytes: number; chapter: string | null; voiceBeatCount: number | null }[]>;
     };
   }
 }
@@ -128,7 +131,7 @@ export default function App() {
             <span className="module-symbol">{item.id === 'panel-cutter' ? '▧' : item.id === 'ai-import' ? '⇩' : item.id === 'adapter' ? '⧉' : item.id === 'video-studio' ? '▶' : '◷'}</span><span className="status-pill">{item.status === 'available' ? 'Sẵn sàng' : 'Đang chờ tích hợp'}</span><h3>{item.title}</h3><p>{item.description}</p><span className="module-link">Mở module <b>→</b></span>
           </button>)}</div>
           <div className="pipeline"><div><span className="eyebrow">PIPELINE</span><h2>Từ trang truyện đến video</h2></div><div className="steps"><span>PanelCutter</span><b>→</b><span>AI Import / Adapter</span><b>→</b><span>Video Studio</span></div></div>
-        </> : <div className="placeholder"><div className="placeholder-icon">{active === 'settings' ? '⚙' : '◈'}</div><span className="status-pill">{selected.status === 'available' ? 'Nền tảng sẵn sàng' : 'Giai đoạn tích hợp tiếp theo'}</span><h2>{active === 'settings' ? 'Cài đặt nền tảng' : 'Module đã có ranh giới kiến trúc'}</h2><p>{active === 'settings' ? 'Cài đặt Project và hành vi nền tảng sẽ được bổ sung theo từng giai đoạn.' : `Module ${selected.title} hiện là placeholder của Unified Shell. Mã nguồn gốc được giữ riêng trong original-source; chưa bật chức năng nghiệp vụ ở Giai đoạn 1.`}</p>{active !== 'settings' && <button className="btn-secondary" onClick={() => setActive('dashboard')}>← Về Dashboard</button>}</div>}
+	        </> : active === 'ai-import' ? <AiImport project={project} bridge={window.cps} onNotice={setNotice} /> : <div className="placeholder"><div className="placeholder-icon">{active === 'settings' ? '⚙' : '◈'}</div><span className="status-pill">{selected.status === 'available' ? 'Nền tảng sẵn sàng' : 'Giai đoạn tích hợp tiếp theo'}</span><h2>{active === 'settings' ? 'Cài đặt nền tảng' : 'Module đã có ranh giới kiến trúc'}</h2><p>{active === 'settings' ? 'Cài đặt Project và hành vi nền tảng sẽ được bổ sung theo từng giai đoạn.' : `Module ${selected.title} hiện là placeholder của Unified Shell. Mã nguồn gốc được giữ riêng trong original-source; chưa bật chức năng nghiệp vụ ở Giai đoạn 1.`}</p>{active !== 'settings' && <button className="btn-secondary" onClick={() => setActive('dashboard')}>← Về Dashboard</button>}</div>}
         <footer>COMIC PRODUCTION STUDIO <span>•</span> Stage 1 — Unified Foundation</footer>
       </section>
     </main>

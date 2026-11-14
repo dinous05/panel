@@ -1,0 +1,484 @@
+{
+  "schema_version": "1.0",
+  "chapter": {
+    "series": "The Regressed Mercenary Has a Plan",
+    "number": 1,
+    "title": null,
+    "panel_count": 112,
+    "manifest_project_id": "fc87f07d-165a-47d7-a188-5f76f67dc284",
+    "source": "The Regressed Mercenary Has a Plan 1-2 - bundle"
+  },
+  "summary": "Ghislain Perdium, the Mercenary King and one of the continent's seven strongest men, is cut down by Idun, the Noble Knight, who reveals that his own side worked with the Delphine household to destroy the Perdium family. Ghislain dies vowing never to forgive them, then wakes a year earlier in his younger body, in a military camp near the intact Perdium estate. Realising he has travelled back to the past, he remembers that this is the day the orc raid squad is nearly wiped out, because the report said three orcs when there were more than twenty. When the orcs ambush the camp and overwhelm Commander Skovan, Ghislain cuts down a huge orc with his own hands and demands the commander rights.",
+  "characters": [
+    {
+      "id": "ghislain_perdium",
+      "name": "Ghislain Perdium",
+      "description": "The protagonist, the Mercenary King and Count Perdium's oldest son, who is killed by Idun and wakes in his younger body a year earlier."
+    },
+    {
+      "id": "idun",
+      "name": "Idun",
+      "description": "One of the continent's top seven, the Noble Knight, who kills Ghislain and admits his side helped the Delphine household bring down the Perdium family."
+    },
+    {
+      "id": "ricardo",
+      "name": "Ricardo",
+      "description": "A Perdium soldier who wakes Ghislain in the camp and tells him they are returning to the Perdium estate."
+    },
+    {
+      "id": "skovan",
+      "name": "Skovan",
+      "description": "The Raid Squad Commander, overwhelmed by the orc ambush until Ghislain saves him and demands his command."
+    },
+    {
+      "id": "best_knight_of_the_north",
+      "name": "Unnamed knight",
+      "description": "A bloodied knight who calls himself the best knight of the North and is defeated by the hooded Ghislain in the opening battle."
+    }
+  ],
+  "voice_beats": [
+    {
+      "beat_id": "ch01_beat_01",
+      "order": 1,
+      "narration": "He knows that name very well. The man dismissed as uncontrollable, a swordmaster locked in his room, a man out of his mind, is Count Perdium's useless oldest son: Ghislain Perdium, slumped alone in a wrecked room.",
+      "panel_uuids": [
+        "ecf46a1c-c26e-481d-bec5-f6c9c240cccb",
+        "a133779b-2c26-4a96-b5a2-7e84d7ff57a4",
+        "1e091bb1-f265-4e2c-b1e6-4024e16b3d97",
+        "c5d754ef-8efd-4b84-8db4-45d7e6bb4470"
+      ],
+      "visual_description": "Shattered images of a young blond man, then Ghislain slumped alone in a wrecked room",
+      "emotion": "mysterious and unsettling",
+      "transition": "Cut to a bloodied knight on a burning battlefield.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_02",
+      "order": 2,
+      "narration": "A bloodied knight who calls himself the best knight of the North cannot believe he was defeated by that garbage human being. The hooded victor tells him the trap was warm and cozy, and he paid a lot to build it.",
+      "panel_uuids": [
+        "f1a38c86-3c8b-4c00-8df7-4c2f9e0369c0",
+        "81705969-bc12-491a-afa6-838df5c5b87a",
+        "61c7482e-c632-4e96-8bd0-fa5ce0683bfd"
+      ],
+      "visual_description": "A bloodied knight gasping in disbelief, then a hooded figure with a huge axe walking out of a wall of fire",
+      "emotion": "tense and defiant",
+      "transition": "Cut to a close view of the hooded victor.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_03",
+      "order": 3,
+      "narration": "The hooded figure asks, \"Do you like it?\" The knight finally recognises him. \"Y-you're that garbage, Ghislain...?\" he demands how Ghislain knew his plans. Ghislain advances through the fallen soldiers. \"Not just that.\"",
+      "panel_uuids": [
+        "7ef74ca3-f646-4940-bee4-d8cf23d4a176",
+        "1f1f1779-23b1-46e4-908f-c092c805302b",
+        "2bfaf792-6c5b-480d-93d6-b558e32d7535"
+      ],
+      "visual_description": "The hooded Ghislain asking if he likes the trap, the kneeling knight realising who he is, Ghislain advancing over fallen soldiers",
+      "emotion": "cold and mocking",
+      "transition": "Cut to Ghislain listing everything he already knew.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_04",
+      "order": 4,
+      "narration": "He knew how many of them there were, who the spies were, and who sent their reinforcements. \"I knew it all from the start.\"",
+      "panel_uuids": [
+        "5abdc2e7-af37-4773-b14c-25258b7baea8",
+        "3ef0ba2a-5936-471a-8884-fa3fce569b2b",
+        "dd18431b-b213-4670-82f3-f7672c480d72"
+      ],
+      "visual_description": "Armoured soldiers gathering, hooded figures in the dark, and broken doll-like objects on the ground",
+      "emotion": "confident and chilling",
+      "transition": "Cut to the defeated knight held in a giant hand.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_05",
+      "order": 5,
+      "narration": "The defeated knight looks tiny, cradled in a giant armoured hand. He cannot believe it. He has always been a hidden ace card, he insists, and this could not have happened.",
+      "panel_uuids": [
+        "f790c754-46c1-4cc1-92a0-6c80c57ee8ff",
+        "4ea6290b-4260-498c-8db9-614e506e80d6",
+        "a5cde9f8-4eca-4973-b16a-0bfc35b32476"
+      ],
+      "visual_description": "A single blue eye, then the knight tiny in Ghislain's giant armoured hand, trembling as he protests",
+      "emotion": "disbelief and humiliation",
+      "transition": "Cut to the knight screaming his last insult.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_06",
+      "order": 6,
+      "narration": "He curses Ghislain as a useless piece of shit, and is cut off mid-insult. \"Shut it.\" Ghislain stands over his fallen foe and warns him to invade as many times as he wants, because he will win the war every time. \"It's because I've got all the plans.\"",
+      "panel_uuids": [
+        "6421537d-689c-407c-bb8c-36c6f4b3821f",
+        "b91a9086-c0b6-4ec7-a1f4-23e8c4ba5119",
+        "8f484584-85a5-45bb-b56c-7158f3711669",
+        "0a16718a-c1f5-4117-b3d1-f84225cd78ae"
+      ],
+      "visual_description": "The knight screaming as Ghislain's boot silences him, Ghislain standing over him, his helmet falling, then Ghislain smiling through the flames",
+      "emotion": "triumphant and menacing",
+      "transition": "Cut back a year, to a quiet military camp.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_07",
+      "order": 7,
+      "narration": "A year ago, in a military camp in the Luthania Kingdom near the Perdium estate, Ghislain wakes in a panic. \"Wh-what just happened?\" he gasps, staring at his own hands. \"I'm alive?\" His eyes widen: just a while ago, he was—",
+      "panel_uuids": [
+        "95fff0d4-476f-4210-a0e1-81aaebc9fde4",
+        "fcba6c1e-cc21-47e0-b140-3fe3c649d0f9",
+        "341fea72-7018-47db-8337-d198d514b83f",
+        "937eeee4-9945-48a1-8e6b-3df2cf94e939"
+      ],
+      "visual_description": "A military camp under a grey sky, then Ghislain bolting awake in his tent, gasping and staring at his hands",
+      "emotion": "panicked and disoriented",
+      "transition": "Cut to the blinding flash of his last memory.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_08",
+      "order": 8,
+      "narration": "A blinding flash cuts him off, and the memory returns. His great sword spins away and falls, a blade finds its mark, and the bloodied Ghislain is cut down. Idun, one of the continent's top seven, the Noble Knight, stands over him. \"The war is over.\"",
+      "panel_uuids": [
+        "a0cf72c9-9a57-4a7b-90ac-7434e1da8bc1",
+        "ed1057e8-52fd-4dd4-a895-3f200a95a012",
+        "95c40166-cd50-4f18-8a37-8ee7aae53acb",
+        "8da9f848-4ca8-4b85-82de-bbde54ae5c0f",
+        "537595f5-9d4b-48dd-9904-12c0d9c67e5b",
+        "a30db4f6-a1c2-424b-ad40-d2251e57c5d8"
+      ],
+      "visual_description": "A flash of light, a great sword falling, Ghislain cut down on the battlefield, and Idun standing over him",
+      "emotion": "brutal and fatal",
+      "transition": "Cut to Idun asking for his last words.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_09",
+      "order": 9,
+      "narration": "Idun asks for any last words. Ghislain has none, only his unfulfilled revenge. Dying, he snarls, \"Die, you sickening bastard!\" Idun sneers, \"How arrogant.\" Then he reveals that the Mercenary King was the oldest son of the fallen Perdium household, who left after his sister died.",
+      "panel_uuids": [
+        "111b23bc-ae19-42e1-9f7f-233563ef978c",
+        "e7fd7f2c-cec0-4c9c-9828-99a41e87077c",
+        "55210a0d-ea9c-4498-ab43-4a3e92e3de33",
+        "a461c6b1-278e-4da4-9636-ee9c09bb4569"
+      ],
+      "visual_description": "Idun with his sword at the kneeling Ghislain, Ghislain snarling through the blood, Idun sneering as he names Ghislain's past",
+      "emotion": "bitter and defiant",
+      "transition": "Cut to Ghislain demanding how Idun knows his past.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_10",
+      "order": 10,
+      "narration": "Ghislain demands how a man from a different kingdom could know that. Idun says of course he knows, because he worked hard long ago to track Ghislain down. His side worked with the Delphine household to bring down Ghislain's family. Ghislain reels at one word. \"We\"?!",
+      "panel_uuids": [
+        "e6b754b9-b08c-49ef-bfc2-7b2d718c96ec",
+        "3373638c-7fff-446b-8773-7845ec0d81b4",
+        "f89ac656-84d7-4c52-91e6-c5915bec521d",
+        "107a2c78-dada-4394-8a37-17a5347ad6b8"
+      ],
+      "visual_description": "Ghislain staring up in shock, Idun gesturing as he admits he hunted Ghislain down and helped destroy his family",
+      "emotion": "shocked and enraged",
+      "transition": "Cut to the shadowy figures behind the fall.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_11",
+      "order": 11,
+      "narration": "Others were behind his family's fall besides Duke Delphine's household. Idun refuses to explain further. Ghislain will be dead soon, so he should just accept his fate. Ghislain screams, \"You bastard! I will never forgive you!!!\" Idun answers, \"Okay.\"",
+      "panel_uuids": [
+        "6f1e0a92-943b-423a-aa5a-d7fb0b165706",
+        "feb998b3-9442-4acb-8280-0860ecd4b36f",
+        "ee1214ef-384d-47ac-a707-45bbc7eca844",
+        "06db1c0e-cf8e-4782-95b6-a91ea9adff0e"
+      ],
+      "visual_description": "Shadowy figures with pale eyes, Ghislain kneeling in blood as Idun tells him to accept his fate, then Ghislain screaming his vow",
+      "emotion": "furious and hopeless",
+      "transition": "Cut to Idun's killing blow.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_12",
+      "order": 12,
+      "narration": "At that moment, Idun decapitates him. Yet here Ghislain is, with his head still on his shoulders. Was it all a hallucination? He is in his younger body too.",
+      "panel_uuids": [
+        "03a5d12d-d2f8-4ad8-b7b6-743da3af0bdf",
+        "f57ceb53-a6a4-4a60-9859-810b3ab98810",
+        "9406062d-79f8-40cc-bb03-c735f5d2a689",
+        "0b1456c3-c1b7-4c7f-87c0-378a41bb4bd5"
+      ],
+      "visual_description": "Idun's sword falling in a spray of blood, a blurred red impact, then Ghislain clutching his intact neck and leaning over a barrel",
+      "emotion": "stunned and bewildered",
+      "transition": "Cut to Ghislain trying to make sense of being alive.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_13",
+      "order": 13,
+      "narration": "Was he taken captive and used as a lab rat for the mages? He vows to make them regret keeping him alive. Then a voice calls out, \"Young Master!\" Perdium's soldier Ricardo enters and urges him out.",
+      "panel_uuids": [
+        "9d46cf19-22b4-45e8-933a-f974eb13e565",
+        "b2e08158-a7db-45dd-84d8-523a5e707933",
+        "ebb112ee-1fe2-475b-8405-a17731d31afc"
+      ],
+      "visual_description": "Ghislain standing by the barrels in his tent, then turning sharply as Ricardo pushes into the tent",
+      "emotion": "suspicious, then startled",
+      "transition": "Cut to Ghislain seizing Ricardo.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_14",
+      "order": 14,
+      "narration": "Ghislain silences Ricardo with a sword to his throat. \"Sh. I'll let you live if you answer my questions,\" he threatens, \"or maybe not.\" Ricardo stammers in shock, protesting that this is crossing the line. Ghislain is baffled. Ricardo is the one being threatened.",
+      "panel_uuids": [
+        "e20babc1-da87-4a2c-ab14-4014fa145506",
+        "adf8bcf4-c934-4523-8282-c9eb9c0863f4",
+        "89776cbe-0d2b-4802-9b5c-0fb3c893324c",
+        "30c2bc34-1a37-43d8-ba82-0c3a424db493",
+        "540a7d77-36ad-47c2-911f-228f33d5095f"
+      ],
+      "visual_description": "Ghislain pressing his sword to Ricardo's throat, Ricardo sweating and protesting, Ghislain staring at him in confusion",
+      "emotion": "threatening, then confused",
+      "transition": "Cut to Ricardo explaining what really happened.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_15",
+      "order": 15,
+      "narration": "Ricardo snaps back. Ghislain only tired himself out from a tantrum earlier and fell asleep, throwing a tantrum about commanding the group to raid the orcs. \"What? I threw a tantrum?!\" Ricardo tells him to get his stuff together. People are waiting.",
+      "panel_uuids": [
+        "d4f13245-7f15-46ec-968e-c69dadf0fc38",
+        "edf0e179-0472-4255-9ec9-47b44f663a86",
+        "3ae6dfc5-f4cd-46f7-beb4-83cbd5427642",
+        "fee326f8-2bc7-4965-9e05-a7fe09503302"
+      ],
+      "visual_description": "Ricardo shoving Ghislain off and scolding him, Ghislain staring back in disbelief as Ricardo packs his bag",
+      "emotion": "exasperated and confused",
+      "transition": "Cut to Ghislain asking where they are going.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_16",
+      "order": 16,
+      "narration": "\"My stuff...? Where are we going?\" Ghislain asks. \"To the Perdium estate, of course,\" Ricardo answers. Ghislain freezes and grabs Ricardo. \"Say that again!\" \"P-Perdium... you mean the fallen Perdium estate?\"",
+      "panel_uuids": [
+        "fabb2c8a-3d02-4a7c-964b-cb74c1aa85df",
+        "0dc55219-80aa-42bd-8fe6-bcb246623cb2",
+        "a6611652-0de5-41d6-b0c6-c7b8f586e1e0",
+        "7a7d8d24-39cf-4f62-bdb6-46b80b3b191b",
+        "edff94d2-75fa-4d0e-848e-d6b0ac263146"
+      ],
+      "visual_description": "Ghislain questioning Ricardo, Ricardo shouldering his pack, Ghislain grabbing him by the shoulder in shock",
+      "emotion": "shocked and urgent",
+      "transition": "Cut to the hilltop view of the estate.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_17",
+      "order": 17,
+      "narration": "It really is the Perdium estate, yet he saw it reduced to ashes back then. Ricardo whispers that he must have had a terrible nightmare; the Count would kick him out for calling his household fallen. Ghislain pinches his cheek. \"Am I dreaming?\" The pain tells him no.",
+      "panel_uuids": [
+        "769b7395-32e8-4e75-892f-d65ac1a2cf0c",
+        "08b21404-4541-4fb2-9b15-57b22b0110e1",
+        "7940fe00-4126-43ea-a0a6-9e3a0929dc19",
+        "86b34ff4-e360-4334-8c96-5fb5c867d637"
+      ],
+      "visual_description": "Ghislain looking down at the intact estate, a ruined banner flashing in his mind, Ricardo whispering a warning, Ghislain pinching his cheek",
+      "emotion": "disbelieving, then certain",
+      "transition": "Cut to the shards that prove what happened.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_18",
+      "order": 18,
+      "narration": "A younger face, and the estate in its original state. That means only one thing. Standing before a giant clock, Ghislain asks, \"I traveled back to the past?\"",
+      "panel_uuids": [
+        "48ecb95a-23f0-4034-ba65-11682aeb087f",
+        "bf7992b7-23df-4fd8-8fda-4ec1798a0e53",
+        "5249d239-db7d-45be-b823-3f0acc3b0d2f"
+      ],
+      "visual_description": "Shards showing his younger face and the intact estate, then Ghislain standing before a giant clock",
+      "emotion": "awestruck and dawning",
+      "transition": "Cut to the life he left behind.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_19",
+      "order": 19,
+      "narration": "His younger self resented the household. Feeling inferior, he caused trouble, and the household avoided him. Unable to stand the criticism, he ran away from home. Several years later, he became a mercenary, surviving countless battles. He returned to atone, but his household had already been crushed to dust.",
+      "panel_uuids": [
+        "b2b395cf-4777-4509-9bbb-239d639c1fc4",
+        "a0ca8b15-7dbc-4744-829f-49c58aac5eab",
+        "6009dba9-e4b3-4477-a26b-c10a9b92e135",
+        "d6365fca-9a61-4daa-a67f-5cbfd1d71722"
+      ],
+      "visual_description": "Young Ghislain knocked to the floor as household members turn away, running from home, standing on a pile of fallen soldiers, then kneeling before the ruined estate",
+      "emotion": "regretful and grim",
+      "transition": "Cut to what is still standing now.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_20",
+      "order": 20,
+      "narration": "\"I lost everything,\" he remembers, but now the intact banner is still all here. All the people he holds dear are still here. He can hardly believe it. He wants to sing in joy. But it is too early to rejoice.",
+      "panel_uuids": [
+        "2746c640-df69-468f-91eb-43127eb14db2",
+        "1f9d5c0a-68dd-48a1-b0ce-d262fe05de09",
+        "672176d0-3d77-4056-a251-198e9dd47b20",
+        "74cc0ba8-bc08-4f0c-b0ee-e26277b97777"
+      ],
+      "visual_description": "A torn wolf banner, then the same banner flying whole, Ghislain laughing through tears, then his eye sharpening",
+      "emotion": "joyful, then guarded",
+      "transition": "Cut to the danger he remembers about today.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_21",
+      "order": 21,
+      "narration": "Ricardo said they were here to raid the orcs. Ghislain cannot forget that day: this is the day most people in the raid squad will die. In his past life, he followed the raid squad to make a name for himself. The report said three orcs, but there were more than twenty, and almost everyone died because he insisted on commanding the squad.",
+      "panel_uuids": [
+        "c33e6a13-2690-4df7-9df1-8cbb713a8243",
+        "dd5b4edd-de50-496c-a6a9-17d74bd37e7a",
+        "9db13253-5431-4e15-a73c-76ff749acb25",
+        "a8d8ee77-b9cb-45c4-af8e-0a5dbd1c7b18"
+      ],
+      "visual_description": "Ghislain and Ricardo side by side, fallen soldiers on the battlefield, three orcs standing together, then a horde of red-eyed orcs",
+      "emotion": "grim and foreboding",
+      "transition": "Cut to Ghislain weighing his chances.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_22",
+      "order": 22,
+      "narration": "It should be doable, he thinks, since those orcs did not really have a strategy. The problem is whether the men will trust him, when they all think he is some useless bastard.",
+      "panel_uuids": [
+        "b7bec4f6-78d3-449c-a496-7764092a618b"
+      ],
+      "visual_description": "Ghislain walking through the camp with Ricardo, sword at his hip, thinking",
+      "emotion": "calculating and uneasy",
+      "transition": "Cut to debris flying through the camp.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_23",
+      "order": 23,
+      "narration": "Debris from a shattered structure flies through the camp as Ghislain turns toward the crash. The wreckage slams into the ground. The soldiers panic. \"It's the orcs!!!\" The orcs charge into the camp, weapons raised,",
+      "panel_uuids": [
+        "2f3a836f-90ac-4f45-9cd0-1487da0d3101",
+        "f0d43e8d-b58e-40df-8da4-6bcc4d32855e",
+        "670c743d-84f4-4801-8b1e-b2bccb64b578",
+        "b5722594-c959-4216-afc4-5a9dbaa5a1bd"
+      ],
+      "visual_description": "Shattered wood flying overhead, the wreckage slamming down, panicking soldiers, and orcs charging into the camp",
+      "emotion": "chaotic and alarming",
+      "transition": "Cut to Ghislain realising how fast they came.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_24",
+      "order": 24,
+      "narration": "Ghislain is stunned. \"Already? Did they get here this fast in my past life too?!\" The orcs tear through the camp, hurling soldiers aside. A voice roars, \"Get into formation!\"",
+      "panel_uuids": [
+        "c5c0f305-b572-4636-a222-d55212b1fafe",
+        "3801da67-2747-42e7-a67c-9046d60bb8fb",
+        "75533438-855a-4e4a-87f2-2b613c7c45b1"
+      ],
+      "visual_description": "Ghislain turning in shock, orcs hurling soldiers through the air, a commander shouting for formation",
+      "emotion": "stunned and urgent",
+      "transition": "Cut to Commander Skovan charging in.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_25",
+      "order": 25,
+      "narration": "Raid Squad Commander Skovan charges in, shouting, \"Do not panic. Get into defense formation!\" An orc's sweeping blow sends soldiers flying as Skovan is knocked back. They were ambushed unprepared, and there are far more orcs than reported. At this rate, they will all die.",
+      "panel_uuids": [
+        "98fd8587-523a-4245-80c2-d564c968f50f",
+        "25fda7b5-422d-4009-bb4f-2b2052e6bd79",
+        "9faa68b6-7bf0-4c61-976f-b408f584b493",
+        "147bd7bc-fe00-447a-a6cf-05bcf9a3eee4"
+      ],
+      "visual_description": "Skovan charging with his sword, an orc's blow hurling soldiers aside, Skovan reeling as he grasps how badly they are outnumbered",
+      "emotion": "desperate and overwhelmed",
+      "transition": "Cut to the orc looming over Skovan.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_26",
+      "order": 26,
+      "narration": "\"Behind you!!!\" A huge orc raises its axe over Skovan. A desperate slash meets the orc's attack as the fight turns chaotic. Ghislain rushes past Skovan toward the orc, sword ready.",
+      "panel_uuids": [
+        "6dccb74f-88f8-4398-8826-7eaafafd80f2",
+        "0b39c971-d957-4c6b-a5a8-be1cbf5be897",
+        "29898529-074d-4048-b654-f0f6505d7bc8",
+        "1d1bd400-805d-4c84-b03d-39183d841728"
+      ],
+      "visual_description": "A huge orc raising its axe over Skovan, a blinding clash, Ghislain grabbing Skovan's shoulder and rushing past him",
+      "emotion": "desperate, then decisive",
+      "transition": "Cut to Skovan staring after him.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_27",
+      "order": 27,
+      "narration": "Skovan stares in disbelief. \"Huh?\" Then, \"Young Master...?\" Ghislain cuts the orc down. The orc catches his blade bare-handed, but Ghislain slashes through its arm and drives his blade onward.",
+      "panel_uuids": [
+        "b0ab0c07-1803-4592-9d33-3d5eb10f71ce",
+        "b926dcef-914d-422c-8908-6d5a93aed325",
+        "a28d8f31-2b03-4687-95ee-484f2b2061d7",
+        "199b8714-b455-41da-a2c2-1a9119e5228f"
+      ],
+      "visual_description": "Skovan gaping, Ghislain slashing up at the huge orc, the orc gripping his blade, then its severed arm flying",
+      "emotion": "astonished and brutal",
+      "transition": "Cut to the soldiers staring at what Ghislain just did.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_28",
+      "order": 28,
+      "narration": "Skovan and the soldiers stare, stunned. The wounded orc roars in pain. Ghislain stands over the fallen orc, sword in hand, He cannot use mana in this younger body, and wishes he had returned to the past earlier.",
+      "panel_uuids": [
+        "1384eb29-9e68-4a66-99fd-b5ac1a7b076f",
+        "07f253be-b1d8-4db0-bfc2-6eff6c8eaf29",
+        "b46e0ba4-1516-4f3c-a934-77eb3b2efddd",
+        "1c010067-6a03-4c23-8b47-1beda0f48614"
+      ],
+      "visual_description": "Skovan and the soldiers gaping, the wounded orc roaring, Ghislain standing over the fallen orc with his sword",
+      "emotion": "stunned, then frustrated",
+      "transition": "Cut to Ghislain turning on the fallen commander.",
+      "estimated_duration_seconds": null
+    },
+    {
+      "beat_id": "ch01_beat_29",
+      "order": 29,
+      "narration": "He turns to the fallen Skovan. \"You're the commander, right?\" Skovan stammers, \"Y-Young Master?\" Ghislain holds out his hand. \"Give it.\" Skovan is baffled. \"Sorry?\" \"The commander rights.\"",
+      "panel_uuids": [
+        "227c4c67-f038-42f2-a91c-d46dcc0969a0",
+        "26f7f574-59ba-4a36-912f-d5652cb9c4ca",
+        "e3a9e726-a904-4945-97cb-ebaebaf15e2a",
+        "795eca21-3a64-4cec-a1af-bf3c5a58b847"
+      ],
+      "visual_description": "Ghislain walking to the fallen Skovan, holding out his open hand, Skovan staring up in confusion, Ghislain demanding the command",
+      "emotion": "commanding and uncompromising",
+      "transition": null,
+      "estimated_duration_seconds": null
+    }
+  ],
+  "unused_panels": [
+    {
+      "uuid": "b7625ffe-081e-4c1b-a596-dfa3c8f5a3db",
+      "file": "Chapter 0001/panel_0001.jpg",
+      "reason": "credit_page",
+      "detail": "AsuraScans credit/title panel with no story content"
+    },
+    {
+      "uuid": "9336677a-edf3-44d9-9342-dfb96a39e8ea",
+      "file": "Chapter 0001/panel_0022.jpg",
+      "reason": "non_story",
+      "detail": "Korean chapter title card (01) with no story content"
+    }
+  ]
+}

@@ -17,7 +17,7 @@ export const PROJECT_LAYOUT = ['source/originals', 'panels/images', 'analysis/in
 export const DEFAULT_MODULES: ModuleDescriptor[] = [
  { id:'dashboard', title:'Dashboard', description:'Project overview and recent activity', owner:'project-manager', status:'available' },
  { id:'panel-cutter', title:'PanelCutter', description:'Split comic pages into panels', owner:'panel-cutter', status:'integration-pending' },
- { id:'ai-import', title:'AI Analysis Import', description:'Import external analysis JSON; no AI API is used', owner:'ai-import', status:'integration-pending' },
+ { id:'ai-import', title:'AI Analysis Import', description:'Import external analysis JSON; no AI API is used', owner:'ai-import', status:'available' },
  { id:'adapter', title:'PanelVid Adapter', description:'Map panel UUIDs, organize logical pages and export', owner:'adapter', status:'integration-pending' },
  { id:'video-studio', title:'Video Studio', description:'TTS, subtitles, timeline and MP4 rendering', owner:'video-studio', status:'integration-pending' },
  { id:'export-history', title:'Export & History', description:'Project export and job history', owner:'project-manager', status:'integration-pending' },

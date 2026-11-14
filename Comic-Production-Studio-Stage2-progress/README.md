@@ -1,4 +1,4 @@
-# Comic Production Studio — Stage 1 foundation
+# Comic Production Studio — Stage 1 foundation / Stage 2 in progress
 
 This is a new integration workspace. The supplied application sources are preserved verbatim in the source archive under `original-source/`; do not develop directly in those snapshots.
 
@@ -21,9 +21,9 @@ npm run dev
 npm start
 ```
 
-## Stage 1 status
+## Current integration status
 
-The foundation provides a modular Electron/React shell, navigation, typed internal module contracts, module-owned folders, and safe project initialization. Existing production features are not yet connected; module screens are integration placeholders.
+Stage 1 provides the modular Electron/React shell, navigation, typed internal module contracts, module-owned folders, and safe project initialization. Stage 2 is in progress: AI Analysis Import is connected to the shell and copies validated JSON files unchanged into `analysis/incoming` without overwriting existing files. PanelCutter, PanelVid Adapter, and Video Studio remain pending integration and must not be treated as production-ready modules.
 
 ## Data ownership
 
@@ -31,4 +31,4 @@ Project Manager owns only project lifecycle, `project.json`, and backup/restore.
 
 ## Stage gates
 
-No legacy application has been modified. Linux automated checks and a Linux Electron smoke test pass; Windows-specific validation is still pending, so Stage 1 is not yet declared complete. Stage 2 starts only after the required Windows checks pass. Stage 3 includes full production workflow, TTS, FFmpeg, end-to-end, backup/restore and packaging validation.
+The legacy application archives remain unchanged. Linux automated checks and a Linux Electron smoke test pass. The user confirms the Stage 1 app has run normally on Windows; the formal Windows `npm ci`, tests, typecheck, build, launcher, and packaging checks are not captured in this environment. Stage 2 integration must be tested module by module before the full end-to-end workflow. See `docs/stage2-progress.md` for current results and remaining work.
