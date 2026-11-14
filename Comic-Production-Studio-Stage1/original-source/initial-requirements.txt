@@ -1,0 +1,121 @@
+# YÊU CẦU XÂY DỰNG KIẾN TRÚC COMIC PRODUCTION STUDIO
+
+Tôi muốn tích hợp các ứng dụng hiện có thành một phần mềm duy nhất mang tên **Comic Production Studio**, chạy trên Windows, sử dụng một cửa sổ chính và có nhiều module chức năng bên trong.
+
+## 1. Mục tiêu
+
+Tích hợp các ứng dụng:
+- PanelCutter.
+- PanelVid Adapter.
+- PanelVid-Video-Voice-SRT.
+- Project Manager (module quản lý dự án mới).
+
+Người dùng có thể chuyển đổi giữa các công cụ ngay trong một ứng dụng mà không phải đóng mở nhiều phần mềm.
+
+## 2. Yêu cầu kiến trúc quan trọng
+
+Sử dụng kiến trúc **Modular Monolith**.
+
+Mặc dù các công cụ nằm trong cùng một ứng dụng, mỗi module phải được thiết kế độc lập:
+
+- Có cấu trúc mã nguồn riêng.
+- Có giao diện và logic nghiệp vụ riêng.
+- Có thể phát triển, sửa lỗi và nâng cấp riêng.
+- Không phụ thuộc trực tiếp vào cấu trúc nội bộ của module khác.
+- Giao tiếp thông qua các API nội bộ và định dạng dữ liệu được chuẩn hóa.
+- Không để việc sửa đổi một module gây ảnh hưởng ngoài ý muốn đến các module còn lại.
+
+Ví dụ: Khi cần nâng cấp thuật toán cắt ảnh của PanelCutter, chỉ cần chỉnh sửa module PanelCutter mà không phải viết lại PanelVid Adapter hoặc Video Studio.
+
+## 3. Quản lý dữ liệu
+
+Sử dụng một thư mục Project thống nhất.
+
+Mỗi Project quản lý toàn bộ dữ liệu liên quan:
+- Ảnh truyện gốc.
+- Panel đã cắt.
+- Manifest và UUID.
+- AI Analysis JSON.
+- Dữ liệu Adapter và Logical Pages.
+- Audio, TTS và SRT.
+- Video đã xuất.
+
+Các module dùng chung hệ thống Project Manager nhưng phải tuân thủ quyền đọc/ghi dữ liệu đã quy định.
+
+Không tự ý thay đổi hoặc ghi đè dữ liệu của module khác.
+
+## 4. Giữ nguyên chức năng hiện tại
+
+Đây là yêu cầu bắt buộc:
+
+- Không tự ý loại bỏ chức năng đang hoạt động.
+- Không thay đổi định dạng Manifest và AI JSON hiện tại nếu chưa có kế hoạch tương thích.
+- Giữ nguyên cơ chế UUID của PanelCutter.
+- Giữ nguyên quy trình mapping và export của PanelVid Adapter.
+- Giữ nguyên khả năng tạo TTS, SRT và video của PanelVid.
+- Tiếp tục sử dụng AI phân tích bên ngoài, không tích hợp AI API.
+- Ứng dụng phải hoạt động offline, ngoại trừ việc người dùng tự sử dụng AI bên ngoài.
+
+## 5. Cấu trúc giao diện
+
+Ứng dụng có một cửa sổ chính với thanh điều hướng:
+
+1. Dashboard.
+2. PanelCutter.
+3. AI Analysis Import.
+4. PanelVid Adapter.
+5. Video Studio.
+6. Export & History.
+7. Settings.
+
+Mỗi công cụ hoạt động như một module riêng bên trong giao diện chung.
+
+## 6. Yêu cầu phát triển và bảo trì
+
+Thiết kế sao cho:
+- Có thể chỉnh sửa riêng từng module.
+- Có thể thay thế một module bằng phiên bản mới mà không phải xây dựng lại toàn bộ hệ thống.
+- Có thể kiểm thử từng module độc lập.
+- Có cơ chế quản lý phiên bản và tương thích dữ liệu.
+- Có backup và khôi phục dữ liệu Project.
+- Có logging để xác định lỗi thuộc module nào.
+- Có cơ chế bảo vệ dữ liệu khi một module gặp sự cố.
+
+## 7. Quy trình triển khai
+
+Không tích hợp tất cả cùng lúc.
+
+Hãy chia thành các giai đoạn:
+
+1. Kiểm tra source code thực tế của tất cả ứng dụng.
+2. Phân tích công nghệ, cấu trúc và sự phụ thuộc giữa các ứng dụng.
+3. Thiết kế kiến trúc Modular Monolith và hợp đồng giao tiếp giữa các module.
+4. Xây dựng Unified Shell và Project Manager.
+5. Tích hợp PanelCutter.
+6. Tích hợp PanelVid Adapter.
+7. Tích hợp PanelVid và Video Studio.
+8. Kiểm thử toàn bộ quy trình từ ảnh truyện gốc đến video MP4.
+9. Đóng gói ứng dụng Windows.
+
+Mỗi giai đoạn phải có tiêu chí nghiệm thu và kiểm thử hồi quy trước khi chuyển sang giai đoạn tiếp theo.
+
+## 8. Yêu cầu đối với AI lập trình
+
+Trước tiên, hãy kiểm tra source code thực tế của các ứng dụng.
+
+Không tự suy đoán cấu trúc hoặc công nghệ. Không viết lại ứng dụng khi chưa hiểu rõ logic hiện tại.
+
+Ở bước đầu tiên, hãy trả về:
+
+1. Phân tích cấu trúc từng ứng dụng.
+2. Những phần có thể tái sử dụng.
+3. Những phần cần chỉnh sửa để tích hợp.
+4. Các xung đột về công nghệ, dependencies và filesystem.
+5. Kiến trúc tổng thể đề xuất.
+6. Cấu trúc thư mục source code mới.
+7. Kế hoạch tích hợp theo từng giai đoạn.
+8. Những rủi ro và phương án bảo vệ dữ liệu.
+
+**Chưa bắt đầu lập trình hoặc sửa source code ở bước này.**
+
+Chỉ tiến hành xây dựng sau khi kiến trúc và kế hoạch được thống nhất.

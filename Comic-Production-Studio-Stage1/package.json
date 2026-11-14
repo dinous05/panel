@@ -1,0 +1,17 @@
+{
+  "name": "comic-production-studio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "apps/desktop/dist-electron/main.js",
+  "description": "Modular monolith desktop foundation for Comic Production Studio",
+  "scripts": {
+    "dev": "vite --config apps/desktop/vite.config.ts",
+    "build": "tsc -p apps/desktop/tsconfig.json && vite build --config apps/desktop/vite.config.ts && esbuild apps/desktop/src/main/main.ts --bundle --platform=node --format=esm --external:electron --outfile=apps/desktop/dist-electron/main.js && esbuild apps/desktop/src/main/preload.ts --bundle --platform=node --format=cjs --external:electron --outfile=apps/desktop/dist-electron/preload.cjs",
+    "start": "electron .",
+    "test": "node --test packages/project-manager/test/*.test.mjs",
+    "typecheck": "tsc -p apps/desktop/tsconfig.json --noEmit"
+  },
+  "dependencies": { "@vitejs/plugin-react": "^4.3.4", "react": "^18.3.1", "react-dom": "^18.3.1" },
+  "devDependencies": { "@types/node": "^22.10.2", "@types/react": "^18.3.18", "@types/react-dom": "^18.3.5", "electron": "^45.3.2", "esbuild": "^0.28.2", "typescript": "~5.7.2", "vite": "^6.0.5", "vitest": "^2.1.8" }
+}

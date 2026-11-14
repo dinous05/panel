@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import { backupProject, createProject, listProjects, openProject, restoreProject } from '../src/project-manager.mjs';
+let tmp;
+test.beforeEach(async()=>{tmp=await mkdtemp(path.join(os.tmpdir(),'cps-test-'));});
+test.afterEach(async()=>rm(tmp,{recursive:true,force:true}));
+test('create and open initializes owned layout and metadata',async()=>{const p=await createProject(tmp,'Demo'); assert.equal(p.metadata.schemaVersion,1); assert.equal((await openProject(p.path)).metadata.projectId,p.metadata.projectId); assert.equal((await listProjects(tmp)).length,1);});
+test('create refuses existing paths and unsafe names',async()=>{await mkdir(path.join(tmp,'Keep')); await writeFile(path.join(tmp,'Keep','important.txt'),'do not delete'); await assert.rejects(createProject(tmp,'Keep'),/đã tồn tại/); assert.equal(await readFile(path.join(tmp,'Keep','important.txt'),'utf8'),'do not delete'); await assert.rejects(createProject(tmp,'../escape'),/không hợp lệ/);});
+test('backup and restore preserve project data without overwriting destination',async()=>{const p=await createProject(tmp,'Demo'); await writeFile(path.join(p.path,'panels','manifest.json'),'legacy manifest'); const b=await backupProject(p.path,path.join(tmp,'bk')); const restored=await restoreProject(b,path.join(tmp,'restored')); assert.equal(await readFile(path.join(restored.path,'panels','manifest.json'),'utf8'),'legacy manifest'); await assert.rejects(restoreProject(b,path.join(tmp,'restored')),/already exists/);});
