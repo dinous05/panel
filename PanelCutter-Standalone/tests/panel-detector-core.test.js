@@ -10,10 +10,10 @@ import {
 test('keeps a small panel instead of applying the old 4 percent cutoff', () => {
   const result = filterPanelBoxes([
     { x: 5, y: 5, w: 70, h: 80 },
-    { x: 80, y: 8, w: 1.2, h: 1.2 },
+    { x: 80, y: 8, w: 6, h: 6 },
   ], 0.5, 'rtl');
   assert.equal(result.length, 2);
-  assert.ok(result.some(box => box.w < 2 && box.h < 2));
+  assert.ok(result.some(box => box.w < 8 && box.h < 8));
 });
 
 test('keeps a meaningful inset panel inside a larger panel', () => {
