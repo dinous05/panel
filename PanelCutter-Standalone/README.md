@@ -11,6 +11,8 @@ App desktop Windows chỉ dùng để tách ảnh truyện thành panel. Phần 
 5. Rà preview trước khi lưu: bấm ảnh để **phóng to**, bấm **Chia** trên panel cần tách để kéo đường ngang hoặc chỉnh thanh trượt; xác nhận sẽ thay panel đó bằng hai ảnh theo thứ tự trên/dưới. Dùng **Xóa** để bỏ panel thừa và **Gộp vào ảnh trước** để nối panel đang chọn xuống panel liền trước. Với Manga, dùng **↑ / ↓** để đổi thứ tự panel trong cùng trang. Các thao tác sửa sẽ đánh số lại file tự động; mọi chỉnh sửa vẫn ở vùng tạm cho đến khi lưu. Nếu có nhiều panel, dùng **Hiện thêm panel** để xem thêm kết quả.
 6. Khi đã kiểm tra xong, bấm **Lưu ảnh đã cắt…**, chọn thư mục đích. App mới tạo folder kết quả và chép các ảnh đã chỉnh vào đó. Nếu đóng app trước khi lưu, kết quả tạm được xóa.
 
+Sau khi lưu, có thể chọn 5/10/15/20 panel mỗi sheet và JPEG hoặc PNG rồi bấm **Xuất AI Package**. App tạo `AI-Package/ContactSheets/`, `AI-Package/PanelMapping.json` và `AI-Package/README.txt` trong folder kết quả; ảnh gốc không bị sao chép thêm. Mỗi Contact Sheet giữ đúng thứ tự đọc, có nhãn Panel ID và giữ tỷ lệ ảnh. Mapping trỏ bằng đường dẫn tương đối tới ảnh gốc và UUID trong Manifest. Tính năng chỉ tạo dữ liệu cục bộ, không gọi AI hay tải ảnh lên mạng; mỗi lần xuất không ghi đè một AI Package đã có.
+
 Định dạng ảnh đầu vào: JPG/JPEG, PNG, WebP và BMP. Archive được giải nén bằng 7-Zip đi kèm app; archive có mật khẩu sẽ báo lỗi (chưa có giao diện nhập mật khẩu).
 
 ## Cấu trúc kết quả

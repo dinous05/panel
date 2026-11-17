@@ -12,6 +12,8 @@ contextBridge.exposeInMainWorld('panelCutter', {
   readStagedPanel: (payload) => ipcRenderer.invoke('cutter:read-staged-panel', payload),
   deleteStagedPanel: (payload) => ipcRenderer.invoke('cutter:delete-staged-panel', payload),
   finalizeExport: (payload) => ipcRenderer.invoke('cutter:finalize-export', payload),
+  readExportedPanel: (payload) => ipcRenderer.invoke('cutter:read-exported-panel', payload),
+  exportAiPackage: (payload) => ipcRenderer.invoke('cutter:export-ai-package', payload),
   openOutput: (payload) => ipcRenderer.invoke('cutter:open-output', payload),
   getDetectorAssets: () => ipcRenderer.invoke('cutter:get-detector-assets'),
 });

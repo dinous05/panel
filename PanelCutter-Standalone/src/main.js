@@ -1,7 +1,7 @@
 import './style.css';
 import { filterPanelBoxes, resolveMinPanelAreaPct } from './panel-detector-core.js';
 import { MAX_MIN_GAP_PX, computeRowProfile, sliceStripProfile, splitLongSegments, stripSegmentCrop } from './strip-slicer.js';
-import { joinStripProfiles, mapStripCropToSources, mapStripCropToSourceRegions } from './strip-document.js';
+import { joinStripProfiles, mapStripCropToSources } from './strip-document.js';
 import { mangaPanelPath, stripPanelPath } from './output-layout.js';
 import { moveMangaPanel, reindexPanelPaths } from './result-editing.js';
 import { combineSourceRegions, makeMergeIdentityKey, makeSplitIdentityKeys, sourceIdentityKey, splitSourceRegions, createProjectMetadata, validateManifest } from './manifest-core.js';
@@ -56,7 +56,7 @@ root.innerHTML = `
       <section class="progress-panel hidden" id="progress-panel"><div class="progress-head"><div><b id="progress-title">Đang chuẩn bị</b><span id="progress-detail">Đang xử lý ảnh trên máy…</span></div><strong id="progress-percent">0%</strong></div><div class="progress-track"><i id="progress-bar"></i></div></section>
       <div class="error-box hidden" id="error-box"></div>
 
-      <section class="results-panel hidden" id="results-panel"><div class="results-head"><div><div class="eyebrow">BƯỚC 04 · XEM VÀ LƯU</div><h2 id="results-title">Panel đã cắt</h2><p id="results-detail"></p></div><div class="results-actions"><button class="save-output" id="save-output">Lưu ảnh đã cắt…</button><button class="open-folder hidden" id="open-folder">Mở folder kết quả ↗</button></div></div><div class="preview-grid" id="preview-grid"></div><div class="preview-more"><p class="preview-caption" id="preview-caption"></p><button class="more-panels hidden" id="show-more-btn">Hiện thêm panel</button></div></section>
+      <section class="results-panel hidden" id="results-panel"><div class="results-head"><div><div class="eyebrow">BƯỚC 04 · XEM VÀ LƯU</div><h2 id="results-title">Panel đã cắt</h2><p id="results-detail"></p></div><div class="results-actions"><button class="save-output" id="save-output">Lưu ảnh đã cắt…</button><button class="open-folder hidden" id="open-folder">Mở folder kết quả ↗</button></div><div class="ai-package-tools hidden" id="ai-package-tools"><label>Panel mỗi sheet<select id="ai-sheet-size"><option value="10" selected>10 (mặc định)</option><option value="5">5</option><option value="15">15</option><option value="20">20</option></select></label><label>Định dạng<select id="ai-sheet-format"><option value="jpg" selected>JPEG (nhẹ)</option><option value="png">PNG (lossless)</option></select></label><button class="export-ai-button" id="export-ai-button">Xuất AI Package</button></div></div><div class="preview-grid" id="preview-grid"></div><div class="preview-more"><p class="preview-caption" id="preview-caption"></p><button class="more-panels hidden" id="show-more-btn">Hiện thêm panel</button></div></section>
       <div class="image-viewer hidden" id="image-viewer" role="dialog" aria-modal="true" aria-label="Ảnh panel phóng to" tabindex="-1"><button class="image-viewer-backdrop" id="image-viewer-backdrop" type="button" aria-label="Đóng ảnh"></button><div class="image-viewer-panel"><div class="image-viewer-toolbar"><span id="image-viewer-caption">Panel</span><button class="image-viewer-close" id="image-viewer-close" type="button" aria-label="Đóng ảnh">Đóng <b>×</b></button></div><img class="image-viewer-image" id="image-viewer-image" alt="Panel phóng to"></div></div>
       <div class="manual-split hidden" id="manual-split" role="dialog" aria-modal="true" aria-label="Tách panel thủ công">
         <button class="manual-split-backdrop" id="manual-split-backdrop" type="button" aria-label="Hủy tách panel"></button>
@@ -135,7 +135,7 @@ async function acceptInput(result) {
 
 $('#archive-btn').addEventListener('click', async () => { try { await acceptInput(await api.pickArchive()); } catch (e) { showError(e); } });
 $('#folder-btn').addEventListener('click', async () => { try { await acceptInput(await api.pickFolder()); } catch (e) { showError(e); } });
-$('#change-source').addEventListener('click', () => { clearPreviewUrls(); $('#preview-grid').innerHTML = ''; $('#source-summary').classList.add('hidden'); $('.source-actions').classList.remove('hidden'); $('#file-list').classList.add('hidden'); state.token = null; state.count = 0; state.files = []; state.results = []; state.saved = false; $('#start-btn').disabled = true; $('#results-panel').classList.add('hidden'); $('#progress-panel').classList.add('hidden'); $('#output-path').textContent = 'Chưa tạo folder kết quả'; });
+$('#change-source').addEventListener('click', () => { clearPreviewUrls(); $('#preview-grid').innerHTML = ''; $('#source-summary').classList.add('hidden'); $('.source-actions').classList.remove('hidden'); $('#file-list').classList.add('hidden'); state.token = null; state.count = 0; state.files = []; state.results = []; state.saved = false; $('#ai-package-tools').classList.add('hidden'); $('#start-btn').disabled = true; $('#results-panel').classList.add('hidden'); $('#progress-panel').classList.add('hidden'); $('#output-path').textContent = 'Chưa tạo folder kết quả'; });
 
 document.querySelectorAll('[data-style]').forEach(button => button.addEventListener('click', () => {
   document.querySelectorAll('[data-style]').forEach(item => item.classList.toggle('selected', item === button));
@@ -361,6 +361,15 @@ function mangaSourceRegion(pageIndex, sourceFile, sourceFingerprint, sourceWidth
   return { source_page: pageIndex + 1, source_file: sourceFile, source_fingerprint: sourceFingerprint || null, source_width: sourceWidth, source_height: sourceHeight, crop: { x, y, width, height }, output_y: 0, output_height: 1 };
 }
 
+function stripSourceRegion(fragment, entry, part) {
+  const sourceWidth = part?.sourceWidth || entry?.width || 1, sourceHeight = entry?.height || 1;
+  const x = Math.max(0, Math.min(sourceWidth - 1, Math.floor(fragment.sx)));
+  const y = Math.max(0, Math.min(sourceHeight - 1, Math.floor(fragment.sy)));
+  const width = Math.max(1, Math.min(sourceWidth - x, Math.ceil(fragment.sx + fragment.sw) - x));
+  const height = Math.max(1, Math.min(sourceHeight - y, Math.ceil(fragment.sy + fragment.sh) - y));
+  return { source_page: (part?.sourceIndex ?? fragment.pageIndex) + 1, source_file: part?.sourceFile || null, source_fingerprint: part?.sourceFingerprint || null, source_width: sourceWidth, source_height: sourceHeight, crop: { x, y, width, height }, output_y: fragment.destY, output_height: fragment.destH };
+}
+
 function panelRecord(item, index, dimensions) {
   return { id: item.id, uuid: item.uuid, file: item.relativePath, order: index + 1, source_page: item.sourceRegions.length === 1 ? item.sourceRegions[0].source_page : null, source_file: item.sourceRegions.length === 1 ? item.sourceRegions[0].source_file : null, width: dimensions.width, height: dimensions.height, crop: item.sourceRegions.length === 1 ? item.sourceRegions[0].crop : null, source_regions: item.sourceRegions, decision: item.decision || 'SHOW', review_required: item.reviewRequired === true, edit_history: item.editHistory || [], parent_ids: item.parentIds || [] };
 }
@@ -423,11 +432,10 @@ async function buildStripParts() {
   const parts = [];
   for (let index = 0; index < state.count; index++) {
     setProgress((index / state.count) * 34, `Đang ghép ${state.style === 'manhwa' ? 'Manhwa' : 'Manhua'}`, `Đọc profile dải ${index + 1} / ${state.count}…`);
-    const loaded = await loadImage(index);
-    const { image } = loaded;
+    const { image } = await loadImage(index);
     try {
       const profile = imageRowProfile(image);
-      parts.push({ pageIndex: index, sourceIndex: loaded.sourceIndex, sourceFile: loaded.relativePath, sourceFingerprint: loaded.sourceFingerprint, sourceWidth: image.width, width: profile.cropW || image.width, cropX: profile.cropX || 0, height: image.height, profile });
+      parts.push({ pageIndex: index, sourceIndex: image.sourceIndex, sourceFile: image.relativePath, sourceFingerprint: image.sourceFingerprint, sourceWidth: image.width, width: profile.cropW || image.width, cropX: profile.cropX || 0, height: image.height, profile });
     }
     finally { image.close(); }
   }
@@ -473,7 +481,8 @@ async function processJoinedStrip(parts) {
       const canvas = await drawStripSegment(doc, segments[i], cache, uniformTargetWidth(doc.width));
       try {
         const crop = stripSegmentCrop(segments[i], doc.height);
-        const sourceRegions = mapStripCropToSourceRegions(doc, crop, sourceParts);
+        const fragments = mapStripCropToSources(doc, crop);
+        const sourceRegions = fragments.map(fragment => stripSourceRegion(fragment, doc.entries.find(value => value.pageIndex === fragment.pageIndex), sourceParts.find(value => value.pageIndex === fragment.pageIndex)));
         const keys = [sourceIdentityKey(sourceRegions)]; const identity = (await assignIdentities([{}], keys))[0];
         await stageBlob(await canvasBlob(canvas), state.chapterPrefix + stripPanelPath(i, 'jpg'), { ...identity, sourceRegions });
       }
@@ -799,7 +808,7 @@ $('#show-more-btn').addEventListener('click', async () => {
 $('#start-btn').addEventListener('click', async () => {
   if (state.busy || !state.token || !state.style) return;
   state.busy = true; state.saved = false; state.results = []; state.previewCount = 0; state.outputDir = '';
-  clearError(); clearPreviewUrls(); $('#preview-grid').innerHTML = ''; $('#results-panel').classList.add('hidden'); $('#start-btn').disabled = true;
+  clearError(); clearPreviewUrls(); $('#preview-grid').innerHTML = ''; $('#results-panel').classList.add('hidden'); $('#ai-package-tools').classList.add('hidden'); $('#start-btn').disabled = true;
   $('#save-output').disabled = false; $('#save-output').textContent = 'Lưu ảnh đã cắt…'; $('#open-folder').classList.add('hidden');
   try {
     await api.beginStaging({ token: state.token, style: state.style });
@@ -852,6 +861,7 @@ $('#save-output').addEventListener('click', async () => {
     const validation=validateManifest(manifest); if(!validation.valid) throw new Error(`Manifest không hợp lệ: ${validation.errors.join(' ')}`);
     const result = await api.finalizeExport({ token: state.token, outputParent: choice.path, layout: state.outputLayout, manifest });
     state.outputDir = result.outputDir; state.saved = true;
+    $('#ai-package-tools').classList.remove('hidden'); $('#export-ai-button').disabled = false; $('#export-ai-button').textContent = 'Xuất AI Package';
     setProgress(100, 'Đã lưu ảnh', `Đã lưu ${state.results.length.toLocaleString()} panel.`);
     $('#output-path').textContent = state.outputDir;
     $('#save-output').textContent = 'Đã lưu ảnh'; $('#open-folder').classList.remove('hidden');
@@ -860,6 +870,61 @@ $('#save-output').addEventListener('click', async () => {
     $('#preview-caption').textContent = `${state.results.length.toLocaleString()} ảnh đã lưu. Bấm vào ảnh đang xem để phóng to; mở folder để xem toàn bộ: ${state.outputDir}`;
   } catch (error) { showError(error); }
   finally { state.busy = false; $('#save-output').disabled = state.saved; }
+});
+
+async function buildContactSheet(batch, sheetIndex, format) {
+  const columns = 2, cellWidth = 360, cellHeight = 430, gap = 16, header = 54;
+  const rows = Math.ceil(batch.length / columns);
+  const canvas = document.createElement('canvas');
+  canvas.width = columns * cellWidth + (columns + 1) * gap;
+  canvas.height = header + rows * cellHeight + (rows + 1) * gap;
+  const context = canvas.getContext('2d');
+  context.fillStyle = '#f2f3f5'; context.fillRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = '#202633'; context.font = 'bold 22px system-ui';
+  context.fillText(`CONTACT SHEET ${pad(sheetIndex + 1, 4)}`, gap, 36);
+  for (let slot = 0; slot < batch.length; slot++) {
+    const item = batch[slot], index = sheetIndex * Number($('#ai-sheet-size').value) + slot;
+    const data = await api.readExportedPanel({ token: state.token, relativePath: item.relativePath });
+    const bitmap = await createImageBitmap(new Blob([data.data], { type: /\.png$/i.test(item.relativePath) ? 'image/png' : 'image/jpeg' }));
+    const col = slot % columns, row = Math.floor(slot / columns);
+    const x = gap + col * (cellWidth + gap), y = header + gap + row * (cellHeight + gap);
+    context.fillStyle = '#ffffff'; context.fillRect(x, y, cellWidth, cellHeight);
+    const maxW = cellWidth - 24, maxH = cellHeight - 62;
+    const scale = Math.min(maxW / bitmap.width, maxH / bitmap.height);
+    const width = bitmap.width * scale, height = bitmap.height * scale;
+    context.drawImage(bitmap, x + (cellWidth - width) / 2, y + 8 + (maxH - height) / 2, width, height);
+    bitmap.close();
+    context.fillStyle = '#202633'; context.font = 'bold 17px system-ui';
+    context.fillText(`${item.id}  ·  #${String(index + 1).padStart(4, '0')}`, x + 12, y + cellHeight - 18, cellWidth - 24);
+  }
+  const mime = format === 'png' ? 'image/png' : 'image/jpeg';
+  const blob = await new Promise((resolve, reject) => canvas.toBlob(value => value ? resolve(value) : reject(new Error('Không tạo được Contact Sheet.')), mime, 0.9));
+  canvas.width = 1; canvas.height = 1;
+  return { format, data: await blob.arrayBuffer(), panel_uuids: batch.map(item => item.uuid) };
+}
+
+$('#export-ai-button').addEventListener('click', async () => {
+  if (state.busy || !state.saved || !state.results.length) return;
+  const button = $('#export-ai-button');
+  state.busy = true; button.disabled = true; clearError();
+  try {
+    const perSheet = Number($('#ai-sheet-size').value) || 10;
+    const format = $('#ai-sheet-format').value === 'png' ? 'png' : 'jpg';
+    const sheets = [];
+    const sheetCount = Math.ceil(state.results.length / perSheet);
+    for (let start = 0; start < state.results.length; start += perSheet) {
+      const index = Math.floor(start / perSheet);
+      setProgress(Math.round(index / sheetCount * 90), 'Đang tạo AI Package', `Tạo Contact Sheet ${index + 1}/${sheetCount}…`);
+      sheets.push(await buildContactSheet(state.results.slice(start, start + perSheet), index, format));
+    }
+    const result = await api.exportAiPackage({ token: state.token, sheets });
+    setProgress(100, 'Đã xuất AI Package', `${result.panelCount} panel · ${result.sheetCount} Contact Sheet.`);
+    button.textContent = 'Đã xuất AI Package';
+    $('#output-path').textContent = `${state.outputDir} · AI-Package`;
+  } catch (error) {
+    showError(error);
+    button.disabled = false;
+  } finally { state.busy = false; }
 });
 
 $('#open-folder').addEventListener('click', async () => { try { const result = await api.openOutput({ token: state.token }); if (!result.ok) showError(result.error || 'Không mở được folder kết quả.'); } catch (e) { showError(e); } });
