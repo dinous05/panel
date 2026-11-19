@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "VSPING GoogleSheet CSV Checker",
+  "version": "1.0.0",
+  "description": "VSPING URL checker with resumable CSV workflow",
+  "permissions": [
+    "activeTab",
+    "downloads",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://www.vsping.com/*",
+    "https://docs.google.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.vsping.com/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ]
+}

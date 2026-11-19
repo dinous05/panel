@@ -1,0 +1,9 @@
+VSPING AUTO CHECKER v1.0.0
+- Nâng phiên bản Manifest lên 1.0.0; gỡ khai báo web-accessible resource không tồn tại/không dùng.
+- Thêm parser CSV chuẩn hỗ trợ BOM, Unicode, dấu phẩy, quoted fields và escaped quotes.
+- Xuất CSV thực sự (UTF-8 BOM) thành vsping_result.csv; giữ nguyên cột nguồn, cập nhật kết quả ở cột C.
+- Thêm trạng thái RUNNING/PAUSED/STOPPED/COMPLETED, checkpoint, thời gian cập nhật, phục hồi sau reload và ngăn chạy song song.
+- Thêm START, PAUSE, RESUME, STOP, RESET, EXPORT cùng thống kê và progress bar.
+- STOP có hiệu lực khi chờ CAPTCHA hoặc tiến độ; CAPTCHA tiếp tục được giải thủ công.
+- Thêm timeout, kiểm tra lỗi tải CSV/selector, panel dùng textContent thay innerHTML với dữ liệu người dùng.
+- Loại bỏ nhánh mã chết và đổi giao diện popup.

@@ -5,6 +5,7 @@ import { joinStripProfiles, mapStripCropToSources } from './strip-document.js';
 import { mangaPanelPath, stripPanelPath } from './output-layout.js';
 import { moveMangaPanel, reindexPanelPaths } from './result-editing.js';
 import { combineSourceRegions, makeMergeIdentityKey, makeSplitIdentityKeys, sourceIdentityKey, splitSourceRegions, createProjectMetadata, validateManifest } from './manifest-core.js';
+import { layoutSequentialRows, partitionPanelsByChapter } from './contact-sheet-layout.js';
 
 // Mức chất lượng JPEG cân bằng dung lượng và độ rõ nét của nét vẽ truyện.
 // Canvas bỏ qua tham số này với PNG, nên PNG vẫn được mã hóa lossless.
@@ -345,7 +346,7 @@ async function cropBlob(image, crop, mime, targetWidth = 0) {
 
 async function stageBlob(blob, relativePath, metadata = {}) {
   await api.writePanel({ token: state.token, relativePath, data: await blob.arrayBuffer() });
-  state.results.push({ reviewRequired: false, decision: 'SHOW', editHistory: [], sourceRegions: [], ...metadata, relativePath });
+  state.results.push({ reviewRequired: false, decision: 'SHOW', editHistory: [], sourceRegions: [], chapterId: state.activeChapterName || state.sourceName, ...metadata, relativePath });
 }
 
 async function assignIdentities(items, keys) {
@@ -817,6 +818,7 @@ $('#start-btn').addEventListener('click', async () => {
     for (let chapterIndex = 0; chapterIndex < chapters.length; chapterIndex++) {
       const chapter = chapters[chapterIndex];
       state.activeIndices = chapter.indices; state.count = chapter.indices.length;
+      state.activeChapterName = chapter.name || state.sourceName;
       state.chapterPrefix = state.chapters.length ? `${chapter.name}/` : '';
       setProgress(chapterIndex / chapters.length * 100, 'Đang xử lý các chap', `${chapter.name || 'Truyện'} · chap ${chapterIndex + 1}/${chapters.length} · ${state.count} trang…`);
       if (state.style === 'manga') count += await processManga();
@@ -828,7 +830,7 @@ $('#start-btn').addEventListener('click', async () => {
         else { parts.length = 0; count += await processStripPerImage(width); }
       }
     }
-    state.count = sourceCount; state.activeIndices = null; state.chapterPrefix = '';
+    state.count = sourceCount; state.activeIndices = null; state.chapterPrefix = ''; state.activeChapterName = '';
     if (!count || !state.results.length) throw new Error('Không tạo được panel nào để xem.');
     state.previewCount = Math.min(12, state.results.length);
     await renderPreviewGrid();
@@ -855,6 +857,7 @@ $('#save-output').addEventListener('click', async () => {
     for(let index=0;index<state.results.length;index++){
       const item=state.results[index], response=await api.readStagedPanel({token:state.token,relativePath:item.relativePath});
       const bitmap=await createImageBitmap(new Blob([response.data],{type:/\.png$/i.test(item.relativePath)?'image/png':'image/jpeg'}));
+      item.width=bitmap.width; item.height=bitmap.height; item.order=index+1;
       panels.push(panelRecord(item,index,{width:bitmap.width,height:bitmap.height})); bitmap.close();
     }
     const manifest={...createProjectMetadata({projectId:state.projectIdentity.projectId,projectName:state.projectIdentity.projectName,createdAt:state.projectIdentity.createdAt,exportedAt,sourceType:state.sourceType,sourceName:state.sourceName,readingDirection:state.style==='manga'?state.reading:null,comicType:state.style}),export_layout:state.outputLayout,panels};
@@ -872,35 +875,48 @@ $('#save-output').addEventListener('click', async () => {
   finally { state.busy = false; $('#save-output').disabled = state.saved; }
 });
 
-async function buildContactSheet(batch, sheetIndex, format) {
-  const columns = 2, cellWidth = 360, cellHeight = 430, gap = 16, header = 54;
-  const rows = Math.ceil(batch.length / columns);
-  const canvas = document.createElement('canvas');
-  canvas.width = columns * cellWidth + (columns + 1) * gap;
-  canvas.height = header + rows * cellHeight + (rows + 1) * gap;
+async function buildContactSheet(sheet, sheetIndex, chapterIndex, format) {
+  const canvasWidth = 2400, margin = 48, gap = 24, labelHeight = 44, headerHeight = 92;
+  const rows = layoutSequentialRows(sheet.panels, { canvasWidth, margin, gap });
+  const canvasHeight = headerHeight + rows.reduce((sum, row) => sum + row.height + labelHeight + gap, 0) + margin;
+  const canvas = document.createElement('canvas'); canvas.width = canvasWidth; canvas.height = canvasHeight;
   const context = canvas.getContext('2d');
-  context.fillStyle = '#f2f3f5'; context.fillRect(0, 0, canvas.width, canvas.height);
-  context.fillStyle = '#202633'; context.font = 'bold 22px system-ui';
-  context.fillText(`CONTACT SHEET ${pad(sheetIndex + 1, 4)}`, gap, 36);
-  for (let slot = 0; slot < batch.length; slot++) {
-    const item = batch[slot], index = sheetIndex * Number($('#ai-sheet-size').value) + slot;
-    const data = await api.readExportedPanel({ token: state.token, relativePath: item.relativePath });
-    const bitmap = await createImageBitmap(new Blob([data.data], { type: /\.png$/i.test(item.relativePath) ? 'image/png' : 'image/jpeg' }));
-    const col = slot % columns, row = Math.floor(slot / columns);
-    const x = gap + col * (cellWidth + gap), y = header + gap + row * (cellHeight + gap);
-    context.fillStyle = '#ffffff'; context.fillRect(x, y, cellWidth, cellHeight);
-    const maxW = cellWidth - 24, maxH = cellHeight - 62;
-    const scale = Math.min(maxW / bitmap.width, maxH / bitmap.height);
-    const width = bitmap.width * scale, height = bitmap.height * scale;
-    context.drawImage(bitmap, x + (cellWidth - width) / 2, y + 8 + (maxH - height) / 2, width, height);
-    bitmap.close();
-    context.fillStyle = '#202633'; context.font = 'bold 17px system-ui';
-    context.fillText(`${item.id}  ·  #${String(index + 1).padStart(4, '0')}`, x + 12, y + cellHeight - 18, cellWidth - 24);
+  context.fillStyle = '#f4f5f7'; context.fillRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = '#202633'; context.font = 'bold 30px system-ui';
+  context.fillText(`${sheet.chapterId}  ·  SHEET ${pad(sheetIndex + 1, 3)}`, margin, 44);
+  context.fillStyle = '#626b78'; context.font = '18px system-ui';
+  context.fillText(`Panel ${sheet.panels[0].order}–${sheet.panels.at(-1).order} · ${sheet.panels.length} panel · thứ tự đọc được giữ nguyên`, margin, 74);
+  const layoutPanels = [];
+  let y = headerHeight;
+  for (const row of rows) {
+    const rowStart = margin + Math.max(0, (canvasWidth - margin * 2 - row.occupiedWidth) / 2);
+    let cursor = state.style === 'manga' && state.reading === 'rtl' ? rowStart + row.occupiedWidth : rowStart;
+    for (let i = 0; i < row.items.length; i++) {
+      const placed = row.items[i], tileWidth = row.tileWidths[i], item = sheet.panels.find(panel => panel.uuid === placed.uuid);
+      const x = state.style === 'manga' && state.reading === 'rtl' ? (cursor -= tileWidth) : cursor;
+      if (!(state.style === 'manga' && state.reading === 'rtl')) cursor += tileWidth;
+      const response = await api.readExportedPanel({ token: state.token, relativePath: item.relativePath });
+      const bitmap = await createImageBitmap(new Blob([response.data], { type: /\.png$/i.test(item.relativePath) ? 'image/png' : 'image/jpeg' }));
+      const drawWidth = bitmap.width * row.height / bitmap.height;
+      const drawX = x + (tileWidth - drawWidth) / 2;
+      context.fillStyle = '#ffffff'; context.fillRect(x, y, tileWidth, row.height + labelHeight - 4);
+      context.drawImage(bitmap, drawX, y + (row.height - row.height) / 2, drawWidth, row.height);
+      bitmap.close();
+      context.fillStyle = placed.detail_required ? '#9b3e22' : '#202633';
+      context.font = 'bold 18px system-ui';
+      const label = `${placed.panel_id} · #${String(placed.reading_order).padStart(4, '0')}${placed.detail_required ? ' · XEM ẢNH GỐC' : ''}`;
+      context.fillText(label, x + 8, y + row.height + 27, Math.max(tileWidth - 16, 150));
+      layoutPanels.push({ ...placed, sheet_id: `sheet_${String(sheetIndex + 1).padStart(3, '0')}` });
+    }
+    y += row.height + labelHeight + gap;
   }
   const mime = format === 'png' ? 'image/png' : 'image/jpeg';
-  const blob = await new Promise((resolve, reject) => canvas.toBlob(value => value ? resolve(value) : reject(new Error('Không tạo được Contact Sheet.')), mime, 0.9));
+  const blob = await new Promise((resolve, reject) => canvas.toBlob(value => value ? resolve(value) : reject(new Error('Không tạo được Contact Sheet.')), mime, 0.92));
   canvas.width = 1; canvas.height = 1;
-  return { format, data: await blob.arrayBuffer(), panel_uuids: batch.map(item => item.uuid) };
+  return {
+    format, data: await blob.arrayBuffer(), chapter_id: sheet.chapterId, chapter_index: chapterIndex,
+    sheet_index: sheetIndex + 1, panel_uuids: sheet.panels.map(item => item.uuid), layout_panels: layoutPanels,
+  };
 }
 
 $('#export-ai-button').addEventListener('click', async () => {
@@ -910,12 +926,13 @@ $('#export-ai-button').addEventListener('click', async () => {
   try {
     const perSheet = Number($('#ai-sheet-size').value) || 10;
     const format = $('#ai-sheet-format').value === 'png' ? 'png' : 'jpg';
-    const sheets = [];
-    const sheetCount = Math.ceil(state.results.length / perSheet);
-    for (let start = 0; start < state.results.length; start += perSheet) {
-      const index = Math.floor(start / perSheet);
-      setProgress(Math.round(index / sheetCount * 90), 'Đang tạo AI Package', `Tạo Contact Sheet ${index + 1}/${sheetCount}…`);
-      sheets.push(await buildContactSheet(state.results.slice(start, start + perSheet), index, format));
+    const chapterSheets = partitionPanelsByChapter(state.results, perSheet);
+    const sheets = [], chapterIndexes = new Map();
+    for (let index = 0; index < chapterSheets.length; index++) {
+      const sheet = chapterSheets[index];
+      if (!chapterIndexes.has(sheet.chapterId)) chapterIndexes.set(sheet.chapterId, chapterIndexes.size + 1);
+      setProgress(Math.round(index / chapterSheets.length * 90), 'Đang tạo AI Package', `${sheet.chapterId} · sheet ${index + 1}/${chapterSheets.length}…`);
+      sheets.push(await buildContactSheet(sheet, sheets.filter(value => value.chapter_id === sheet.chapterId).length, chapterIndexes.get(sheet.chapterId), format));
     }
     const result = await api.exportAiPackage({ token: state.token, sheets });
     setProgress(100, 'Đã xuất AI Package', `${result.panelCount} panel · ${result.sheetCount} Contact Sheet.`);

@@ -329,33 +329,50 @@ ipcMain.handle('cutter:export-ai-package', async (_event, { token, sheets }) => 
     const sheetsDir = path.join(target, 'ContactSheets');
     await fs.mkdir(sheetsDir);
     const sheetRecords = [];
+    const layoutRecords = [];
+    const chapterByUuid = new Map();
+    const panelByUuid = new Map(saved.manifest.panels.map(panel => [panel.uuid, panel]));
+    const seenUuids = new Set();
+    const expectedUuids = saved.manifest.panels.map(panel => panel.uuid);
+    const actualUuids = [];
     let totalBytes = 0;
     for (let i = 0; i < sheets.length; i++) {
       const item = sheets[i];
       const ext = item?.format === 'png' ? 'png' : item?.format === 'jpg' ? 'jpg' : null;
-      if (!ext || !Array.isArray(item.panel_uuids) || !item.panel_uuids.length) throw new Error('Dữ liệu Contact Sheet không hợp lệ.');
+      if (!ext || typeof item.chapter_id !== 'string' || !item.chapter_id || !Number.isInteger(item.chapter_index) || item.chapter_index < 1 || !Number.isInteger(item.sheet_index) || item.sheet_index < 1 || !Array.isArray(item.panel_uuids) || !item.panel_uuids.length || !Array.isArray(item.layout_panels) || item.layout_panels.length !== item.panel_uuids.length) throw new Error('Dữ liệu Contact Sheet không hợp lệ.');
       const bytes = item.data instanceof ArrayBuffer ? Buffer.from(item.data) : ArrayBuffer.isView(item.data) ? Buffer.from(item.data.buffer, item.data.byteOffset, item.data.byteLength) : null;
       if (!bytes || !bytes.length || bytes.length > 30 * 1024 * 1024) throw new Error(`Contact Sheet ${i + 1} rỗng hoặc vượt quá 30 MB.`);
       totalBytes += bytes.length;
       if (totalBytes > 500 * 1024 * 1024) throw new Error('AI Package vượt giới hạn 500 MB. Hãy giảm số panel mỗi sheet hoặc chọn JPEG.');
-      const name = `sheet_${String(i + 1).padStart(4, '0')}.${ext}`;
-      await fs.writeFile(path.join(sheetsDir, name), bytes, { flag: 'wx' });
-      sheetRecords.push({ file: `ContactSheets/${name}`, panel_uuids: [...item.panel_uuids] });
+      const chapterDir = `Chapter_${String(item.chapter_index).padStart(3, '0')}_${safeLabel(item.chapter_id)}`;
+      const chapterSheetDir = path.join(sheetsDir, chapterDir);
+      await fs.mkdir(chapterSheetDir, { recursive: true });
+      const name = `sheet_${String(item.sheet_index).padStart(3, '0')}.${ext}`;
+      const relativeSheetPath = `ContactSheets/${chapterDir}/${name}`;
+      await fs.writeFile(path.join(chapterSheetDir, name), bytes, { flag: 'wx' });
+      const groupUuids = [...item.panel_uuids];
+      for (const uuid of groupUuids) {
+        if (!panelByUuid.has(uuid)) throw new Error(`Contact Sheet tham chiếu UUID không tồn tại: ${uuid}`);
+        if (seenUuids.has(uuid)) throw new Error(`UUID xuất hiện lặp trong Contact Sheets: ${uuid}`);
+        seenUuids.add(uuid); actualUuids.push(uuid); chapterByUuid.set(uuid, item.chapter_id);
+      }
+      if (item.layout_panels.some((entry, index) => entry.uuid !== groupUuids[index] || entry.chapter_id !== item.chapter_id)) throw new Error(`Layout không khớp UUID/chapter ở sheet ${name}.`);
+      sheetRecords.push({ file: relativeSheetPath, panel_uuids: groupUuids });
+      layoutRecords.push({ sheet_id: `sheet_${String(item.sheet_index).padStart(3, '0')}`, chapter_id: item.chapter_id, file: relativeSheetPath, panel_count: groupUuids.length, panels: item.layout_panels });
     }
+    if (actualUuids.length !== expectedUuids.length || expectedUuids.some((uuid, index) => actualUuids[index] !== uuid)) throw new Error('Contact Sheets không bảo toàn đầy đủ thứ tự/định danh panel trong Manifest.');
     const panelRecords = saved.manifest.panels.map(panel => {
       const normalized = String(panel.file).replace(/\\/g, '/');
       resolveExportedPanel(saved.outputDir, normalized);
       return {
         panel_id: panel.id,
         uuid: panel.uuid,
-        chapter_id: normalized.includes('/') ? normalized.split('/')[0] : null,
+        chapter_id: chapterByUuid.get(panel.uuid) || (normalized.includes('/') ? normalized.split('/')[0] : null),
         page_id: panel.source_page ?? null,
         reading_order: panel.order,
         image_path: `../${normalized}`,
       };
     });
-    const validUuids = new Set(panelRecords.map(panel => panel.uuid));
-    for (const sheet of sheetRecords) for (const uuid of sheet.panel_uuids) if (!validUuids.has(uuid)) throw new Error(`Contact Sheet tham chiếu UUID không tồn tại: ${uuid}`);
     const mapping = {
       schema_version: '1.0',
       project: saved.manifest.project,
@@ -363,8 +380,10 @@ ipcMain.handle('cutter:export-ai-package', async (_event, { token, sheets }) => 
       contact_sheets: sheetRecords,
       panels: panelRecords,
     };
+    const contactSheetLayout = { algorithm: 'ASL', version: '1.0.0', canvas_width: 2400, reading_direction: saved.manifest.source.reading_direction || 'top_to_bottom', sheets: layoutRecords };
     await fs.writeFile(path.join(target, 'PanelMapping.json'), `${JSON.stringify(mapping, null, 2)}\n`, { encoding: 'utf8', flag: 'wx' });
-    await fs.writeFile(path.join(target, 'README.txt'), 'AI Package: ContactSheets cung cấp tổng quan theo thứ tự đọc. Dùng PanelMapping.json để ánh xạ Panel ID/UUID đến ảnh gốc trong ../. Không chỉnh sửa manifest.json để tạo package này.\n', { encoding: 'utf8', flag: 'wx' });
+    await fs.writeFile(path.join(target, 'ContactSheetLayout.json'), `${JSON.stringify(contactSheetLayout, null, 2)}\n`, { encoding: 'utf8', flag: 'wx' });
+    await fs.writeFile(path.join(target, 'README.txt'), 'AI Package: ContactSheets được chia theo chapter, chỉ dùng để xem tổng quan. Panel có nhãn XEM ẢNH GỐC có thumbnail quá hẹp hoặc nhỏ để đọc thoại; hãy mở ảnh gốc theo image_path trong PanelMapping.json khi cần chi tiết. UUID/Panel ID và Manifest không bị thay đổi.\n', { encoding: 'utf8', flag: 'wx' });
     return { path: target, panelCount: panelRecords.length, sheetCount: sheetRecords.length };
   } catch (error) {
     await fs.rm(target, { recursive: true, force: true });
