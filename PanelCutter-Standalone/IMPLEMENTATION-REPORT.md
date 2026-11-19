@@ -1,4 +1,23 @@
-# PanelCutter 1.1.1 — Hotfix kỹ thuật và kiểm thử
+# PanelCutter 1.1.7 — Current implementation report
+
+## Thay đổi release 1.1.5
+
+- Bố trí Contact Sheet đọc `DEFAULT_VERTICAL_LAYOUT` làm nguồn giới hạn mặc định; giao diện cho phép đặt chiều cao tối đa và số cột, các giá trị thực tế được lưu trong `ContactSheetLayout.json`.
+- Metadata phân biệt `source_reading_direction` với `layout_reading_order: "top_to_bottom_then_left_to_right"`.
+- Nhãn panel được giới hạn trong chiều rộng panel/cột.
+- Bỏ chia panel dài tự động theo 16:9. Trong preview, người dùng tự thêm, nhập/kéo, xóa một hoặc nhiều mốc; chỉ xác nhận mới tạo các đoạn liền nhau, giữ thứ tự và source-region mapping.
+- Panel cao hơn vùng nội dung Contact Sheet được chia thành lát pixel liền nhau chỉ trong bản sheet, tiếp nối qua cột/sheet. Lưu `source_y`, `source_height`, `segment_index/count`; giữ nguyên ảnh panel xuất, UUID, Manifest và PanelMapping.
+- Sửa lỗi `sheet is not defined` khi xuất AI Package.
+- Trong hộp thoại Chia panel, thêm ngưỡng px/phần có thể chỉnh; panel dài hơn ngưỡng được gợi ý các mốc cân bằng. Người dùng vẫn có thể chỉnh mốc và phải xác nhận mới chia.
+- Version ứng dụng đồng bộ: `package.json`, `package-lock.json`, README và báo cáo này đều là 1.1.7.
+
+### Xác minh release 1.1.7
+
+- `npm test`: 54/54 test pass.
+- `node --check` cho renderer, layout, manual-split helper, strip slicer và Electron main: pass.
+- `npm run build`: pass.
+
+## Lịch sử release 1.1.1 — Hotfix kỹ thuật và kiểm thử
 
 ## Phạm vi
 

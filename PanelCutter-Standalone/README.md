@@ -1,17 +1,17 @@
 # Panel Cutter Offline
 
-App desktop Windows chỉ dùng để tách ảnh truyện thành panel. Phần tạo voice, timeline và xuất video thuộc app khác, không có trong ứng dụng này.
+**Phiên bản ứng dụng: 1.1.8.** App desktop Windows chỉ dùng để tách ảnh truyện thành panel. Phần tạo voice, timeline và xuất video thuộc app khác, không có trong ứng dụng này.
 
 ## Dùng app
 
 1. Chọn một file **ZIP, CBZ, RAR hoặc CBR**, hoặc chọn một folder ảnh. Folder được quét cả thư mục con.
 2. Chọn **Manga**, **Manhwa** hoặc **Manhua**. Với Manga, chọn thứ tự panel phải-sang-trái (mặc định) hoặc trái-sang-phải.
 3. Với Manhwa/Manhua, chỉnh **Độ dày khe tối thiểu** từ 0 đến 1000 px. Giá trị 0 dùng ngưỡng tự động nhạy hơn; tăng giá trị để bỏ qua separator mỏng. Nếu khe trắng rõ nhưng còn bị bỏ sót, hạ về 0 hoặc thử 1–10 px. Không có bộ lọc độ sáng.
-4. Bấm **Bắt đầu cắt**. Panel được tạo trong vùng tạm và hiển thị preview; lúc này chưa có folder kết quả được ghi ra.
-5. Rà preview trước khi lưu: bấm ảnh để **phóng to**, bấm **Chia** trên panel cần tách để kéo đường ngang hoặc chỉnh thanh trượt; xác nhận sẽ thay panel đó bằng hai ảnh theo thứ tự trên/dưới. Dùng **Xóa** để bỏ panel thừa và **Gộp vào ảnh trước** để nối panel đang chọn xuống panel liền trước. Với Manga, dùng **↑ / ↓** để đổi thứ tự panel trong cùng trang. Các thao tác sửa sẽ đánh số lại file tự động; mọi chỉnh sửa vẫn ở vùng tạm cho đến khi lưu. Nếu có nhiều panel, dùng **Hiện thêm panel** để xem thêm kết quả.
+4. Có thể đặt **Độ dài tối đa mỗi panel (px)** trong mục đầu ra trước khi cắt. Mặc định 0 là tắt; khi bật, mọi panel dài hơn giới hạn được chia ngay trong bước cắt (trước preview), áp dụng cho Manga, Manhwa và Manhua. Có hai cách: **Cắt phần dư** tạo các đoạn đủ ngưỡng và để đoạn cuối ngắn hơn; **Chia đều** dùng số phần ít nhất sao cho mỗi phần không vượt ngưỡng (ví dụ 15.000 px / tối đa 3.200 px thành 5 phần 3.000 px). Đây là giới hạn chiều cao ảnh panel đầu ra, không liên quan đến Contact Sheet. Bấm **Bắt đầu cắt** để tạo panel trong vùng tạm và xem preview; lúc này chưa có folder kết quả được ghi ra.
+5. Rà preview trước khi lưu: bấm ảnh để **phóng to**, bấm **Chia** trên panel cần tách. Panel dài hơn ngưỡng px có mốc chia gợi ý; chỉnh ngưỡng, tạo lại, rồi tự kéo/nhập/thêm/xóa mốc nếu cần. Xác nhận mới chia thành các phần liền nhau; hủy thì ảnh không đổi. Không có chia tự động theo tỷ lệ 16:9. Dùng **Xóa** để bỏ panel thừa và **Gộp vào ảnh trước** để nối panel đang chọn xuống panel liền trước. Với Manga, dùng **↑ / ↓** để đổi thứ tự panel trong cùng trang. Các thao tác sửa sẽ đánh số lại file tự động; mọi chỉnh sửa vẫn ở vùng tạm cho đến khi lưu. Nếu có nhiều panel, dùng **Hiện thêm panel** để xem thêm kết quả.
 6. Khi đã kiểm tra xong, bấm **Lưu ảnh đã cắt…**, chọn thư mục đích. App mới tạo folder kết quả và chép các ảnh đã chỉnh vào đó. Nếu đóng app trước khi lưu, kết quả tạm được xóa.
 
-Sau khi lưu, có thể chọn 5/10/15/20 panel mỗi sheet và JPEG hoặc PNG rồi bấm **Xuất AI Package**. App chia theo chapter, sau đó bố trí tuần tự từ trên xuống trong từng cột; khi hết chiều cao, chuyển sang cột kế tiếp và tạo sheet mới khi chạm giới hạn chiều rộng/số cột. Contact Sheet nằm trong `AI-Package/ContactSheets/Chapter_001_<tên-chapter>/`. Panel được vẽ ở kích thước pixel gốc, không resize/crop; nhãn riêng bên dưới không che ảnh. Giới hạn mặc định là 2400×3200 px, tối đa 4 cột. Panel đơn lẻ vượt giới hạn được giữ nguyên và sheet được đánh dấu `OVERFLOW`. `ContactSheetLayout.json` ghi tọa độ/kích thước/overflow; `PanelMapping.json` vẫn ánh xạ UUID về ảnh gốc trong thư mục cha. Contact Sheet là bản tổng quan; khi cần đọc thoại nhỏ, mở ảnh gốc theo `image_path`. Không đổi Manifest, UUID hoặc ảnh panel. Tính năng chạy cục bộ, không gọi AI hay tải ảnh lên mạng; mỗi lần xuất không ghi đè một AI Package đã có.
+Sau khi lưu, có thể chọn 5/10/15/20 panel mỗi sheet, chiều cao tối đa, số cột tối đa và JPEG/PNG rồi bấm **Xuất AI Package**. App chia theo chapter, sau đó bố trí tuần tự từ trên xuống trong từng cột; khi hết chiều cao, chuyển sang cột kế tiếp và tạo sheet mới khi chạm giới hạn chiều rộng/số cột. Giới hạn mặc định là 2400×3200 px, tối đa 4 cột; chiều cao và số cột có thể chỉnh ngay trong giao diện. Nếu panel dài vượt quá vùng nội dung còn dùng được, Contact Sheet hiển thị thành các lát pixel liền nhau `PHẦN n/N`, tiếp tục sang cột hoặc sheet kế; đây chỉ là cách trình bày, không sửa/crop ảnh panel đã lưu. `ContactSheetLayout.json` ghi tọa độ, `source_y`/`source_height`, số thứ tự lát và giới hạn thực tế; `PanelMapping.json` vẫn ánh xạ UUID về ảnh gốc. Panel rộng quá giới hạn không thể xử lý bằng lát dọc sẽ được đánh dấu `OVERFLOW`. Metadata tách riêng `source_reading_direction` với thứ tự bố trí cố định `top_to_bottom_then_left_to_right`. Contact Sheet là bản tổng quan; khi cần đọc thoại nhỏ, mở ảnh gốc theo `image_path`. Không đổi Manifest, UUID hoặc ảnh panel. Tính năng chạy cục bộ, không gọi AI hay tải ảnh lên mạng; mỗi lần xuất không ghi đè một AI Package đã có.
 
 Định dạng ảnh đầu vào: JPG/JPEG, PNG, WebP và BMP. Archive được giải nén bằng 7-Zip đi kèm app; archive có mật khẩu sẽ báo lỗi (chưa có giao diện nhập mật khẩu).
 
@@ -40,7 +40,7 @@ npm run app
 
 Model Manga được phân phối kèm giấy phép trong `resources/MANGA-PANEL-MODEL-LICENSE.txt`. Dependency 7-Zip đi kèm có giấy phép MIT trong gói npm tương ứng.
 
-## Panel ID và manifest.json (v1.1.1)
+## Panel ID và manifest.json (ứng dụng v1.1.7; Manifest schema 1.0)
 
 Khi lưu kết quả, PanelCutter tạo thêm `manifest.json` ở thư mục gốc của bộ xuất, cho cả hai kiểu `preserve` và `flat`. Manifest gồm `schema_version: "1.0"`, `project`, `source`, `coordinate_system`, `export_layout` và danh sách `panels`. Mỗi panel có `id` dạng `P000001`, UUID nội bộ, đường dẫn ảnh đầu ra, thứ tự đọc, kích thước ảnh thực tế, quyết định mặc định `SHOW`, trạng thái review mặc định `false`, lịch sử chỉnh sửa và các `source_regions`.
 

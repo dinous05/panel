@@ -36,13 +36,19 @@ test('panels with highly different heights move intact to the next column when t
   ]);
 });
 
-test('a panel taller than the canvas is placed alone at native dimensions and marked overflow', () => {
+test('a panel taller than the usable canvas is rendered as contiguous native-size slices across columns/sheets', () => {
   const sheets = layoutVerticalSequential([panel('A', 1, 180, 2000)], { ...compact, maxHeight: 800 });
-  assert.equal(sheets.length, 1);
-  assert.equal(sheets[0].panels[0].height, 2000);
-  assert.equal(sheets[0].panels[0].overflow_height, true);
-  assert.equal(sheets[0].overflow.height, true);
-  assert.ok(sheets[0].height > 800);
+  assert.equal(sheets.length, 2);
+  const pieces = sheets.flatMap(sheet => sheet.panels);
+  assert.deepEqual(pieces.map(item => [item.uuid, item.segment_index, item.segment_count, item.source_y, item.source_height, item.width, item.height]), [
+    ['uuid-1', 1, 4, 0, 640, 180, 640],
+    ['uuid-1', 2, 4, 640, 640, 180, 640],
+    ['uuid-1', 3, 4, 1280, 640, 180, 640],
+    ['uuid-1', 4, 4, 1920, 80, 180, 80],
+  ]);
+  assert.deepEqual(sheets.map(sheet => sheet.panels.map(item => item.column)), [[1, 2], [1, 2]]);
+  assert.ok(sheets.every(sheet => sheet.height <= 800 && !sheet.overflow?.height));
+  assert.equal(pieces.reduce((sum, item) => sum + item.source_height, 0), 2000);
 });
 
 test('a new Contact Sheet starts when another column would exceed max width', () => {

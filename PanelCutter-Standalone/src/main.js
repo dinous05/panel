@@ -1,11 +1,13 @@
 import './style.css';
 import { filterPanelBoxes, resolveMinPanelAreaPct } from './panel-detector-core.js';
-import { MAX_MIN_GAP_PX, computeRowProfile, sliceStripProfile, splitLongSegments, stripSegmentCrop } from './strip-slicer.js';
+import { MAX_MIN_GAP_PX, computeRowProfile, sliceStripProfile, stripSegmentCrop } from './strip-slicer.js';
 import { joinStripProfiles, mapStripCropToSources } from './strip-document.js';
 import { mangaPanelPath, stripPanelPath } from './output-layout.js';
 import { moveMangaPanel, reindexPanelPaths } from './result-editing.js';
 import { combineSourceRegions, makeMergeIdentityKey, makeSplitIdentityKeys, sourceIdentityKey, splitSourceRegions, createProjectMetadata, validateManifest } from './manifest-core.js';
 import { DEFAULT_VERTICAL_LAYOUT, layoutVerticalSequential, partitionPanelsByChapter } from './contact-sheet-layout.js';
+import { normalizeSplitPoints, splitIntervals, splitPointsAtInterval } from './manual-split-points.js';
+import { MAX_PANEL_LENGTH_PX, splitAtMaxPanelLength } from './max-panel-length.js';
 
 // Mức chất lượng JPEG cân bằng dung lượng và độ rõ nét của nét vẽ truyện.
 // Canvas bỏ qua tham số này với PNG, nên PNG vẫn được mã hóa lossless.
@@ -42,12 +44,12 @@ root.innerHTML = `
           <button class="style-option" data-style="manhua" type="button"><span class="radio"></span><span class="style-name">Manhua <small>Trung</small></span><span class="style-desc">Ghép trang trước, chỉ cắt tại dải ngang đồng màu toàn chiều rộng.</span><span class="style-code">C</span></button>
         </div>
         <div class="manga-order hidden" id="manga-order"><label for="reading-order">Thứ tự panel Manga</label><select id="reading-order"><option value="rtl" selected>Phải sang trái (mặc định)</option><option value="ltr">Trái sang phải</option></select><span>Áp dụng khi sắp thứ tự panel trong từng trang.</span></div>
-        <div class="strip-settings hidden" id="strip-settings"><div class="settings-title"><b>Điều kiện dải phân cách</b><span>Áp dụng cho Manhwa/Manhua · nhận mọi màu, không lọc theo độ sáng.</span></div><label class="range-setting"><span><b>Độ dày khe tối thiểu</b><output id="min-gap-output">Tự động</output></span><input id="min-gap-input" type="range" min="0" max="1000" step="1" value="0"><small>Nhận dải đồng màu toàn chiều ngang; mỗi hàng khe trắng chịu tối đa 0,5% pixel nhiễu. 0 = tự động nhạy hơn; khe mỏng vẫn bỏ sót thì thử 1–10 px.</small></label><label class="range-setting"><span><b>Chia panel dài cho video 16:9</b><input id="split-long-input" type="checkbox" checked></span><small>Panel cao hơn ~1700px (ở dải 728px) tự chia thành mảnh ≤1284px, lên khung 16:9 rộng ≥612px để đọc rõ trên điện thoại. Tắt nếu muốn giữ nguyên panel dài, vẫn chia tay bằng nút Chia trong preview.</small></label></div>
+        <div class="strip-settings hidden" id="strip-settings"><div class="settings-title"><b>Điều kiện dải phân cách</b><span>Áp dụng cho Manhwa/Manhua · nhận mọi màu, không lọc theo độ sáng.</span></div><label class="range-setting"><span><b>Độ dày khe tối thiểu</b><output id="min-gap-output">Tự động</output></span><input id="min-gap-input" type="range" min="0" max="1000" step="1" value="0"><small>Nhận dải đồng màu toàn chiều ngang; mỗi hàng khe trắng chịu tối đa 0,5% pixel nhiễu. 0 = tự động nhạy hơn; khe mỏng vẫn bỏ sót thì thử 1–10 px.</small></label><p class="split-long-note">Panel dài không tự chia theo tỷ lệ cố định. Dùng <b>Chia</b> trong preview để tự thêm, nhập, kéo hoặc xóa mốc chia.</p></div>
       </section>
 
       <section class="panel output-panel">
         <div class="section-heading"><div class="section-index">03</div><div><h2>Cắt trước, lưu sau</h2><p>Kết quả được giữ tạm để xem và gộp panel; folder đầu ra chỉ tạo khi bạn bấm Lưu.</p></div></div>
-        <div class="width-setting"><label class="width-check"><input id="uniform-width-input" type="checkbox" checked><b>Đồng nhất độ rộng ảnh đầu ra</b></label><label class="width-px">Rộng <input id="output-width-input" type="number" min="0" max="8000" step="1" value="0"> px</label><small>Tất cả ảnh xuất ra có cùng chiều rộng, chiều cao tự co theo tỉ lệ (không méo). Để 0 = tự lấy theo ảnh rộng nhất trong chap; nhập số (vd 728 hoặc 1080) để cố định.</small></div>
+        <div class="width-setting panel-length-setting"><label class="panel-length-control">Độ dài tối đa mỗi panel (px)<input id="max-panel-length-input" type="number" min="0" max="16000" step="100" value="0"></label><label class="panel-length-mode">Nếu vượt giới hạn<select id="max-panel-length-mode"><option value="remainder">Cắt phần dư (đoạn cuối ngắn hơn)</option><option value="even">Chia đều thành các phần</option></select></label><small>0 = không giới hạn. Chia ngay lúc cắt, trước preview; không liên quan đến Contact Sheet.</small></div><div class="width-setting"><label class="width-check"><input id="uniform-width-input" type="checkbox" checked><b>Đồng nhất độ rộng ảnh đầu ra</b></label><label class="width-px">Rộng <input id="output-width-input" type="number" min="0" max="8000" step="1" value="0"> px</label><small>Tất cả ảnh xuất ra có cùng chiều rộng, chiều cao tự co theo tỉ lệ (không méo). Để 0 = tự lấy theo ảnh rộng nhất trong chap; nhập số (vd 728 hoặc 1080) để cố định.</small></div>
         <div class="layout-choice" role="group" aria-label="Cách sắp xếp folder đầu ra"><b>Cách sắp xếp folder đầu ra</b><label><input type="radio" name="output-layout" value="preserve" checked><span><strong>Tách theo folder gốc</strong><small>Giữ nguyên cây thư mục chap/trang của nguồn.</small></span></label><label><input type="radio" name="output-layout" value="flat"><span><strong>Gộp chung một folder</strong><small>Đưa tất cả panel vào cùng một folder, tên file có tiền tố để tránh trùng.</small></span></label></div>
         <div class="output-row"><div class="output-icon">↳</div><div class="output-copy"><b id="output-path">Chưa tạo folder kết quả</b><span id="output-shape">Sau khi kiểm tra panel, chọn nơi lưu. Ảnh nguồn không bị sửa.</span></div></div>
       </section>
@@ -57,17 +59,19 @@ root.innerHTML = `
       <section class="progress-panel hidden" id="progress-panel"><div class="progress-head"><div><b id="progress-title">Đang chuẩn bị</b><span id="progress-detail">Đang xử lý ảnh trên máy…</span></div><strong id="progress-percent">0%</strong></div><div class="progress-track"><i id="progress-bar"></i></div></section>
       <div class="error-box hidden" id="error-box"></div>
 
-      <section class="results-panel hidden" id="results-panel"><div class="results-head"><div><div class="eyebrow">BƯỚC 04 · XEM VÀ LƯU</div><h2 id="results-title">Panel đã cắt</h2><p id="results-detail"></p></div><div class="results-actions"><button class="save-output" id="save-output">Lưu ảnh đã cắt…</button><button class="open-folder hidden" id="open-folder">Mở folder kết quả ↗</button></div><div class="ai-package-tools hidden" id="ai-package-tools"><label>Panel mỗi sheet<select id="ai-sheet-size"><option value="10" selected>10 (mặc định)</option><option value="5">5</option><option value="15">15</option><option value="20">20</option></select></label><label>Định dạng<select id="ai-sheet-format"><option value="jpg" selected>JPEG (nhẹ)</option><option value="png">PNG (lossless)</option></select></label><button class="export-ai-button" id="export-ai-button">Xuất AI Package</button></div></div><div class="preview-grid" id="preview-grid"></div><div class="preview-more"><p class="preview-caption" id="preview-caption"></p><button class="more-panels hidden" id="show-more-btn">Hiện thêm panel</button></div></section>
+      <section class="results-panel hidden" id="results-panel"><div class="results-head"><div><div class="eyebrow">BƯỚC 04 · XEM VÀ LƯU</div><h2 id="results-title">Panel đã cắt</h2><p id="results-detail"></p></div><div class="results-actions"><button class="save-output" id="save-output">Lưu ảnh đã cắt…</button><button class="open-folder hidden" id="open-folder">Mở folder kết quả ↗</button></div><div class="ai-package-tools hidden" id="ai-package-tools"><label>Panel mỗi sheet<select id="ai-sheet-size"><option value="10" selected>10 (mặc định)</option><option value="5">5</option><option value="15">15</option><option value="20">20</option></select></label><label>Chiều cao tối đa (px)<input id="ai-sheet-max-height" type="number" min="800" max="16000" step="100"></label><label>Số cột tối đa<input id="ai-sheet-max-columns" type="number" min="1" max="20" step="1"></label><label>Định dạng<select id="ai-sheet-format"><option value="jpg" selected>JPEG (nhẹ)</option><option value="png">PNG (lossless)</option></select></label><button class="export-ai-button" id="export-ai-button">Xuất AI Package</button></div></div><div class="preview-grid" id="preview-grid"></div><div class="preview-more"><p class="preview-caption" id="preview-caption"></p><button class="more-panels hidden" id="show-more-btn">Hiện thêm panel</button></div></section>
       <div class="image-viewer hidden" id="image-viewer" role="dialog" aria-modal="true" aria-label="Ảnh panel phóng to" tabindex="-1"><button class="image-viewer-backdrop" id="image-viewer-backdrop" type="button" aria-label="Đóng ảnh"></button><div class="image-viewer-panel"><div class="image-viewer-toolbar"><span id="image-viewer-caption">Panel</span><button class="image-viewer-close" id="image-viewer-close" type="button" aria-label="Đóng ảnh">Đóng <b>×</b></button></div><img class="image-viewer-image" id="image-viewer-image" alt="Panel phóng to"></div></div>
       <div class="manual-split hidden" id="manual-split" role="dialog" aria-modal="true" aria-label="Tách panel thủ công">
         <button class="manual-split-backdrop" id="manual-split-backdrop" type="button" aria-label="Hủy tách panel"></button>
         <section class="manual-split-panel">
           <header class="manual-split-toolbar"><div><b id="manual-split-title">Tách panel thủ công</b><span id="manual-split-caption"></span></div><button class="manual-split-close" id="manual-split-close" type="button" aria-label="Đóng">×</button></header>
-          <p class="manual-split-help">Kéo đường ngang hoặc chỉnh thanh trượt để đặt điểm chia. Hai phần được giữ ở vùng tạm cho đến khi bạn bấm Lưu.</p>
-          <div class="manual-split-stage" id="manual-split-stage"><div class="manual-split-frame" id="manual-split-frame"><img id="manual-split-image" alt="Panel đang chia"><div class="manual-split-guide" id="manual-split-guide" aria-hidden="true"></div></div></div>
-          <label class="manual-split-position" for="manual-split-range"><span>Vị trí đường cắt</span><input id="manual-split-range" type="range" min="1" max="1000" step="1" value="500"><output id="manual-split-output">500 px</output></label>
+          <p class="manual-split-help">Panel dài hơn ngưỡng sẽ có sẵn mốc gợi ý khi mở. Có thể đổi ngưỡng, tạo lại mốc hoặc chỉnh/xóa từng mốc; chỉ xác nhận mới chia panel.</p>
+          <div class="manual-split-threshold"><label for="manual-split-interval">Ngưỡng chiều cao/phần</label><input id="manual-split-interval" type="number" min="100" max="16000" step="100" value="1800"><span>px</span><button id="manual-split-generate" type="button">Tạo lại mốc</button><small>Các phần được chia cân bằng để không vượt ngưỡng; mốc vẫn có thể chỉnh trước khi xác nhận.</small></div>
+          <div class="manual-split-stage" id="manual-split-stage"><div class="manual-split-frame" id="manual-split-frame"><img id="manual-split-image" alt="Panel đang chia"><div class="manual-split-guides" id="manual-split-guides" aria-hidden="true"></div></div></div>
+          <label class="manual-split-position"><span id="manual-split-position-label">Vị trí mốc đang chọn</span><input id="manual-split-range" type="range" min="1" max="1000" step="1" value="500" disabled><input id="manual-split-number" type="number" min="1" max="1000" step="1" value="500" disabled><output id="manual-split-output">Thêm mốc để chia</output></label>
+          <div class="manual-split-marker-actions"><button id="manual-split-add" type="button">Thêm mốc</button><button id="manual-split-remove" type="button" disabled>Xóa mốc đang chọn</button><span id="manual-split-count">Chưa có mốc chia</span></div>
           <p class="manual-split-error" id="manual-split-error" aria-live="polite"></p>
-          <div class="manual-split-actions"><button class="manual-split-cancel" id="manual-split-cancel" type="button">Hủy</button><button class="manual-split-confirm" id="manual-split-confirm" type="button">Chia thành 2 panel</button></div>
+          <div class="manual-split-actions"><button class="manual-split-cancel" id="manual-split-cancel" type="button">Hủy</button><button class="manual-split-confirm" id="manual-split-confirm" type="button" disabled>Chia theo mốc đã chọn</button></div>
         </section>
       </div>
       <footer><span>PANELCUTTER OFFLINE</span><span>Không sửa file nguồn · Không upload ảnh</span></footer>
@@ -76,7 +80,12 @@ root.innerHTML = `
 
 const $ = (selector) => document.querySelector(selector);
 const savedSliceSettings = (() => { try { return JSON.parse(localStorage.getItem('panelcutter-slice-settings') || '{}'); } catch { return {}; } })();
-const state = { projectIdentity: null, outputLayout: 'preserve', chapters: [], activeIndices: null, chapterPrefix: '', token: null, sourceName: '', sourceType: '', count: 0, files: [], defaultOutputParent: '', style: '', reading: 'rtl', busy: false, saved: false, outputDir: '', worker: null, workerReady: null, requestId: 0, pending: new Map(), previewUrls: [], results: [], previewCount: 0, sliceOptions: { minGapPx: Math.min(MAX_MIN_GAP_PX, Math.max(0, Math.round(Number(savedSliceSettings.minGapPx) || 0))), splitLongPanels: savedSliceSettings.splitLongPanels !== false, uniformWidth: savedSliceSettings.uniformWidth !== false, outputWidth: Math.min(8000, Math.max(0, Math.round(Number(savedSliceSettings.outputWidth) || 0))) } };
+const savedContactSheetSettings = (() => { try { return JSON.parse(localStorage.getItem('panelcutter-contact-sheet-settings') || '{}'); } catch { return {}; } })();
+const savedPanelSplitSettings = (() => { try { return JSON.parse(localStorage.getItem('panelcutter-panel-split-settings') || '{}'); } catch { return {}; } })();
+const savedMaxPanelLength = (() => { try { const value = Number(localStorage.getItem('panelcutter-max-panel-length')); return Number.isInteger(value) && value >= 0 && value <= MAX_PANEL_LENGTH_PX ? value : 0; } catch { return 0; } })();
+const savedMaxPanelLengthMode = (() => { try { return localStorage.getItem('panelcutter-max-panel-length-mode') === 'even' ? 'even' : 'remainder'; } catch { return 'remainder'; } })();
+const storedPanelSplitInterval = Number(savedPanelSplitSettings.intervalPx);
+const state = { projectIdentity: null, outputLayout: 'preserve', chapters: [], activeIndices: null, chapterPrefix: '', token: null, sourceName: '', sourceType: '', count: 0, files: [], defaultOutputParent: '', style: '', reading: 'rtl', busy: false, saved: false, outputDir: '', worker: null, workerReady: null, requestId: 0, pending: new Map(), previewUrls: [], results: [], previewCount: 0, manualSplitInterval: Number.isInteger(storedPanelSplitInterval) ? Math.min(16000, Math.max(100, storedPanelSplitInterval)) : 1800, maxPanelLength: savedMaxPanelLength, maxPanelLengthMode: savedMaxPanelLengthMode, sliceOptions: { minGapPx: Math.min(MAX_MIN_GAP_PX, Math.max(0, Math.round(Number(savedSliceSettings.minGapPx) || 0))), uniformWidth: savedSliceSettings.uniformWidth !== false, outputWidth: Math.min(8000, Math.max(0, Math.round(Number(savedSliceSettings.outputWidth) || 0))) }, contactSheetSettings: { maxHeight: Math.min(16000, Math.max(800, Math.round(Number(savedContactSheetSettings.maxHeight) || DEFAULT_VERTICAL_LAYOUT.maxHeight))), maxColumns: Math.min(20, Math.max(1, Math.round(Number(savedContactSheetSettings.maxColumns) || DEFAULT_VERTICAL_LAYOUT.maxColumns))) } };
 const api = window.panelCutter;
 let manualSplitState = null;
 
@@ -95,6 +104,19 @@ function outputTypeFor(name) {
   const ext = String(name).split('.').pop().toLowerCase();
   return ext === 'jpg' || ext === 'jpeg' ? { mime: 'image/jpeg', ext: 'jpg' } : { mime: 'image/png', ext: 'png' };
 }
+$('#max-panel-length-input').value = String(state.maxPanelLength);
+$('#max-panel-length-mode').value = state.maxPanelLengthMode;
+$('#max-panel-length-mode').addEventListener('change', event => {
+  state.maxPanelLengthMode = event.target.value === 'even' ? 'even' : 'remainder';
+  event.target.value = state.maxPanelLengthMode;
+  localStorage.setItem('panelcutter-max-panel-length-mode', state.maxPanelLengthMode);
+});
+$('#max-panel-length-input').addEventListener('change', event => {
+  const value = Number(event.target.value);
+  if (!Number.isInteger(value) || value < 0 || value > MAX_PANEL_LENGTH_PX) { event.target.value = String(state.maxPanelLength); return; }
+  state.maxPanelLength = value; event.target.value = String(value);
+  localStorage.setItem('panelcutter-max-panel-length', String(value));
+});
 
 async function acceptInput(result) {
   if (!result || result.canceled) return;
@@ -151,18 +173,30 @@ $('#reading-order').addEventListener('change', (event) => { state.reading = even
 document.querySelectorAll('input[name="output-layout"]').forEach(input => input.addEventListener('change', event => { state.outputLayout = event.target.value === 'flat' ? 'flat' : 'preserve'; }));
 function refreshSliceSettings() {
   $('#min-gap-output').textContent = state.sliceOptions.minGapPx ? `${state.sliceOptions.minGapPx} px` : 'Tự động';
-  $('#split-long-input').checked = state.sliceOptions.splitLongPanels !== false;
   localStorage.setItem('panelcutter-slice-settings', JSON.stringify(state.sliceOptions));
 }
 $('#min-gap-input').value = String(state.sliceOptions.minGapPx);
 $('#min-gap-input').addEventListener('input', event => { state.sliceOptions.minGapPx = Number(event.target.value); refreshSliceSettings(); });
-$('#split-long-input').checked = state.sliceOptions.splitLongPanels !== false;
-$('#split-long-input').addEventListener('change', event => { state.sliceOptions.splitLongPanels = event.target.checked; refreshSliceSettings(); });
 $('#uniform-width-input').checked = state.sliceOptions.uniformWidth !== false;
 $('#output-width-input').value = String(state.sliceOptions.outputWidth || 0);
 $('#output-width-input').disabled = state.sliceOptions.uniformWidth === false;
 $('#uniform-width-input').addEventListener('change', event => { state.sliceOptions.uniformWidth = event.target.checked; $('#output-width-input').disabled = !event.target.checked; refreshSliceSettings(); });
 $('#output-width-input').addEventListener('change', event => { state.sliceOptions.outputWidth = Math.min(8000, Math.max(0, Math.round(Number(event.target.value) || 0))); event.target.value = String(state.sliceOptions.outputWidth); refreshSliceSettings(); });
+function currentContactSheetLayout() {
+  return { ...DEFAULT_VERTICAL_LAYOUT, maxHeight: state.contactSheetSettings.maxHeight, maxColumns: state.contactSheetSettings.maxColumns };
+}
+function saveContactSheetSettings() {
+  const heightInput = $('#ai-sheet-max-height'), columnsInput = $('#ai-sheet-max-columns');
+  const maxHeight = Number(heightInput.value), maxColumns = Number(columnsInput.value);
+  state.contactSheetSettings.maxHeight = Number.isInteger(maxHeight) ? Math.min(16000, Math.max(800, maxHeight)) : DEFAULT_VERTICAL_LAYOUT.maxHeight;
+  state.contactSheetSettings.maxColumns = Number.isInteger(maxColumns) ? Math.min(20, Math.max(1, maxColumns)) : DEFAULT_VERTICAL_LAYOUT.maxColumns;
+  heightInput.value = String(state.contactSheetSettings.maxHeight); columnsInput.value = String(state.contactSheetSettings.maxColumns);
+  localStorage.setItem('panelcutter-contact-sheet-settings', JSON.stringify(state.contactSheetSettings));
+}
+$('#ai-sheet-max-height').value = String(state.contactSheetSettings.maxHeight);
+$('#ai-sheet-max-columns').value = String(state.contactSheetSettings.maxColumns);
+$('#ai-sheet-max-height').addEventListener('change', saveContactSheetSettings);
+$('#ai-sheet-max-columns').addEventListener('change', saveContactSheetSettings);
 refreshSliceSettings();
 
 // UNIFORM-WIDTH: chiều rộng đích. 0 = tự động (ảnh rộng nhất). Trả về 0 nếu tắt.
@@ -345,8 +379,42 @@ async function cropBlob(image, crop, mime, targetWidth = 0) {
 }
 
 async function stageBlob(blob, relativePath, metadata = {}) {
-  await api.writePanel({ token: state.token, relativePath, data: await blob.arrayBuffer() });
-  state.results.push({ reviewRequired: false, decision: 'SHOW', editHistory: [], sourceRegions: [], chapterId: state.activeChapterName || state.sourceName, ...metadata, relativePath });
+  const regions = metadata.sourceRegions || [];
+  const image = state.maxPanelLength > 0 ? await createImageBitmap(blob) : null;
+  try {
+    const intervals = image ? splitAtMaxPanelLength(image.height, state.maxPanelLength, state.maxPanelLengthMode) : [[0, 0]];
+    if (intervals.length === 1 && (!image || intervals[0][0] === 0 && intervals[0][1] === image.height)) {
+      await api.writePanel({ token: state.token, relativePath, data: await blob.arrayBuffer() });
+      state.results.push({ reviewRequired: false, decision: 'SHOW', editHistory: [], sourceRegions: [], chapterId: state.activeChapterName || state.sourceName, ...metadata, relativePath });
+      return;
+    }
+    let remaining = regions, previousY = 0;
+    const splitRegions = [];
+    for (let i = 0; i < intervals.length; i++) {
+      const [start, end] = intervals[i];
+      if (i === intervals.length - 1) { splitRegions.push(remaining); break; }
+      const ratio = (end - previousY) / (image.height - previousY);
+      const [before, after] = splitSourceRegions(remaining, ratio);
+      splitRegions.push(before); remaining = after; previousY = end;
+    }
+    const keys = splitRegions.map((part, index) => `cut-length:${metadata.uuid || relativePath}:${state.maxPanelLength}:${index}:${JSON.stringify(part.map(region => region.crop))}`);
+    const identities = await assignIdentities(splitRegions.map(() => ({})), keys);
+    const extension = /\.png$/i.test(relativePath) ? 'image/png' : 'image/jpeg';
+    const at = new Date().toISOString();
+    for (let i = 0; i < intervals.length; i++) {
+      const [start, end] = intervals[i], height = end - start;
+      const canvas = document.createElement('canvas'); canvas.width = image.width; canvas.height = height;
+      let partBlob;
+      try {
+        const context = canvas.getContext('2d');
+        context.drawImage(image, 0, start, image.width, height, 0, 0, image.width, height);
+        partBlob = await canvasBlob(canvas, extension);
+      } finally { canvas.width = 1; canvas.height = 1; }
+      const piecePath = i === 0 ? relativePath : relativePath.replace(/(\.[^.]+)$/, `_part${String(i + 1).padStart(3, '0')}$1`);
+      await api.writePanel({ token: state.token, relativePath: piecePath, data: await partBlob.arrayBuffer() });
+      state.results.push({ reviewRequired: false, decision: 'SHOW', editHistory: [...(metadata.editHistory || []), { action: 'split_max_length', max_length_px: state.maxPanelLength, split_mode: state.maxPanelLengthMode, part: i + 1, part_count: intervals.length, at }], parentIds: [metadata.id], sourceRegions: splitRegions[i], chapterId: state.activeChapterName || state.sourceName, ...metadata, ...identities[i], relativePath: piecePath });
+    }
+  } finally { image?.close(); }
 }
 
 async function assignIdentities(items, keys) {
@@ -474,7 +542,6 @@ async function processJoinedStrip(parts) {
   }).segments;
   // SPLIT-MOBILE: chia panel dài cho video 16:9, mặc định bật, tắt bằng
   // checkbox trong cài đặt dải. Vẫn xem/gộp/chia tay trong preview sau đó.
-  if (state.sliceOptions.splitLongPanels !== false) segments = splitLongSegments(segments, doc.profile, doc.width);
   const cache = new Map();
   try {
     for (let i = 0; i < segments.length; i++) {
@@ -507,7 +574,6 @@ async function processStripPerImage(autoWidth = 0) {
       const cropX0 = profile0.cropX || 0;
       if (image.height / effW >= 1.3) {
         segments = sliceStripProfile(profile0, effW, image.height, state.style, state.sliceOptions).segments;
-        if (state.sliceOptions.splitLongPanels !== false) segments = splitLongSegments(segments, profile0, effW);
       } else if (state.style === 'manhua') {
         const boxes = await detectMangaCrops(image);
         const records = boxes.map(box => mangaSourceRegion(image.sourceIndex, image.relativePath, image.sourceFingerprint, image.width, image.height, box));
@@ -558,16 +624,94 @@ function closeManualSplit(){
   manualSplitState=null;
   $('#manual-split').classList.add('hidden');
   $('#manual-split-image').removeAttribute('src');
-  $('#manual-split-error').textContent='';
+  $('#manual-split-error').textContent='';$('#manual-split-error').classList.remove('info');
+}
+function clearManualSplitSuggestion(){
+  const status=$('#manual-split-error');
+  if(status.classList.contains('info')){status.textContent='';status.classList.remove('info');}
+}
+function updateManualSplitControls(){
+  if(!manualSplitState)return;
+  const {markers,bitmap}=manualSplitState, selected=manualSplitState.selectedMarker;
+  const hasSelection=selected>=0&&selected<markers.length;
+  const range=$('#manual-split-range'), number=$('#manual-split-number');
+  range.disabled=!hasSelection||state.busy; number.disabled=!hasSelection||state.busy;
+  $('#manual-split-add').disabled=state.busy||markers.length>=bitmap.height-1;
+  const interval=Number($('#manual-split-interval').value);
+  $('#manual-split-generate').disabled=state.busy||!Number.isInteger(interval)||interval<100||interval>16000||interval>=bitmap.height;
+  $('#manual-split-remove').disabled=!hasSelection||state.busy;
+  $('#manual-split-confirm').disabled=!markers.length||state.busy;
+  $('#manual-split-confirm').textContent=markers.length?`Chia thành ${markers.length+1} panel`:'Chia theo mốc đã chọn';
+  $('#manual-split-count').textContent=markers.length?`${markers.length} mốc · ${markers.length+1} phần · chọn mốc rồi nhập/kéo vị trí`:'Chưa có mốc · bấm “Thêm mốc” để bắt đầu';
+  if(!hasSelection){$('#manual-split-output').textContent='Thêm mốc để chia';$('#manual-split-position-label').textContent='Vị trí mốc đang chọn';renderManualSplitMarkers();return;}
+  const previous=selected?markers[selected-1]:0,next=selected<markers.length-1?markers[selected+1]:bitmap.height;
+  const min=previous+1,max=next-1,cutY=markers[selected];
+  range.min=String(min);range.max=String(max);range.value=String(cutY);
+  number.min=String(min);number.max=String(max);number.value=String(cutY);
+  $('#manual-split-position-label').textContent=`Mốc ${selected+1} / ${markers.length}`;
+  $('#manual-split-output').textContent=`${cutY.toLocaleString()} / ${bitmap.height.toLocaleString()} px`;
+  renderManualSplitMarkers();
 }
 function updateManualSplitPosition(value){
   if(!manualSplitState)return;
+  const selected=manualSplitState.selectedMarker;
+  if(selected<0||selected>=manualSplitState.markers.length)return;
+  const markers=manualSplitState.markers,height=manualSplitState.bitmap.height;
+  const min=(selected?markers[selected-1]:0)+1,max=(selected<markers.length-1?markers[selected+1]:height)-1;
+  const parsed=Number(value);if(!Number.isFinite(parsed))return;
+  clearManualSplitSuggestion();
+  markers[selected]=Math.min(max,Math.max(min,Math.round(parsed)));
+  updateManualSplitControls();
+}
+function renderManualSplitMarkers(){
+  const container=$('#manual-split-guides');if(!container||!manualSplitState)return;
   const height=manualSplitState.bitmap.height;
-  const cutY=Math.min(height-1,Math.max(1,Math.round(Number(value)||1)));
-  manualSplitState.cutY=cutY;
-  $('#manual-split-range').value=String(cutY);
-  $('#manual-split-output').textContent=`${cutY.toLocaleString()} / ${height.toLocaleString()} px`;
-  $('#manual-split-guide').style.top=`${cutY/height*100}%`;
+  if(container.children.length!==manualSplitState.markers.length){
+    container.replaceChildren();
+    manualSplitState.markers.forEach((_cutY,index)=>{
+      const guide=document.createElement('div');guide.className='manual-split-guide';guide.dataset.index=String(index);
+      guide.addEventListener('pointerdown',event=>{event.preventDefault();manualSplitState.selectedMarker=Number(event.currentTarget.dataset.index);event.currentTarget.setPointerCapture(event.pointerId);updateManualSplitControls();updateManualSplitFromPointer(event.clientY);});
+      guide.addEventListener('pointermove',event=>{if(event.currentTarget.hasPointerCapture(event.pointerId))updateManualSplitFromPointer(event.clientY);});
+      guide.addEventListener('pointerup',event=>{if(event.currentTarget.hasPointerCapture(event.pointerId))event.currentTarget.releasePointerCapture(event.pointerId);});
+      container.append(guide);
+    });
+  }
+  [...container.children].forEach((guide,index)=>{
+    const cutY=manualSplitState.markers[index];guide.classList.toggle('selected',index===manualSplitState.selectedMarker);
+    guide.style.top=`${cutY/height*100}%`;guide.setAttribute('aria-label',`Mốc chia ${index+1}, ${cutY} pixel`);
+  });
+}
+function addManualSplitMarker(){
+  if(!manualSplitState)return;
+  clearManualSplitSuggestion();
+  const {markers,bitmap}=manualSplitState,boundaries=[0,...markers,bitmap.height];
+  let bestStart=0,bestEnd=0;
+  for(let i=0;i<boundaries.length-1;i++)if(boundaries[i+1]-boundaries[i]>bestEnd-bestStart){bestStart=boundaries[i];bestEnd=boundaries[i+1];}
+  if(bestEnd-bestStart<2)return;
+  const cut=Math.floor((bestStart+bestEnd)/2);markers.push(cut);markers.sort((a,b)=>a-b);
+  manualSplitState.selectedMarker=markers.indexOf(cut);updateManualSplitControls();
+}
+function removeManualSplitMarker(){
+  if(!manualSplitState||manualSplitState.selectedMarker<0)return;
+  clearManualSplitSuggestion();
+  manualSplitState.markers.splice(manualSplitState.selectedMarker,1);
+  manualSplitState.selectedMarker=manualSplitState.markers.length?Math.min(manualSplitState.selectedMarker,manualSplitState.markers.length-1):-1;
+  updateManualSplitControls();
+}
+function saveManualSplitInterval(){
+  const input=$('#manual-split-interval'),value=Number(input.value);
+  if(!Number.isInteger(value)||value<100||value>16000){input.value=String(state.manualSplitInterval);updateManualSplitControls();return;}
+  state.manualSplitInterval=value;localStorage.setItem('panelcutter-panel-split-settings',JSON.stringify({intervalPx:value}));updateManualSplitControls();
+}
+function generateManualSplitMarkers(){
+  if(!manualSplitState||state.busy)return;
+  saveManualSplitInterval();
+  const interval=state.manualSplitInterval,height=manualSplitState.bitmap.height,markers=splitPointsAtInterval(height,interval);
+  if(!markers.length){$('#manual-split-error').classList.remove('info');$('#manual-split-error').textContent=`Panel cao ${height}px, không vượt ngưỡng ${interval}px nên chưa cần tạo mốc.`;return;}
+  manualSplitState.markers=markers;manualSplitState.selectedMarker=0;
+  $('#manual-split-error').classList.add('info');
+  $('#manual-split-error').textContent=`Đã tạo ${markers.length} mốc cách nhau ${interval}px. Hãy kiểm tra/chỉnh mốc rồi xác nhận để chia.`;
+  updateManualSplitControls();
 }
 function fitManualSplitPreview(){
   if(!manualSplitState)return;
@@ -594,29 +738,27 @@ async function openManualSplit(index){
     const bitmap=await createImageBitmap(blob);
     if(bitmap.height<2){bitmap.close();throw new Error('Panel quá thấp để chia thành hai phần.');}
     const url=URL.createObjectURL(blob);
-    manualSplitState={index,item:{...item},bitmap,url,cutY:Math.floor(bitmap.height/2)};
+    const suggestedMarkers=splitPointsAtInterval(bitmap.height,state.manualSplitInterval);
+    manualSplitState={index,item:{...item},bitmap,url,markers:suggestedMarkers,selectedMarker:suggestedMarkers.length?0:-1};
     $('#manual-split-caption').textContent=`Panel ${pad(index+1,3)} · ${item.relativePath} · ${bitmap.width} × ${bitmap.height} px`;
     $('#manual-split-image').src=url;
-    $('#manual-split-range').min='1';$('#manual-split-range').max=String(bitmap.height-1);
+    $('#manual-split-interval').value=String(state.manualSplitInterval);
+    $('#manual-split-error').classList.toggle('info',suggestedMarkers.length>0);
+    if(suggestedMarkers.length)$('#manual-split-error').textContent=`Panel vượt ngưỡng ${state.manualSplitInterval}px. Đã gợi ý ${suggestedMarkers.length} mốc; chỉnh nếu cần rồi xác nhận để chia.`;
+    $('#manual-split-range').min='1';$('#manual-split-range').max=String(bitmap.height-1);$('#manual-split-number').min='1';$('#manual-split-number').max=String(bitmap.height-1);
     $('#manual-split').classList.remove('hidden');
     await $('#manual-split-image').decode();
     fitManualSplitPreview();
-    updateManualSplitPosition(manualSplitState.cutY);
-    $('#manual-split-range').focus();
+    updateManualSplitControls();$('#manual-split-add').focus();
   }catch(error){closeManualSplit();showError(error);}
-  finally{state.busy=false;}
+  finally{state.busy=false;updateManualSplitControls();}
 }
 $('#manual-split-range').addEventListener('input',event=>updateManualSplitPosition(event.target.value));
-$('#manual-split-guide').addEventListener('pointerdown',event=>{
-  if(!manualSplitState)return;
-  event.preventDefault();event.currentTarget.setPointerCapture(event.pointerId);updateManualSplitFromPointer(event.clientY);
-});
-$('#manual-split-guide').addEventListener('pointermove',event=>{
-  if(event.currentTarget.hasPointerCapture(event.pointerId))updateManualSplitFromPointer(event.clientY);
-});
-$('#manual-split-guide').addEventListener('pointerup',event=>{
-  if(event.currentTarget.hasPointerCapture(event.pointerId))event.currentTarget.releasePointerCapture(event.pointerId);
-});
+$('#manual-split-number').addEventListener('change',event=>{updateManualSplitPosition(event.target.value);updateManualSplitControls();});
+$('#manual-split-add').addEventListener('click',addManualSplitMarker);
+$('#manual-split-remove').addEventListener('click',removeManualSplitMarker);
+$('#manual-split-interval').addEventListener('change',saveManualSplitInterval);
+$('#manual-split-generate').addEventListener('click',generateManualSplitMarkers);
 window.addEventListener('resize',fitManualSplitPreview);
 const cancelManualSplit=()=>{if(!state.busy)closeManualSplit();};
 $('#manual-split-close').addEventListener('click',cancelManualSplit);
@@ -640,26 +782,33 @@ async function confirmManualSplit(){
   if(state.busy||state.saved||!manualSplitState)return;
   const split=manualSplitState,index=split.index,item=split.item;
   if(state.results[index]?.relativePath!==item.relativePath){$('#manual-split-error').textContent='Danh sách panel đã thay đổi. Hãy đóng và mở lại thao tác chia.';return;}
-  state.busy=true;$('#manual-split-confirm').disabled=true;$('#manual-split-error').textContent='';
+  state.busy=true;updateManualSplitControls();$('#manual-split-error').textContent='';
   try{
+    const cuts=normalizeSplitPoints(split.markers,split.bitmap.height),ranges=splitIntervals(cuts,split.bitmap.height);
     const extension=/\.png$/i.test(item.relativePath)?'image/png':'image/jpeg';
-    const top=await cropBitmapSection(split.bitmap,0,split.cutY,extension);
-    const bottom=await cropBitmapSection(split.bitmap,split.cutY,split.bitmap.height,extension);
-    const topBytes=await top.arrayBuffer(),bottomBytes=await bottom.arrayBuffer();
-    const temporaryPath=manualSplitTemporaryPath(item.relativePath);
-    const ratio=split.cutY/split.bitmap.height;
-    const splitKeys=makeSplitIdentityKeys(item.uuid,ratio);
-    const splitIdentities=await assignIdentities([{},{}],splitKeys);
-    const regions=splitSourceRegions(item.sourceRegions || [],ratio);
-    const topItem={...item,...splitIdentities[0],sourceRegions:regions[0],parentIds:[item.id],editHistory:[...(item.editHistory||[]),{action:'split',parent_id:item.id,part:'top',ratio,at:new Date().toISOString()}]};
-    const bottomItem={...item,...splitIdentities[1],sourceRegions:regions[1],parentIds:[item.id],editHistory:[...(item.editHistory||[]),{action:'split',parent_id:item.id,part:'bottom',ratio,at:new Date().toISOString()}]};
-    const nextItems=state.results.slice(); nextItems.splice(index,1,topItem,{...bottomItem,relativePath:temporaryPath});
-    const updated=await persistStagedResults(state.results,nextItems,new Map([[item.relativePath,topBytes],[temporaryPath,bottomBytes]]));
+    const blobs=[];for(const [start,end] of ranges)blobs.push(await cropBitmapSection(split.bitmap,start,end,extension));
+    const pieceRegions=[];let remainingRegions=item.sourceRegions||[],previousY=0;
+    for(let part=0;part<cuts.length;part++){
+      const cutY=cuts[part],ratio=(cutY-previousY)/(split.bitmap.height-previousY);
+      const [before,after]=splitSourceRegions(remainingRegions,ratio);pieceRegions.push(before);remainingRegions=after;previousY=cutY;
+    }
+    pieceRegions.push(remainingRegions);
+    const identityKeys=cuts.length===1
+      ? makeSplitIdentityKeys(item.uuid,cuts[0]/split.bitmap.height)
+      : pieceRegions.map((_regions,part)=>`edit:split-multi:${item.uuid}:${cuts.join('-')}:part:${part+1}`);
+    const identities=await assignIdentities(pieceRegions.map(()=>({})),identityKeys),pieces=[],overrides=new Map(),at=new Date().toISOString();
+    for(let part=0;part<ranges.length;part++){
+      const relativePath=part===0?item.relativePath:manualSplitTemporaryPath(item.relativePath);
+      const piece={...item,...identities[part],relativePath,sourceRegions:pieceRegions[part],parentIds:[item.id],editHistory:[...(item.editHistory||[]),{action:'split',parent_id:item.id,part:part+1,part_count:ranges.length,cut_positions:cuts,at}]};
+      pieces.push(piece);overrides.set(relativePath,await blobs[part].arrayBuffer());
+    }
+    const nextItems=state.results.slice();nextItems.splice(index,1,...pieces);
+    const updated=await persistStagedResults(state.results,nextItems,overrides);
     state.results=updated;
-    state.previewCount=Math.min(state.results.length,Math.max(12,state.previewCount+1));
+    state.previewCount=Math.min(state.results.length,Math.max(12,state.previewCount+pieces.length-1));
     updateResultsSummary();closeManualSplit();await renderPreviewGrid();
-  }catch(error){$('#manual-split-error').textContent=error?.message||String(error);}
-  finally{state.busy=false;$('#manual-split-confirm').disabled=false;}
+  }catch(error){$('#manual-split-error').classList.remove('info');$('#manual-split-error').textContent=error?.message||String(error);}
+  finally{state.busy=false;updateManualSplitControls();}
 }
 $('#manual-split-confirm').addEventListener('click',confirmManualSplit);
 function clearPreviewUrls() {
@@ -875,41 +1024,50 @@ $('#save-output').addEventListener('click', async () => {
   finally { state.busy = false; $('#save-output').disabled = state.saved; }
 });
 
-async function buildContactSheet(sheet, sheetIndex, chapterIndex, format) {
-  const plan = layoutVerticalSequential(sheet.panels, DEFAULT_VERTICAL_LAYOUT);
-  if (plan.length !== 1) throw new Error('Một batch capacity tạo nhiều layout; hãy kiểm tra giới hạn sheet.');
-  const sheetLayout = plan[0];
+async function buildContactSheet(sourcePanels, sheetLayout, sheetIndex, chapterIndex, format, layoutConfig) {
+  const panelByUuid = new Map(sourcePanels.map(panel => [panel.uuid, panel]));
+  const sheetUuids = new Set(sheetLayout.panels.map(entry => entry.uuid));
+  const sheetPanels = sourcePanels.filter(panel => sheetUuids.has(panel.uuid));
   const canvas = document.createElement('canvas'); canvas.width = sheetLayout.width; canvas.height = sheetLayout.height;
   const context = canvas.getContext('2d');
   context.fillStyle = '#f4f5f7'; context.fillRect(0, 0, canvas.width, canvas.height);
   context.fillStyle = '#202633'; context.font = 'bold 30px system-ui';
-  context.fillText(`${sheet.chapterId}  ·  SHEET ${pad(sheetIndex + 1, 3)}${sheetLayout.overflow ? ' · OVERFLOW' : ''}`, DEFAULT_VERTICAL_LAYOUT.margin, 44);
+  context.fillText(`${sheetLayout.panels[0].chapter_id}  ·  SHEET ${pad(sheetIndex + 1, 3)}${sheetLayout.overflow ? ' · OVERFLOW' : ''}`, layoutConfig.margin, 44);
   context.fillStyle = '#626b78'; context.font = '18px system-ui';
-  context.fillText(`Panel ${sheet.panels[0].order}–${sheet.panels.at(-1).order} · ${sheet.panels.length} panel · xếp dọc từng cột`, DEFAULT_VERTICAL_LAYOUT.margin, 74);
+  context.fillText(`Panel ${sheetPanels[0].order}–${sheetPanels.at(-1).order} · ${sheetPanels.length} panel · xếp dọc từng cột`, layoutConfig.margin, 74);
   const layoutPanels = [];
-  for (const placed of sheetLayout.panels) {
-    const item = sheet.panels.find(panel => panel.uuid === placed.uuid);
-    const response = await api.readExportedPanel({ token: state.token, relativePath: item.relativePath });
-    const bitmap = await createImageBitmap(new Blob([response.data], { type: /\.png$/i.test(item.relativePath) ? 'image/png' : 'image/jpeg' }));
-    if (bitmap.width !== placed.width || bitmap.height !== placed.height) {
-      bitmap.close(); throw new Error(`Kích thước panel thay đổi ngoài dự kiến: ${placed.panel_id}.`);
+  const bitmaps = new Map();
+  try {
+    for (const placed of sheetLayout.panels) {
+      const item = panelByUuid.get(placed.uuid);
+      if (!item) throw new Error(`Thiếu panel nguồn cho UUID ${placed.uuid}.`);
+      let bitmap = bitmaps.get(placed.uuid);
+      if (!bitmap) {
+        const response = await api.readExportedPanel({ token: state.token, relativePath: item.relativePath });
+        bitmap = await createImageBitmap(new Blob([response.data], { type: /\.png$/i.test(item.relativePath) ? 'image/png' : 'image/jpeg' }));
+        bitmaps.set(placed.uuid, bitmap);
+      }
+      const sourceY = placed.source_y ?? 0, sourceHeight = placed.source_height ?? item.height;
+      if (bitmap.width !== item.width || bitmap.height !== item.height || sourceY < 0 || sourceHeight < 1 || sourceY + sourceHeight > bitmap.height || sourceHeight !== placed.height || placed.width !== bitmap.width) {
+        throw new Error(`Kích thước hoặc vùng lát panel không hợp lệ: ${placed.panel_id}.`);
+      }
+      context.drawImage(bitmap, 0, sourceY, bitmap.width, sourceHeight, placed.x, placed.y, placed.width, placed.height);
+      context.fillStyle = '#ffffff';
+      context.fillRect(placed.x, placed.y + placed.height, placed.width, layoutConfig.labelHeight);
+      context.fillStyle = placed.overflow_height || placed.overflow_width ? '#9b3e22' : '#202633';
+      context.font = 'bold 18px system-ui';
+      const segmentLabel = placed.segment_count > 1 ? ` · PHẦN ${placed.segment_index}/${placed.segment_count}` : '';
+      const label = `${placed.panel_id} · #${String(placed.reading_order).padStart(4, '0')}${segmentLabel}${placed.overflow_height || placed.overflow_width ? ' · VƯỢT GIỚI HẠN' : ''}`;
+      context.fillText(label, placed.x + 6, placed.y + placed.height + 24, Math.max(1, placed.width - 12));
+      layoutPanels.push({ ...placed, sheet_id: `sheet_${String(sheetIndex + 1).padStart(3, '0')}` });
     }
-    context.drawImage(bitmap, placed.x, placed.y);
-    bitmap.close();
-    context.fillStyle = '#ffffff';
-    context.fillRect(placed.x, placed.y + placed.height, placed.width, DEFAULT_VERTICAL_LAYOUT.labelHeight);
-    context.fillStyle = placed.overflow_height || placed.overflow_width ? '#9b3e22' : '#202633';
-    context.font = 'bold 18px system-ui';
-    const label = `${placed.panel_id} · #${String(placed.reading_order).padStart(4, '0')}${placed.overflow_height || placed.overflow_width ? ' · VƯỢT GIỚI HẠN' : ''}`;
-    context.fillText(label, placed.x + 6, placed.y + placed.height + 24, Math.max(placed.width - 12, 140));
-    layoutPanels.push({ ...placed, sheet_id: `sheet_${String(sheetIndex + 1).padStart(3, '0')}` });
-  }
+  } finally { for (const bitmap of bitmaps.values()) bitmap.close(); }
   const mime = format === 'png' ? 'image/png' : 'image/jpeg';
   const blob = await new Promise((resolve, reject) => canvas.toBlob(value => value ? resolve(value) : reject(new Error('Không tạo được Contact Sheet.')), mime, 0.92));
   canvas.width = 1; canvas.height = 1;
   return {
-    format, data: await blob.arrayBuffer(), chapter_id: sheet.chapterId, chapter_index: chapterIndex,
-    sheet_index: sheetIndex + 1, panel_uuids: sheet.panels.map(item => item.uuid), layout_panels: layoutPanels,
+    format, data: await blob.arrayBuffer(), chapter_id: sheetLayout.panels[0].chapter_id, chapter_index: chapterIndex,
+    sheet_index: sheetIndex + 1, panel_uuids: sheetPanels.map(item => item.uuid), layout_panels: layoutPanels,
     layout_width: sheetLayout.width, layout_height: sheetLayout.height, overflow: sheetLayout.overflow,
   };
 }
@@ -921,21 +1079,22 @@ $('#export-ai-button').addEventListener('click', async () => {
   try {
     const perSheet = Number($('#ai-sheet-size').value) || 10;
     const format = $('#ai-sheet-format').value === 'png' ? 'png' : 'jpg';
+    saveContactSheetSettings();
+    const layoutConfig = currentContactSheetLayout();
     const chapterBatches = partitionPanelsByChapter(state.results, perSheet);
     const sheets = [], chapterIndexes = new Map();
     for (let index = 0; index < chapterBatches.length; index++) {
       const batch = chapterBatches[index];
-      const plannedSheets = layoutVerticalSequential(batch.panels, DEFAULT_VERTICAL_LAYOUT);
+      const plannedSheets = layoutVerticalSequential(batch.panels, layoutConfig);
       for (let localIndex = 0; localIndex < plannedSheets.length; localIndex++) {
         const plan = plannedSheets[localIndex];
-        const sheet = { chapterId: batch.chapterId, panels: plan.panels.map(entry => batch.panels.find(panel => panel.uuid === entry.uuid)) };
-        if (!chapterIndexes.has(sheet.chapterId)) chapterIndexes.set(sheet.chapterId, chapterIndexes.size + 1);
-        const sheetIndex = sheets.filter(value => value.chapter_id === sheet.chapterId).length;
-        setProgress(Math.round(sheets.length / Math.max(1, chapterBatches.length) * 90), 'Đang tạo AI Package', `${sheet.chapterId} · sheet ${sheetIndex + 1}…`);
-        sheets.push(await buildContactSheet(sheet, sheetIndex, chapterIndexes.get(sheet.chapterId), format));
+        if (!chapterIndexes.has(batch.chapterId)) chapterIndexes.set(batch.chapterId, chapterIndexes.size + 1);
+        const sheetIndex = sheets.filter(value => value.chapter_id === batch.chapterId).length;
+        setProgress(Math.round(sheets.length / Math.max(1, chapterBatches.length) * 90), 'Đang tạo AI Package', `${batch.chapterId} · sheet ${sheetIndex + 1}…`);
+        sheets.push(await buildContactSheet(batch.panels, plan, sheetIndex, chapterIndexes.get(batch.chapterId), format, layoutConfig));
       }
     }
-    const result = await api.exportAiPackage({ token: state.token, sheets });
+    const result = await api.exportAiPackage({ token: state.token, sheets, layout_limits: { max_height: layoutConfig.maxHeight, max_columns: layoutConfig.maxColumns } });
     setProgress(100, 'Đã xuất AI Package', `${result.panelCount} panel · ${result.sheetCount} Contact Sheet.`);
     button.textContent = 'Đã xuất AI Package';
     $('#output-path').textContent = `${state.outputDir} · AI-Package`;

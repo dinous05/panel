@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { computeRowProfile, sliceStripProfile, splitLongSegments } from '../src/strip-slicer.js';
+import { computeRowProfile, sliceStripProfile } from '../src/strip-slicer.js';
 
 function pageProfile(gutterColors) {
   const height = 1000;
@@ -199,42 +199,6 @@ test('flat runs touching a joined source-file boundary are protected from artifi
   // Dải ngắn < 150px vẫn được bảo vệ như cũ.
   const joined = sliceStripProfile(profile, 1000, height, 'manhua', { referenceHeight: 1000, protectedRows: [1000] });
   assert.equal(joined.segments.length, 2);
-});
-
-test('SPLIT-MOBILE: a panel taller than 1700px at 728px wide is split into pieces <= 1284px', () => {
-  const height = 4000;
-  const profile = {
-    r: new Float64Array(height), g: new Float64Array(height), b: new Float64Array(height),
-    lum: new Float64Array(height), variance: new Float64Array(height), colorSpread: new Float64Array(height),
-    nearWhiteCoverage: new Float64Array(height), darkCoverage: new Float64Array(height),
-  };
-  for (let y = 0; y < height; y++) {
-    const value = 120 + (y % 41);
-    profile.r[y] = value; profile.g[y] = value - 20; profile.b[y] = value - 30;
-    profile.lum[y] = .299 * profile.r[y] + .587 * profile.g[y] + .114 * profile.b[y];
-    profile.variance[y] = 300; profile.colorSpread[y] = 90; profile.nearWhiteCoverage[y] = 0;
-  }
-  const result = splitLongSegments([{ y0: 0, y1: height }], profile, 728);
-  assert.ok(result.length >= 4);
-  assert.equal(result[0].y0, 0);
-  assert.equal(result.at(-1).y1, height);
-  for (let i = 0; i < result.length; i++) {
-    assert.ok(result[i].y1 - result[i].y0 <= 1284, `piece ${i} too tall`);
-    assert.ok(result[i].y1 - result[i].y0 >= 550, `piece ${i} too short`);
-    if (i) assert.equal(result[i].y0, result[i - 1].y1);
-  }
-});
-
-test('SPLIT-MOBILE: panels at or below the 1700px trigger are left untouched', () => {
-  const height = 2000;
-  const profile = {
-    r: new Float64Array(height), g: new Float64Array(height), b: new Float64Array(height),
-    lum: new Float64Array(height), variance: new Float64Array(height), colorSpread: new Float64Array(height),
-    nearWhiteCoverage: new Float64Array(height),
-  };
-  for (let y = 0; y < height; y++) { profile.lum[y] = 120; profile.variance[y] = 300; profile.colorSpread[y] = 90; }
-  assert.deepEqual(splitLongSegments([{ y0: 0, y1: 1692 }], profile, 728), [{ y0: 0, y1: 1692 }]);
-  assert.deepEqual(splitLongSegments([{ y0: 0, y1: 1700 }], profile, 728), [{ y0: 0, y1: 1700 }]);
 });
 
 test('screenshot strip: dark gaps with spread 14 are cut into 3 panels', () => {

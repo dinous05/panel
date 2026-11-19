@@ -48,6 +48,17 @@ function getDimensions(panel) {
   return { width, height };
 }
 
+function splitForContactSheet(panel, maxSliceHeight) {
+  const { height } = getDimensions(panel);
+  const segmentCount = Math.ceil(height / maxSliceHeight);
+  if (segmentCount <= 1) return [{ ...panel, source_y: 0, source_height: height, segment_index: 1, segment_count: 1 }];
+  return Array.from({ length: segmentCount }, (_value, index) => {
+    const sourceY = index * maxSliceHeight;
+    const sourceHeight = Math.min(maxSliceHeight, height - sourceY);
+    return { ...panel, height: sourceHeight, source_y: sourceY, source_height: sourceHeight, segment_index: index + 1, segment_count: segmentCount };
+  });
+}
+
 function sheetWidth(columns, config) {
   if (!columns.length) return config.margin * 2;
   return config.margin * 2 + columns.reduce((sum, column) => sum + column.width, 0) + config.columnGap * (columns.length - 1);
@@ -58,7 +69,7 @@ function startColumn(panel, config) {
   const y = config.headerHeight + config.margin;
   return {
     width,
-    items: [{ panel, x: 0, y, width, height, reading_order: panel.order, uuid: panel.uuid }],
+    items: [{ panel, x: 0, y, width, height, reading_order: panel.order, uuid: panel.uuid, source_y: panel.source_y, source_height: panel.source_height, segment_index: panel.segment_index, segment_count: panel.segment_count }],
     bottom: y + height + config.labelHeight,
   };
 }
@@ -80,6 +91,10 @@ function finalizeSheet(columns, config, extraOverflow = null) {
         y: item.y,
         width: item.width,
         height: item.height,
+        source_y: item.source_y,
+        source_height: item.source_height,
+        segment_index: item.segment_index,
+        segment_count: item.segment_count,
         overflow_height: Boolean(item.overflow_height),
         overflow_width: Boolean(item.overflow_width),
       });
@@ -104,8 +119,9 @@ function finalizeSheet(columns, config, extraOverflow = null) {
 }
 
 /**
- * Places panels at native pixel dimensions, top-to-bottom within each column,
- * then left-to-right across columns. Panels are never resized or cropped.
+ * Places panels top-to-bottom in columns. A panel taller than the usable sheet
+ * height is represented by contiguous, native-pixel visual slices. The source
+ * panel file and identity are never changed; each slice records its pixel range.
  */
 export function layoutVerticalSequential(panels, options = {}) {
   if (!Array.isArray(panels)) throw new Error('Danh sách panel không hợp lệ.');
@@ -115,28 +131,29 @@ export function layoutVerticalSequential(panels, options = {}) {
     if (!Number.isFinite(config[key]) || config[key] < 1) throw new Error(`Cấu hình ${key} không hợp lệ.`);
   }
   if (config.maxColumns > 20) throw new Error('MAX_COLUMNS không được lớn hơn 20.');
-  const allUuids = panels.map(panel => panel.uuid);
-  if (new Set(allUuids).size !== allUuids.length) throw new Error('UUID panel bị trùng trong layout.');
+  const originalUuids = panels.map(panel => panel.uuid);
+  if (new Set(originalUuids).size !== originalUuids.length) throw new Error('UUID panel bị trùng trong layout.');
+
+  const availablePanelHeight = config.maxHeight - config.headerHeight - config.margin * 2 - config.labelHeight;
+  const availablePanelWidth = config.maxWidth - config.margin * 2;
+  if (availablePanelHeight < 1 || availablePanelWidth < 1) throw new Error('Giới hạn Contact Sheet quá nhỏ so với phần đầu trang và lề.');
+  const layoutPanels = panels.flatMap(panel => splitForContactSheet(panel, availablePanelHeight));
+  const expectedSegments = layoutPanels.map(panel => `${panel.uuid}:${panel.segment_index}`);
 
   const sheets = [];
   let columns = [];
   let index = 0;
-  const availablePanelHeight = config.maxHeight - config.headerHeight - config.margin * 2 - config.labelHeight;
-  const availablePanelWidth = config.maxWidth - config.margin * 2;
-
   const flush = (overflow = null) => {
     if (columns.length) sheets.push(finalizeSheet(columns, config, overflow));
     columns = [];
   };
   const startNewSheetWith = panel => {
     const { width, height } = getDimensions(panel);
-    const tooTall = height > availablePanelHeight;
     const tooWide = width > availablePanelWidth;
     const column = startColumn(panel, config);
-    if (tooTall || tooWide) {
-      column.items[0].overflow_height = tooTall;
-      column.items[0].overflow_width = tooWide;
-      sheets.push(finalizeSheet([column], config, { height: tooTall, width: tooWide, reason: tooTall ? 'single_panel_exceeds_max_height' : 'single_panel_exceeds_max_width' }));
+    if (tooWide) {
+      column.items[0].overflow_width = true;
+      sheets.push(finalizeSheet([column], config, { width: true, height: false, reason: 'single_panel_exceeds_max_width' }));
       index++;
       return;
     }
@@ -144,8 +161,8 @@ export function layoutVerticalSequential(panels, options = {}) {
     index++;
   };
 
-  while (index < panels.length) {
-    const panel = panels[index];
+  while (index < layoutPanels.length) {
+    const panel = layoutPanels[index];
     const { width, height } = getDimensions(panel);
     if (!columns.length) {
       startNewSheetWith(panel);
@@ -161,7 +178,7 @@ export function layoutVerticalSequential(panels, options = {}) {
     const projectedSheetWidth = config.margin * 2 + projectedWidths + config.columnGap * (columns.length - 1);
 
     if (nextBottom + config.margin <= config.maxHeight && projectedSheetWidth <= config.maxWidth) {
-      lastColumn.items.push({ panel, x: 0, y: nextY, width, height, reading_order: panel.order, uuid: panel.uuid });
+      lastColumn.items.push({ panel, x: 0, y: nextY, width, height, reading_order: panel.order, uuid: panel.uuid, source_y: panel.source_y, source_height: panel.source_height, segment_index: panel.segment_index, segment_count: panel.segment_count });
       lastColumn.width = newColumnWidth;
       lastColumn.bottom = nextBottom;
       index++;
@@ -181,9 +198,9 @@ export function layoutVerticalSequential(panels, options = {}) {
   }
   flush();
 
-  const actual = sheets.flatMap(sheet => sheet.panels.map(panel => panel.uuid));
-  if (actual.length !== allUuids.length || allUuids.some((uuid, i) => actual[i] !== uuid)) {
-    throw new Error('Layout không bảo toàn thứ tự hoặc số lượng panel.');
+  const actualSegments = sheets.flatMap(sheet => sheet.panels.map(panel => `${panel.uuid}:${panel.segment_index}`));
+  if (actualSegments.length !== expectedSegments.length || expectedSegments.some((segment, i) => actualSegments[i] !== segment)) {
+    throw new Error('Layout không bảo toàn thứ tự hoặc số lượng đoạn panel.');
   }
   return sheets;
 }
