@@ -1,0 +1,2145 @@
+{
+  "schema_version": "1.0",
+  "project": {
+    "project_id": "581b884f-1c7c-44ba-a9dc-238ba2a8f3b0",
+    "project_name": "truyen",
+    "created_at": "2026-11-17T15:21:44.264Z",
+    "exported_at": "2026-11-19T23:32:52.489Z"
+  },
+  "manifest_path": "../manifest.json",
+  "contact_sheets": [
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_001.jpg",
+      "panel_uuids": [
+        "82e24efc-4995-4cfd-8a13-aad3ac4dcf09",
+        "8fa66aab-913b-4b93-8db9-8ace84b25a0a",
+        "868bebb3-b6e7-4838-a44a-b503f6053aa0",
+        "c84b1d8e-f32f-43d2-bdfb-5096abd074f6"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_002.jpg",
+      "panel_uuids": [
+        "8569438e-1b60-49a5-9a39-5b649c303de2",
+        "cd52c503-6a7f-4732-8bfa-77fc35ff5911"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_003.jpg",
+      "panel_uuids": [
+        "cd52c503-6a7f-4732-8bfa-77fc35ff5911",
+        "d923a42a-005d-4fe0-95c9-ec33ff2c8440",
+        "eb48782c-3a72-4d04-8caf-50938643dc7c",
+        "7dd856af-51d8-447a-9da5-c73d1d4061c7",
+        "3a3deefe-8b45-428f-9618-1ca1b383d0c3"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_004.jpg",
+      "panel_uuids": [
+        "3a3deefe-8b45-428f-9618-1ca1b383d0c3"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_005.jpg",
+      "panel_uuids": [
+        "c945a40e-fbdc-42d2-aa8d-d0bb630ecfaa",
+        "9de82e4d-b382-4fbe-ab2a-e8f185ebec74",
+        "5992dbbd-99dc-4d73-80a1-aa7a5a265136"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_006.jpg",
+      "panel_uuids": [
+        "5f166085-f3be-428b-8468-76c8d5e0205e",
+        "f747ad6f-200d-48cb-97c8-4ef5bb50b7fb"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_007.jpg",
+      "panel_uuids": [
+        "99e6bd79-09b6-49e8-a05b-298babb57058",
+        "b0a33c09-fe13-4e28-a467-0ff68b96e586",
+        "ceb5f183-eff7-4ec5-bda3-d08e2a902b26"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_008.jpg",
+      "panel_uuids": [
+        "15ef4b0e-1beb-4bf4-b2a1-5f05babe67f9",
+        "4fea2111-8bd7-46ef-99c6-e86da6a48050"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_009.jpg",
+      "panel_uuids": [
+        "086305c1-1b02-4d76-a308-0edac303d224",
+        "99357a2b-2dc3-4919-ac73-975ad54e60ea"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_010.jpg",
+      "panel_uuids": [
+        "b139f164-ecb0-4606-9465-d2c0013940a9",
+        "c7fcf39d-c42f-4e9a-85c2-303c07cfc7a2",
+        "52f624b4-e1d2-4cca-9c7c-73222bd5430b",
+        "0f1c9fed-7e71-4729-a340-257654b7bef0",
+        "c4820142-7f43-49fd-8dad-e7191f2eb5ae",
+        "525e82db-037d-4c1f-9153-a840de87b0cb",
+        "7a3fa3f5-6456-4ce8-89b8-617aec2e3fa3",
+        "d6808d75-f4a5-40e3-a232-a89709ab20d8"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_011.jpg",
+      "panel_uuids": [
+        "6d69ddf4-8ed6-40b6-9ea8-dae52cd86c69",
+        "5a228029-07e6-4357-8a85-2bab519908fe"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_012.jpg",
+      "panel_uuids": [
+        "53b014e1-926d-4614-8c95-e60694455210",
+        "31bafdae-9dd8-4e25-a2ca-3f625f38967b"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_013.jpg",
+      "panel_uuids": [
+        "31bafdae-9dd8-4e25-a2ca-3f625f38967b",
+        "1f662e96-90f9-4785-a7d1-30f8cbca2904",
+        "b19f1b13-78ce-4bda-88d4-d372caaf86d3",
+        "445652bb-aa89-427d-8be8-405863e0ce81"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_014.jpg",
+      "panel_uuids": [
+        "445652bb-aa89-427d-8be8-405863e0ce81",
+        "40756441-e41c-4250-b776-df2a4d916d2a",
+        "0c41503f-aaa9-4036-84c5-e10b8259b1f8"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_015.jpg",
+      "panel_uuids": [
+        "faf1515a-e1bc-4364-abbc-9b7448cc4e02"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_016.jpg",
+      "panel_uuids": [
+        "3bb21b78-dd00-4dde-83ef-ad11e1a86c7c",
+        "0d780b50-3504-4430-85ed-d10fa788525c",
+        "a81c142b-13ff-476b-8904-f93805228739",
+        "b7d96a98-e977-4502-96ca-afa9916cc152",
+        "ada87243-ac75-4f08-9741-9e6963aab5de"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_017.jpg",
+      "panel_uuids": [
+        "d50d87e5-1ad4-410d-81cc-6db7107eec31",
+        "c3940dc9-9923-4ba6-9a50-93d4dda549af",
+        "5ee61afa-50ed-479b-9bc1-46d28156c64d",
+        "67f59e0d-72e8-4608-9bc2-f15314b6c6ed",
+        "8d5c5323-1957-4cc0-a5cf-8228b9dc156b"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_018.jpg",
+      "panel_uuids": [
+        "a258f146-9ae3-43c4-b47c-c057b0cf31d1",
+        "f967b9ec-584b-4ffd-ae36-63bb95ca4906",
+        "fe6d9538-521b-4884-bf98-806fd2014720",
+        "c77458c0-0d60-43a5-bf6a-9b95a45a1a42",
+        "ea9bdd3d-91a9-4828-8b6c-7fed52fec30c",
+        "c8d5bf55-cb1d-4cf4-b669-cb260b7dd305",
+        "714c94a5-7d92-4d0c-a353-e036220d31bb",
+        "75739d75-7458-4987-acc9-af5fe1bf9824"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_019.jpg",
+      "panel_uuids": [
+        "1263e460-46a6-4577-a256-ade35b9a04dd",
+        "d522272a-6987-4a57-a9b3-d32e6fe8213c"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_020.jpg",
+      "panel_uuids": [
+        "b8246ca4-14c5-4ea7-be64-01b52dc44815",
+        "8e581969-d89c-43c2-ab7c-fe870878f5cb"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_021.jpg",
+      "panel_uuids": [
+        "5f33f118-e243-498b-a150-803fcc951c3d",
+        "072326ce-426a-4b98-b0d5-72e428e20905"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_022.jpg",
+      "panel_uuids": [
+        "8a583e39-3eb7-4189-a629-35c981d2c994",
+        "030744c4-358e-43e2-a664-95c263e1253b",
+        "17750cfa-6c7b-4e34-b605-34e8982cfaf7"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_023.jpg",
+      "panel_uuids": [
+        "17750cfa-6c7b-4e34-b605-34e8982cfaf7",
+        "b123cc71-d257-44d8-a99c-9fbf7e53f9a1"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_024.jpg",
+      "panel_uuids": [
+        "21b4b4fc-d0d2-4718-adf1-0a53f0d16692",
+        "7a3ec32f-3375-4681-add3-f1431f3c72ac"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_025.jpg",
+      "panel_uuids": [
+        "a9d89698-041f-4165-8362-b94aad1e0576",
+        "b7f7a1b6-f058-4f12-be53-e1f59f7e9789",
+        "c5d65a37-5d87-4e3d-914b-4a1274a3e925"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_026.jpg",
+      "panel_uuids": [
+        "887afef4-98dd-4456-9b3d-9fb081c7c0c9",
+        "c21557a7-5c2c-48ed-ae0c-41e64ab030dd",
+        "1653ed58-f396-49f9-97e6-6cdf91f706e8"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_027.jpg",
+      "panel_uuids": [
+        "640db01f-e8ce-49bd-a1fd-6de2788c3b03",
+        "41a555bb-3b8e-4509-9912-c0a9c6709946"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_028.jpg",
+      "panel_uuids": [
+        "41a555bb-3b8e-4509-9912-c0a9c6709946",
+        "f90fe701-ddb6-48cd-ab7a-c0ae8b1577da",
+        "069c841b-26dc-400a-abe9-9ae77947c177"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_029.jpg",
+      "panel_uuids": [
+        "4701dc9e-3628-478e-b00a-318d06c17879",
+        "10aa673b-4779-467a-bbbb-9fde48def27d"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_030.jpg",
+      "panel_uuids": [
+        "11c2578b-56ee-4916-8a3f-a9ea2a4d121b",
+        "d387090d-200a-4268-89e4-b7b995aa8562",
+        "4bd81f26-b72e-4320-98e9-00e09a7d142c"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_031.jpg",
+      "panel_uuids": [
+        "735008cd-0079-4982-8000-9dafa3d749b9",
+        "595bac7b-c4dd-4501-a76f-6a9a34a9a314"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_032.jpg",
+      "panel_uuids": [
+        "595bac7b-c4dd-4501-a76f-6a9a34a9a314",
+        "9287af20-5fdb-418b-a901-95bdcaa45832",
+        "3a0e9b0b-5967-4e7c-92e0-9769058058b0"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_001_Chapter 0001/sheet_033.jpg",
+      "panel_uuids": [
+        "9170fbc9-fac7-45a7-96b5-65e4c7f8c943"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_001.jpg",
+      "panel_uuids": [
+        "c58a95ee-c23b-4e52-b4a5-322895d8d863",
+        "4774cc60-7e42-49c9-b507-0239e36bc9f0",
+        "c6c9fedd-15c6-4b76-9339-e7c86ce662a7",
+        "c58fc7ca-6c2e-48a4-bd17-9be47170b56f",
+        "973ff91f-ddeb-4c6e-be4d-6b87f6ceb2d6",
+        "876711c9-53e9-4de5-b0e2-abfaa0e5404a",
+        "52b03c95-def1-4c7a-be96-c97473646ef6"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_002.jpg",
+      "panel_uuids": [
+        "52b03c95-def1-4c7a-be96-c97473646ef6",
+        "47a45ff0-c935-4886-ad05-3e4a723cb374",
+        "f6af0fac-13e9-4edd-a603-86d68094f467"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_003.jpg",
+      "panel_uuids": [
+        "91158707-d24d-45ad-b056-8ebf3f7764b8"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_004.jpg",
+      "panel_uuids": [
+        "2442de02-4e9e-444d-af46-0917de964a60",
+        "fa1a1dcc-92ed-4f6c-b3d7-c2c4bdfe392b",
+        "6f0c1fa7-7913-4327-973c-122322ac0cbe",
+        "abe6d830-d073-49db-8504-4ca230c9cf91"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_005.jpg",
+      "panel_uuids": [
+        "57d427c9-8b2d-41b6-81c6-2d4e77540514",
+        "3afa0fea-948a-407d-bf28-6a022ef38d1b",
+        "b19a5424-7bf9-4689-a949-d51f25c151b8"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_006.jpg",
+      "panel_uuids": [
+        "66c03b79-0946-4417-a941-d5534fd95b19",
+        "6a9863f5-eaa6-4f16-9bfe-6880b5511e34",
+        "53992963-1a55-4377-a493-3615a7492358"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_007.jpg",
+      "panel_uuids": [
+        "730a0108-bc5e-463f-89ec-f911b3d6195e",
+        "12c3e0ab-a86a-496c-bf59-80e833bd6e28",
+        "3b2c0261-8502-4e3e-b8c3-28ace6d0ae8e",
+        "e8c8d523-297b-4771-9463-bb2f3a118742"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_008.jpg",
+      "panel_uuids": [
+        "3bc6bc1f-a528-417f-afcb-1ad38139d3d7",
+        "e7286e49-b54c-44b6-81df-04f0002acec3"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_009.jpg",
+      "panel_uuids": [
+        "ffd58856-79de-41ac-87fd-65df67f31b27",
+        "9b36dba2-88bd-4283-936b-4bc50f997162",
+        "adccb34d-b92c-49af-ade5-e543ffccfc9f",
+        "b2802649-151a-4382-abae-6cfd46cc1962"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_010.jpg",
+      "panel_uuids": [
+        "fcda5c6c-4cd9-435c-991c-3d1023fcee0e",
+        "dcca4856-d43b-4b9c-a42d-cb81b1ca4515",
+        "3207de79-ae77-4562-bb34-b4281ba69fbc"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_011.jpg",
+      "panel_uuids": [
+        "a068dc05-eb6e-4897-9f5c-54cef00a6c97",
+        "fedac160-8214-4b59-9fea-d4ead9f74ac3",
+        "4f7c7bc9-d9fa-4357-972f-d427ead9ce04"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_012.jpg",
+      "panel_uuids": [
+        "4f7c7bc9-d9fa-4357-972f-d427ead9ce04",
+        "e86e7d68-7684-4a3c-aead-9d4bca47cc3f",
+        "99689dc6-f57a-48fb-b2be-f8ff5808b812"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_013.jpg",
+      "panel_uuids": [
+        "666247e4-a4f5-4f82-a3f1-14235466de85",
+        "a7be84b3-f1e7-4feb-ba75-f5b9da49c9e9"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_014.jpg",
+      "panel_uuids": [
+        "d551a47a-52e0-4eb3-ad73-88a40628b484",
+        "e735b639-2a0d-4544-8e09-e8fbf158dd34",
+        "5cfb39e0-0807-46e7-84f2-27d3498ac3cb",
+        "e31b62ad-a77c-4353-87c0-b2318dbc5a20",
+        "35f53ddb-cdbd-4ede-af69-5d7db160111a"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_015.jpg",
+      "panel_uuids": [
+        "6c001867-7d38-4612-9c80-573537731a92",
+        "f8848d97-bf71-4c5b-84d8-d1aa28ccdbe2",
+        "eac9f511-1833-4877-ba7a-682d0457e430"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_016.jpg",
+      "panel_uuids": [
+        "ddcfc3a1-766c-4a8b-8a57-58bb1e233717",
+        "fb38d3d7-1e3c-47a7-9429-df7a708ffbe3"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_017.jpg",
+      "panel_uuids": [
+        "fb38d3d7-1e3c-47a7-9429-df7a708ffbe3"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_018.jpg",
+      "panel_uuids": [
+        "5bd5c2fc-0e65-4db6-9fc3-58844861e1eb",
+        "720ca344-7239-4aea-8e54-04df9cfdbf2a",
+        "f4d17f05-080e-434a-b770-85370b3a0a9a",
+        "63660ee5-ee7d-4169-91cb-e0813e69c1c1"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_019.jpg",
+      "panel_uuids": [
+        "bf1fc74d-85d2-48cd-b64c-f5315475c3d3",
+        "a32621d4-5447-4ce1-be20-abd77d5603d1",
+        "1e8a74b2-dbc6-4ec9-b907-5007e65cd2b0"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_020.jpg",
+      "panel_uuids": [
+        "ee00f683-0802-4c8c-b63c-3e37f0d3fb60",
+        "e2bb9f24-419c-4310-baa8-0579869291e7",
+        "ece4b616-a4da-4e99-b67c-d07b7fafa0fb"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_021.jpg",
+      "panel_uuids": [
+        "ece4b616-a4da-4e99-b67c-d07b7fafa0fb"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_022.jpg",
+      "panel_uuids": [
+        "d746eb37-ee7c-4ce4-a3ca-a26ee350fe3f",
+        "6c07a25c-1bb8-4d5d-99da-91f767e1222c",
+        "f24918fb-7c92-49ad-9145-949ddf4b36ee"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_023.jpg",
+      "panel_uuids": [
+        "3e9dda86-a5e0-48bf-b4a0-8328143a6c65",
+        "b70eff71-8832-4a47-b587-590e2d01031b",
+        "0c209b7c-e15c-4174-8528-4a0bcb997606",
+        "9a84195b-0041-4b64-b788-956c5ad75359"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_024.jpg",
+      "panel_uuids": [
+        "4e440991-5307-4a64-bc7c-01aa10bb2ff4",
+        "ec92e20c-98fe-45d8-9ff6-5c947ac62273",
+        "f1fdb082-5ebb-4f8f-a732-2e22cebe1710"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_025.jpg",
+      "panel_uuids": [
+        "f658b240-ab1a-4dc3-a015-9232e9a75183",
+        "c27f2f1d-08d2-4a9e-890e-6d7b434d2db7",
+        "3c55c0ad-a2ad-427e-a631-ff3b05a15cbd",
+        "b91f2c36-986f-4389-85d3-593308f4b65a"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_026.jpg",
+      "panel_uuids": [
+        "b91f2c36-986f-4389-85d3-593308f4b65a",
+        "1542f72d-d727-4091-83d9-f51653a4aeb1",
+        "ae584052-7f2e-4e91-a5bf-6b95bc8eb69c",
+        "cf009476-00cc-4549-8d20-a038154389ef"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_027.jpg",
+      "panel_uuids": [
+        "cf009476-00cc-4549-8d20-a038154389ef",
+        "4d6b45c4-30a2-4222-9e48-3129a17f2f2a",
+        "e185828f-21fc-4b17-b20c-89648532948e"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_028.jpg",
+      "panel_uuids": [
+        "1b2af7ac-1129-489e-8016-400515d3025f"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_029.jpg",
+      "panel_uuids": [
+        "4175b516-8a98-4a77-8175-bee65e8e1f75",
+        "e693ef6f-8f39-4c89-a5c6-48c60682a0fb"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_030.jpg",
+      "panel_uuids": [
+        "e693ef6f-8f39-4c89-a5c6-48c60682a0fb",
+        "cf1a9d20-fcf0-47d9-97c4-0a380933ad89",
+        "8fc932d8-323e-4a6b-92a2-9a8c305fd5a0"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_031.jpg",
+      "panel_uuids": [
+        "8fc932d8-323e-4a6b-92a2-9a8c305fd5a0",
+        "a0134c0b-4259-4c94-b300-62ded8c17cf4"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_032.jpg",
+      "panel_uuids": [
+        "ff992e46-fcf0-4098-8c62-14b3ece53716",
+        "159ba4bf-fc04-40be-a139-59a53646aa5b",
+        "ceabdc68-51ed-41b0-80fd-866f264c08e5",
+        "7c8470d0-4e8c-4d5a-869c-fba0095a4bf8"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_033.jpg",
+      "panel_uuids": [
+        "7e5a7708-0cae-4817-b269-8b6242cb8d51"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_034.jpg",
+      "panel_uuids": [
+        "2e6bc2c8-04c0-4f36-bd8b-2cbd1b6fc043",
+        "58ac8981-a2df-4f42-b0fd-dba35a61abea",
+        "3a9646ce-91c9-4c71-accf-23e723c6d5a6",
+        "bfd4eff0-4a80-4f42-a91f-559694be0c1f",
+        "afce77a6-92fc-43e2-b102-25c9cbd4436d"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_035.jpg",
+      "panel_uuids": [
+        "f7d123ad-c503-4ce6-862c-030d70430a3d",
+        "49a82863-1e49-46f7-944b-0f89c258b6a7"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_036.jpg",
+      "panel_uuids": [
+        "a56204ce-9195-46db-aae3-4d97afccc62d",
+        "77a5b7e0-5bfa-4fdd-b45e-20eee36bee2f",
+        "b9aeea3a-f8b2-454f-a63d-9c2a835ab2da"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_037.jpg",
+      "panel_uuids": [
+        "7bcfcd58-87d0-44dd-8b55-66d7ad32ffe1",
+        "9b48d0ab-12f9-4528-a413-de5ef3672d44"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_038.jpg",
+      "panel_uuids": [
+        "741c8a43-c308-4b1a-a2ba-825cf0617e3c",
+        "7e013b01-d33d-44c9-afde-3c19c4d3377a"
+      ]
+    },
+    {
+      "file": "ContactSheets/Chapter_002_Chapter 0002/sheet_039.jpg",
+      "panel_uuids": [
+        "7e013b01-d33d-44c9-afde-3c19c4d3377a",
+        "14e32f02-5960-47fe-ac89-5c34282e747a"
+      ]
+    }
+  ],
+  "panels": [
+    {
+      "panel_id": "P000001",
+      "uuid": "82e24efc-4995-4cfd-8a13-aad3ac4dcf09",
+      "chapter_id": "Chapter 0001",
+      "page_id": 1,
+      "reading_order": 1,
+      "image_path": "../Chapter 0001/panel_0001.jpg"
+    },
+    {
+      "panel_id": "P000002",
+      "uuid": "8fa66aab-913b-4b93-8db9-8ace84b25a0a",
+      "chapter_id": "Chapter 0001",
+      "page_id": 1,
+      "reading_order": 2,
+      "image_path": "../Chapter 0001/panel_0002.jpg"
+    },
+    {
+      "panel_id": "P000003",
+      "uuid": "868bebb3-b6e7-4838-a44a-b503f6053aa0",
+      "chapter_id": "Chapter 0001",
+      "page_id": 1,
+      "reading_order": 3,
+      "image_path": "../Chapter 0001/panel_0003.jpg"
+    },
+    {
+      "panel_id": "P000004",
+      "uuid": "c84b1d8e-f32f-43d2-bdfb-5096abd074f6",
+      "chapter_id": "Chapter 0001",
+      "page_id": 1,
+      "reading_order": 4,
+      "image_path": "../Chapter 0001/panel_0004.jpg"
+    },
+    {
+      "panel_id": "P000005",
+      "uuid": "8569438e-1b60-49a5-9a39-5b649c303de2",
+      "chapter_id": "Chapter 0001",
+      "page_id": 1,
+      "reading_order": 5,
+      "image_path": "../Chapter 0001/panel_0005.jpg"
+    },
+    {
+      "panel_id": "P000006",
+      "uuid": "cd52c503-6a7f-4732-8bfa-77fc35ff5911",
+      "chapter_id": "Chapter 0001",
+      "page_id": null,
+      "reading_order": 6,
+      "image_path": "../Chapter 0001/panel_0006.jpg"
+    },
+    {
+      "panel_id": "P000007",
+      "uuid": "d923a42a-005d-4fe0-95c9-ec33ff2c8440",
+      "chapter_id": "Chapter 0001",
+      "page_id": 2,
+      "reading_order": 7,
+      "image_path": "../Chapter 0001/panel_0007.jpg"
+    },
+    {
+      "panel_id": "P000008",
+      "uuid": "eb48782c-3a72-4d04-8caf-50938643dc7c",
+      "chapter_id": "Chapter 0001",
+      "page_id": 2,
+      "reading_order": 8,
+      "image_path": "../Chapter 0001/panel_0008.jpg"
+    },
+    {
+      "panel_id": "P000009",
+      "uuid": "7dd856af-51d8-447a-9da5-c73d1d4061c7",
+      "chapter_id": "Chapter 0001",
+      "page_id": 2,
+      "reading_order": 9,
+      "image_path": "../Chapter 0001/panel_0009.jpg"
+    },
+    {
+      "panel_id": "P000010",
+      "uuid": "3a3deefe-8b45-428f-9618-1ca1b383d0c3",
+      "chapter_id": "Chapter 0001",
+      "page_id": 2,
+      "reading_order": 10,
+      "image_path": "../Chapter 0001/panel_0010.jpg"
+    },
+    {
+      "panel_id": "P000011",
+      "uuid": "c945a40e-fbdc-42d2-aa8d-d0bb630ecfaa",
+      "chapter_id": "Chapter 0001",
+      "page_id": 2,
+      "reading_order": 11,
+      "image_path": "../Chapter 0001/panel_0011.jpg"
+    },
+    {
+      "panel_id": "P000012",
+      "uuid": "9de82e4d-b382-4fbe-ab2a-e8f185ebec74",
+      "chapter_id": "Chapter 0001",
+      "page_id": 3,
+      "reading_order": 12,
+      "image_path": "../Chapter 0001/panel_0012.jpg"
+    },
+    {
+      "panel_id": "P000013",
+      "uuid": "5992dbbd-99dc-4d73-80a1-aa7a5a265136",
+      "chapter_id": "Chapter 0001",
+      "page_id": 3,
+      "reading_order": 13,
+      "image_path": "../Chapter 0001/panel_0013.jpg"
+    },
+    {
+      "panel_id": "P000014",
+      "uuid": "5f166085-f3be-428b-8468-76c8d5e0205e",
+      "chapter_id": "Chapter 0001",
+      "page_id": 3,
+      "reading_order": 14,
+      "image_path": "../Chapter 0001/panel_0014.jpg"
+    },
+    {
+      "panel_id": "P000015",
+      "uuid": "f747ad6f-200d-48cb-97c8-4ef5bb50b7fb",
+      "chapter_id": "Chapter 0001",
+      "page_id": 3,
+      "reading_order": 15,
+      "image_path": "../Chapter 0001/panel_0015.jpg"
+    },
+    {
+      "panel_id": "P000016",
+      "uuid": "99e6bd79-09b6-49e8-a05b-298babb57058",
+      "chapter_id": "Chapter 0001",
+      "page_id": 3,
+      "reading_order": 16,
+      "image_path": "../Chapter 0001/panel_0016.jpg"
+    },
+    {
+      "panel_id": "P000017",
+      "uuid": "b0a33c09-fe13-4e28-a467-0ff68b96e586",
+      "chapter_id": "Chapter 0001",
+      "page_id": 4,
+      "reading_order": 17,
+      "image_path": "../Chapter 0001/panel_0017.jpg"
+    },
+    {
+      "panel_id": "P000018",
+      "uuid": "ceb5f183-eff7-4ec5-bda3-d08e2a902b26",
+      "chapter_id": "Chapter 0001",
+      "page_id": 4,
+      "reading_order": 18,
+      "image_path": "../Chapter 0001/panel_0018.jpg"
+    },
+    {
+      "panel_id": "P000019",
+      "uuid": "15ef4b0e-1beb-4bf4-b2a1-5f05babe67f9",
+      "chapter_id": "Chapter 0001",
+      "page_id": 4,
+      "reading_order": 19,
+      "image_path": "../Chapter 0001/panel_0019.jpg"
+    },
+    {
+      "panel_id": "P000204",
+      "uuid": "4fea2111-8bd7-46ef-99c6-e86da6a48050",
+      "chapter_id": "Chapter 0001",
+      "page_id": 4,
+      "reading_order": 20,
+      "image_path": "../Chapter 0001/panel_0020.jpg"
+    },
+    {
+      "panel_id": "P000205",
+      "uuid": "086305c1-1b02-4d76-a308-0edac303d224",
+      "chapter_id": "Chapter 0001",
+      "page_id": 4,
+      "reading_order": 21,
+      "image_path": "../Chapter 0001/panel_0020_part002.jpg"
+    },
+    {
+      "panel_id": "P000021",
+      "uuid": "99357a2b-2dc3-4919-ac73-975ad54e60ea",
+      "chapter_id": "Chapter 0001",
+      "page_id": 5,
+      "reading_order": 22,
+      "image_path": "../Chapter 0001/panel_0021.jpg"
+    },
+    {
+      "panel_id": "P000022",
+      "uuid": "b139f164-ecb0-4606-9465-d2c0013940a9",
+      "chapter_id": "Chapter 0001",
+      "page_id": 5,
+      "reading_order": 23,
+      "image_path": "../Chapter 0001/panel_0022.jpg"
+    },
+    {
+      "panel_id": "P000023",
+      "uuid": "c7fcf39d-c42f-4e9a-85c2-303c07cfc7a2",
+      "chapter_id": "Chapter 0001",
+      "page_id": 5,
+      "reading_order": 24,
+      "image_path": "../Chapter 0001/panel_0023.jpg"
+    },
+    {
+      "panel_id": "P000024",
+      "uuid": "52f624b4-e1d2-4cca-9c7c-73222bd5430b",
+      "chapter_id": "Chapter 0001",
+      "page_id": 5,
+      "reading_order": 25,
+      "image_path": "../Chapter 0001/panel_0024.jpg"
+    },
+    {
+      "panel_id": "P000025",
+      "uuid": "0f1c9fed-7e71-4729-a340-257654b7bef0",
+      "chapter_id": "Chapter 0001",
+      "page_id": 5,
+      "reading_order": 26,
+      "image_path": "../Chapter 0001/panel_0025.jpg"
+    },
+    {
+      "panel_id": "P000026",
+      "uuid": "c4820142-7f43-49fd-8dad-e7191f2eb5ae",
+      "chapter_id": "Chapter 0001",
+      "page_id": 5,
+      "reading_order": 27,
+      "image_path": "../Chapter 0001/panel_0026.jpg"
+    },
+    {
+      "panel_id": "P000027",
+      "uuid": "525e82db-037d-4c1f-9153-a840de87b0cb",
+      "chapter_id": "Chapter 0001",
+      "page_id": 5,
+      "reading_order": 28,
+      "image_path": "../Chapter 0001/panel_0027.jpg"
+    },
+    {
+      "panel_id": "P000028",
+      "uuid": "7a3fa3f5-6456-4ce8-89b8-617aec2e3fa3",
+      "chapter_id": "Chapter 0001",
+      "page_id": 5,
+      "reading_order": 29,
+      "image_path": "../Chapter 0001/panel_0028.jpg"
+    },
+    {
+      "panel_id": "P000029",
+      "uuid": "d6808d75-f4a5-40e3-a232-a89709ab20d8",
+      "chapter_id": "Chapter 0001",
+      "page_id": 5,
+      "reading_order": 30,
+      "image_path": "../Chapter 0001/panel_0029.jpg"
+    },
+    {
+      "panel_id": "P000030",
+      "uuid": "6d69ddf4-8ed6-40b6-9ea8-dae52cd86c69",
+      "chapter_id": "Chapter 0001",
+      "page_id": 5,
+      "reading_order": 31,
+      "image_path": "../Chapter 0001/panel_0030.jpg"
+    },
+    {
+      "panel_id": "P000031",
+      "uuid": "5a228029-07e6-4357-8a85-2bab519908fe",
+      "chapter_id": "Chapter 0001",
+      "page_id": 6,
+      "reading_order": 32,
+      "image_path": "../Chapter 0001/panel_0031.jpg"
+    },
+    {
+      "panel_id": "P000206",
+      "uuid": "53b014e1-926d-4614-8c95-e60694455210",
+      "chapter_id": "Chapter 0001",
+      "page_id": 6,
+      "reading_order": 33,
+      "image_path": "../Chapter 0001/panel_0032.jpg"
+    },
+    {
+      "panel_id": "P000207",
+      "uuid": "31bafdae-9dd8-4e25-a2ca-3f625f38967b",
+      "chapter_id": "Chapter 0001",
+      "page_id": 6,
+      "reading_order": 34,
+      "image_path": "../Chapter 0001/panel_0032_part002.jpg"
+    },
+    {
+      "panel_id": "P000033",
+      "uuid": "1f662e96-90f9-4785-a7d1-30f8cbca2904",
+      "chapter_id": "Chapter 0001",
+      "page_id": 6,
+      "reading_order": 35,
+      "image_path": "../Chapter 0001/panel_0033.jpg"
+    },
+    {
+      "panel_id": "P000034",
+      "uuid": "b19f1b13-78ce-4bda-88d4-d372caaf86d3",
+      "chapter_id": "Chapter 0001",
+      "page_id": 7,
+      "reading_order": 36,
+      "image_path": "../Chapter 0001/panel_0034.jpg"
+    },
+    {
+      "panel_id": "P000035",
+      "uuid": "445652bb-aa89-427d-8be8-405863e0ce81",
+      "chapter_id": "Chapter 0001",
+      "page_id": 7,
+      "reading_order": 37,
+      "image_path": "../Chapter 0001/panel_0035.jpg"
+    },
+    {
+      "panel_id": "P000036",
+      "uuid": "40756441-e41c-4250-b776-df2a4d916d2a",
+      "chapter_id": "Chapter 0001",
+      "page_id": 7,
+      "reading_order": 38,
+      "image_path": "../Chapter 0001/panel_0036.jpg"
+    },
+    {
+      "panel_id": "P000037",
+      "uuid": "0c41503f-aaa9-4036-84c5-e10b8259b1f8",
+      "chapter_id": "Chapter 0001",
+      "page_id": 7,
+      "reading_order": 39,
+      "image_path": "../Chapter 0001/panel_0037.jpg"
+    },
+    {
+      "panel_id": "P000208",
+      "uuid": "faf1515a-e1bc-4364-abbc-9b7448cc4e02",
+      "chapter_id": "Chapter 0001",
+      "page_id": null,
+      "reading_order": 40,
+      "image_path": "../Chapter 0001/panel_0038.jpg"
+    },
+    {
+      "panel_id": "P000209",
+      "uuid": "3bb21b78-dd00-4dde-83ef-ad11e1a86c7c",
+      "chapter_id": "Chapter 0001",
+      "page_id": null,
+      "reading_order": 41,
+      "image_path": "../Chapter 0001/panel_0038_part002.jpg"
+    },
+    {
+      "panel_id": "P000039",
+      "uuid": "0d780b50-3504-4430-85ed-d10fa788525c",
+      "chapter_id": "Chapter 0001",
+      "page_id": 8,
+      "reading_order": 42,
+      "image_path": "../Chapter 0001/panel_0039.jpg"
+    },
+    {
+      "panel_id": "P000040",
+      "uuid": "a81c142b-13ff-476b-8904-f93805228739",
+      "chapter_id": "Chapter 0001",
+      "page_id": 8,
+      "reading_order": 43,
+      "image_path": "../Chapter 0001/panel_0040.jpg"
+    },
+    {
+      "panel_id": "P000041",
+      "uuid": "b7d96a98-e977-4502-96ca-afa9916cc152",
+      "chapter_id": "Chapter 0001",
+      "page_id": 8,
+      "reading_order": 44,
+      "image_path": "../Chapter 0001/panel_0041.jpg"
+    },
+    {
+      "panel_id": "P000042",
+      "uuid": "ada87243-ac75-4f08-9741-9e6963aab5de",
+      "chapter_id": "Chapter 0001",
+      "page_id": 8,
+      "reading_order": 45,
+      "image_path": "../Chapter 0001/panel_0042.jpg"
+    },
+    {
+      "panel_id": "P000043",
+      "uuid": "d50d87e5-1ad4-410d-81cc-6db7107eec31",
+      "chapter_id": "Chapter 0001",
+      "page_id": 8,
+      "reading_order": 46,
+      "image_path": "../Chapter 0001/panel_0043.jpg"
+    },
+    {
+      "panel_id": "P000044",
+      "uuid": "c3940dc9-9923-4ba6-9a50-93d4dda549af",
+      "chapter_id": "Chapter 0001",
+      "page_id": 8,
+      "reading_order": 47,
+      "image_path": "../Chapter 0001/panel_0044.jpg"
+    },
+    {
+      "panel_id": "P000045",
+      "uuid": "5ee61afa-50ed-479b-9bc1-46d28156c64d",
+      "chapter_id": "Chapter 0001",
+      "page_id": 8,
+      "reading_order": 48,
+      "image_path": "../Chapter 0001/panel_0045.jpg"
+    },
+    {
+      "panel_id": "P000046",
+      "uuid": "67f59e0d-72e8-4608-9bc2-f15314b6c6ed",
+      "chapter_id": "Chapter 0001",
+      "page_id": 8,
+      "reading_order": 49,
+      "image_path": "../Chapter 0001/panel_0046.jpg"
+    },
+    {
+      "panel_id": "P000047",
+      "uuid": "8d5c5323-1957-4cc0-a5cf-8228b9dc156b",
+      "chapter_id": "Chapter 0001",
+      "page_id": 9,
+      "reading_order": 50,
+      "image_path": "../Chapter 0001/panel_0047.jpg"
+    },
+    {
+      "panel_id": "P000048",
+      "uuid": "a258f146-9ae3-43c4-b47c-c057b0cf31d1",
+      "chapter_id": "Chapter 0001",
+      "page_id": 9,
+      "reading_order": 51,
+      "image_path": "../Chapter 0001/panel_0048.jpg"
+    },
+    {
+      "panel_id": "P000049",
+      "uuid": "f967b9ec-584b-4ffd-ae36-63bb95ca4906",
+      "chapter_id": "Chapter 0001",
+      "page_id": 9,
+      "reading_order": 52,
+      "image_path": "../Chapter 0001/panel_0049.jpg"
+    },
+    {
+      "panel_id": "P000050",
+      "uuid": "fe6d9538-521b-4884-bf98-806fd2014720",
+      "chapter_id": "Chapter 0001",
+      "page_id": 9,
+      "reading_order": 53,
+      "image_path": "../Chapter 0001/panel_0050.jpg"
+    },
+    {
+      "panel_id": "P000051",
+      "uuid": "c77458c0-0d60-43a5-bf6a-9b95a45a1a42",
+      "chapter_id": "Chapter 0001",
+      "page_id": 9,
+      "reading_order": 54,
+      "image_path": "../Chapter 0001/panel_0051.jpg"
+    },
+    {
+      "panel_id": "P000052",
+      "uuid": "ea9bdd3d-91a9-4828-8b6c-7fed52fec30c",
+      "chapter_id": "Chapter 0001",
+      "page_id": 9,
+      "reading_order": 55,
+      "image_path": "../Chapter 0001/panel_0052.jpg"
+    },
+    {
+      "panel_id": "P000053",
+      "uuid": "c8d5bf55-cb1d-4cf4-b669-cb260b7dd305",
+      "chapter_id": "Chapter 0001",
+      "page_id": 9,
+      "reading_order": 56,
+      "image_path": "../Chapter 0001/panel_0053.jpg"
+    },
+    {
+      "panel_id": "P000054",
+      "uuid": "714c94a5-7d92-4d0c-a353-e036220d31bb",
+      "chapter_id": "Chapter 0001",
+      "page_id": 9,
+      "reading_order": 57,
+      "image_path": "../Chapter 0001/panel_0054.jpg"
+    },
+    {
+      "panel_id": "P000055",
+      "uuid": "75739d75-7458-4987-acc9-af5fe1bf9824",
+      "chapter_id": "Chapter 0001",
+      "page_id": 9,
+      "reading_order": 58,
+      "image_path": "../Chapter 0001/panel_0055.jpg"
+    },
+    {
+      "panel_id": "P000056",
+      "uuid": "1263e460-46a6-4577-a256-ade35b9a04dd",
+      "chapter_id": "Chapter 0001",
+      "page_id": 9,
+      "reading_order": 59,
+      "image_path": "../Chapter 0001/panel_0056.jpg"
+    },
+    {
+      "panel_id": "P000057",
+      "uuid": "d522272a-6987-4a57-a9b3-d32e6fe8213c",
+      "chapter_id": "Chapter 0001",
+      "page_id": 10,
+      "reading_order": 60,
+      "image_path": "../Chapter 0001/panel_0057.jpg"
+    },
+    {
+      "panel_id": "P000058",
+      "uuid": "b8246ca4-14c5-4ea7-be64-01b52dc44815",
+      "chapter_id": "Chapter 0001",
+      "page_id": 10,
+      "reading_order": 61,
+      "image_path": "../Chapter 0001/panel_0058.jpg"
+    },
+    {
+      "panel_id": "P000059",
+      "uuid": "8e581969-d89c-43c2-ab7c-fe870878f5cb",
+      "chapter_id": "Chapter 0001",
+      "page_id": null,
+      "reading_order": 62,
+      "image_path": "../Chapter 0001/panel_0059.jpg"
+    },
+    {
+      "panel_id": "P000060",
+      "uuid": "5f33f118-e243-498b-a150-803fcc951c3d",
+      "chapter_id": "Chapter 0001",
+      "page_id": 11,
+      "reading_order": 63,
+      "image_path": "../Chapter 0001/panel_0060.jpg"
+    },
+    {
+      "panel_id": "P000061",
+      "uuid": "072326ce-426a-4b98-b0d5-72e428e20905",
+      "chapter_id": "Chapter 0001",
+      "page_id": 11,
+      "reading_order": 64,
+      "image_path": "../Chapter 0001/panel_0061.jpg"
+    },
+    {
+      "panel_id": "P000062",
+      "uuid": "8a583e39-3eb7-4189-a629-35c981d2c994",
+      "chapter_id": "Chapter 0001",
+      "page_id": 11,
+      "reading_order": 65,
+      "image_path": "../Chapter 0001/panel_0062.jpg"
+    },
+    {
+      "panel_id": "P000063",
+      "uuid": "030744c4-358e-43e2-a664-95c263e1253b",
+      "chapter_id": "Chapter 0001",
+      "page_id": 11,
+      "reading_order": 66,
+      "image_path": "../Chapter 0001/panel_0063.jpg"
+    },
+    {
+      "panel_id": "P000064",
+      "uuid": "17750cfa-6c7b-4e34-b605-34e8982cfaf7",
+      "chapter_id": "Chapter 0001",
+      "page_id": 12,
+      "reading_order": 67,
+      "image_path": "../Chapter 0001/panel_0064.jpg"
+    },
+    {
+      "panel_id": "P000065",
+      "uuid": "b123cc71-d257-44d8-a99c-9fbf7e53f9a1",
+      "chapter_id": "Chapter 0001",
+      "page_id": 12,
+      "reading_order": 68,
+      "image_path": "../Chapter 0001/panel_0065.jpg"
+    },
+    {
+      "panel_id": "P000066",
+      "uuid": "21b4b4fc-d0d2-4718-adf1-0a53f0d16692",
+      "chapter_id": "Chapter 0001",
+      "page_id": 12,
+      "reading_order": 69,
+      "image_path": "../Chapter 0001/panel_0066.jpg"
+    },
+    {
+      "panel_id": "P000067",
+      "uuid": "7a3ec32f-3375-4681-add3-f1431f3c72ac",
+      "chapter_id": "Chapter 0001",
+      "page_id": 12,
+      "reading_order": 70,
+      "image_path": "../Chapter 0001/panel_0067.jpg"
+    },
+    {
+      "panel_id": "P000068",
+      "uuid": "a9d89698-041f-4165-8362-b94aad1e0576",
+      "chapter_id": "Chapter 0001",
+      "page_id": 13,
+      "reading_order": 71,
+      "image_path": "../Chapter 0001/panel_0068.jpg"
+    },
+    {
+      "panel_id": "P000069",
+      "uuid": "b7f7a1b6-f058-4f12-be53-e1f59f7e9789",
+      "chapter_id": "Chapter 0001",
+      "page_id": 13,
+      "reading_order": 72,
+      "image_path": "../Chapter 0001/panel_0069.jpg"
+    },
+    {
+      "panel_id": "P000070",
+      "uuid": "c5d65a37-5d87-4e3d-914b-4a1274a3e925",
+      "chapter_id": "Chapter 0001",
+      "page_id": 13,
+      "reading_order": 73,
+      "image_path": "../Chapter 0001/panel_0070.jpg"
+    },
+    {
+      "panel_id": "P000071",
+      "uuid": "887afef4-98dd-4456-9b3d-9fb081c7c0c9",
+      "chapter_id": "Chapter 0001",
+      "page_id": 13,
+      "reading_order": 74,
+      "image_path": "../Chapter 0001/panel_0071.jpg"
+    },
+    {
+      "panel_id": "P000072",
+      "uuid": "c21557a7-5c2c-48ed-ae0c-41e64ab030dd",
+      "chapter_id": "Chapter 0001",
+      "page_id": 14,
+      "reading_order": 75,
+      "image_path": "../Chapter 0001/panel_0072.jpg"
+    },
+    {
+      "panel_id": "P000073",
+      "uuid": "1653ed58-f396-49f9-97e6-6cdf91f706e8",
+      "chapter_id": "Chapter 0001",
+      "page_id": 14,
+      "reading_order": 76,
+      "image_path": "../Chapter 0001/panel_0073.jpg"
+    },
+    {
+      "panel_id": "P000074",
+      "uuid": "640db01f-e8ce-49bd-a1fd-6de2788c3b03",
+      "chapter_id": "Chapter 0001",
+      "page_id": 14,
+      "reading_order": 77,
+      "image_path": "../Chapter 0001/panel_0074.jpg"
+    },
+    {
+      "panel_id": "P000075",
+      "uuid": "41a555bb-3b8e-4509-9912-c0a9c6709946",
+      "chapter_id": "Chapter 0001",
+      "page_id": 14,
+      "reading_order": 78,
+      "image_path": "../Chapter 0001/panel_0075.jpg"
+    },
+    {
+      "panel_id": "P000076",
+      "uuid": "f90fe701-ddb6-48cd-ab7a-c0ae8b1577da",
+      "chapter_id": "Chapter 0001",
+      "page_id": 14,
+      "reading_order": 79,
+      "image_path": "../Chapter 0001/panel_0076.jpg"
+    },
+    {
+      "panel_id": "P000077",
+      "uuid": "069c841b-26dc-400a-abe9-9ae77947c177",
+      "chapter_id": "Chapter 0001",
+      "page_id": 15,
+      "reading_order": 80,
+      "image_path": "../Chapter 0001/panel_0077.jpg"
+    },
+    {
+      "panel_id": "P000078",
+      "uuid": "4701dc9e-3628-478e-b00a-318d06c17879",
+      "chapter_id": "Chapter 0001",
+      "page_id": 15,
+      "reading_order": 81,
+      "image_path": "../Chapter 0001/panel_0078.jpg"
+    },
+    {
+      "panel_id": "P000079",
+      "uuid": "10aa673b-4779-467a-bbbb-9fde48def27d",
+      "chapter_id": "Chapter 0001",
+      "page_id": 15,
+      "reading_order": 82,
+      "image_path": "../Chapter 0001/panel_0079.jpg"
+    },
+    {
+      "panel_id": "P000080",
+      "uuid": "11c2578b-56ee-4916-8a3f-a9ea2a4d121b",
+      "chapter_id": "Chapter 0001",
+      "page_id": 16,
+      "reading_order": 83,
+      "image_path": "../Chapter 0001/panel_0080.jpg"
+    },
+    {
+      "panel_id": "P000081",
+      "uuid": "d387090d-200a-4268-89e4-b7b995aa8562",
+      "chapter_id": "Chapter 0001",
+      "page_id": 16,
+      "reading_order": 84,
+      "image_path": "../Chapter 0001/panel_0081.jpg"
+    },
+    {
+      "panel_id": "P000082",
+      "uuid": "4bd81f26-b72e-4320-98e9-00e09a7d142c",
+      "chapter_id": "Chapter 0001",
+      "page_id": 16,
+      "reading_order": 85,
+      "image_path": "../Chapter 0001/panel_0082.jpg"
+    },
+    {
+      "panel_id": "P000210",
+      "uuid": "735008cd-0079-4982-8000-9dafa3d749b9",
+      "chapter_id": "Chapter 0001",
+      "page_id": null,
+      "reading_order": 86,
+      "image_path": "../Chapter 0001/panel_0083.jpg"
+    },
+    {
+      "panel_id": "P000211",
+      "uuid": "595bac7b-c4dd-4501-a76f-6a9a34a9a314",
+      "chapter_id": "Chapter 0001",
+      "page_id": null,
+      "reading_order": 87,
+      "image_path": "../Chapter 0001/panel_0083_part002.jpg"
+    },
+    {
+      "panel_id": "P000212",
+      "uuid": "9287af20-5fdb-418b-a901-95bdcaa45832",
+      "chapter_id": "Chapter 0001",
+      "page_id": null,
+      "reading_order": 88,
+      "image_path": "../Chapter 0001/panel_0083_part003.jpg"
+    },
+    {
+      "panel_id": "P000084",
+      "uuid": "3a0e9b0b-5967-4e7c-92e0-9769058058b0",
+      "chapter_id": "Chapter 0001",
+      "page_id": 17,
+      "reading_order": 89,
+      "image_path": "../Chapter 0001/panel_0084.jpg"
+    },
+    {
+      "panel_id": "P000085",
+      "uuid": "9170fbc9-fac7-45a7-96b5-65e4c7f8c943",
+      "chapter_id": "Chapter 0001",
+      "page_id": 17,
+      "reading_order": 90,
+      "image_path": "../Chapter 0001/panel_0085.jpg"
+    },
+    {
+      "panel_id": "P000086",
+      "uuid": "c58a95ee-c23b-4e52-b4a5-322895d8d863",
+      "chapter_id": "Chapter 0002",
+      "page_id": 1,
+      "reading_order": 91,
+      "image_path": "../Chapter 0002/panel_0001.jpg"
+    },
+    {
+      "panel_id": "P000087",
+      "uuid": "4774cc60-7e42-49c9-b507-0239e36bc9f0",
+      "chapter_id": "Chapter 0002",
+      "page_id": 1,
+      "reading_order": 92,
+      "image_path": "../Chapter 0002/panel_0002.jpg"
+    },
+    {
+      "panel_id": "P000088",
+      "uuid": "c6c9fedd-15c6-4b76-9339-e7c86ce662a7",
+      "chapter_id": "Chapter 0002",
+      "page_id": 1,
+      "reading_order": 93,
+      "image_path": "../Chapter 0002/panel_0003.jpg"
+    },
+    {
+      "panel_id": "P000089",
+      "uuid": "c58fc7ca-6c2e-48a4-bd17-9be47170b56f",
+      "chapter_id": "Chapter 0002",
+      "page_id": 1,
+      "reading_order": 94,
+      "image_path": "../Chapter 0002/panel_0004.jpg"
+    },
+    {
+      "panel_id": "P000090",
+      "uuid": "973ff91f-ddeb-4c6e-be4d-6b87f6ceb2d6",
+      "chapter_id": "Chapter 0002",
+      "page_id": 1,
+      "reading_order": 95,
+      "image_path": "../Chapter 0002/panel_0005.jpg"
+    },
+    {
+      "panel_id": "P000091",
+      "uuid": "876711c9-53e9-4de5-b0e2-abfaa0e5404a",
+      "chapter_id": "Chapter 0002",
+      "page_id": 1,
+      "reading_order": 96,
+      "image_path": "../Chapter 0002/panel_0006.jpg"
+    },
+    {
+      "panel_id": "P000092",
+      "uuid": "52b03c95-def1-4c7a-be96-c97473646ef6",
+      "chapter_id": "Chapter 0002",
+      "page_id": 1,
+      "reading_order": 97,
+      "image_path": "../Chapter 0002/panel_0007.jpg"
+    },
+    {
+      "panel_id": "P000093",
+      "uuid": "47a45ff0-c935-4886-ad05-3e4a723cb374",
+      "chapter_id": "Chapter 0002",
+      "page_id": 1,
+      "reading_order": 98,
+      "image_path": "../Chapter 0002/panel_0008.jpg"
+    },
+    {
+      "panel_id": "P000094",
+      "uuid": "f6af0fac-13e9-4edd-a603-86d68094f467",
+      "chapter_id": "Chapter 0002",
+      "page_id": 1,
+      "reading_order": 99,
+      "image_path": "../Chapter 0002/panel_0009.jpg"
+    },
+    {
+      "panel_id": "P000095",
+      "uuid": "91158707-d24d-45ad-b056-8ebf3f7764b8",
+      "chapter_id": "Chapter 0002",
+      "page_id": 1,
+      "reading_order": 100,
+      "image_path": "../Chapter 0002/panel_0010.jpg"
+    },
+    {
+      "panel_id": "P000096",
+      "uuid": "2442de02-4e9e-444d-af46-0917de964a60",
+      "chapter_id": "Chapter 0002",
+      "page_id": null,
+      "reading_order": 101,
+      "image_path": "../Chapter 0002/panel_0011.jpg"
+    },
+    {
+      "panel_id": "P000097",
+      "uuid": "fa1a1dcc-92ed-4f6c-b3d7-c2c4bdfe392b",
+      "chapter_id": "Chapter 0002",
+      "page_id": 2,
+      "reading_order": 102,
+      "image_path": "../Chapter 0002/panel_0012.jpg"
+    },
+    {
+      "panel_id": "P000098",
+      "uuid": "6f0c1fa7-7913-4327-973c-122322ac0cbe",
+      "chapter_id": "Chapter 0002",
+      "page_id": 2,
+      "reading_order": 103,
+      "image_path": "../Chapter 0002/panel_0013.jpg"
+    },
+    {
+      "panel_id": "P000099",
+      "uuid": "abe6d830-d073-49db-8504-4ca230c9cf91",
+      "chapter_id": "Chapter 0002",
+      "page_id": 2,
+      "reading_order": 104,
+      "image_path": "../Chapter 0002/panel_0014.jpg"
+    },
+    {
+      "panel_id": "P000100",
+      "uuid": "57d427c9-8b2d-41b6-81c6-2d4e77540514",
+      "chapter_id": "Chapter 0002",
+      "page_id": 2,
+      "reading_order": 105,
+      "image_path": "../Chapter 0002/panel_0015.jpg"
+    },
+    {
+      "panel_id": "P000101",
+      "uuid": "3afa0fea-948a-407d-bf28-6a022ef38d1b",
+      "chapter_id": "Chapter 0002",
+      "page_id": 2,
+      "reading_order": 106,
+      "image_path": "../Chapter 0002/panel_0016.jpg"
+    },
+    {
+      "panel_id": "P000213",
+      "uuid": "b19a5424-7bf9-4689-a949-d51f25c151b8",
+      "chapter_id": "Chapter 0002",
+      "page_id": null,
+      "reading_order": 107,
+      "image_path": "../Chapter 0002/panel_0017.jpg"
+    },
+    {
+      "panel_id": "P000214",
+      "uuid": "66c03b79-0946-4417-a941-d5534fd95b19",
+      "chapter_id": "Chapter 0002",
+      "page_id": null,
+      "reading_order": 108,
+      "image_path": "../Chapter 0002/panel_0017_part002.jpg"
+    },
+    {
+      "panel_id": "P000103",
+      "uuid": "6a9863f5-eaa6-4f16-9bfe-6880b5511e34",
+      "chapter_id": "Chapter 0002",
+      "page_id": 3,
+      "reading_order": 109,
+      "image_path": "../Chapter 0002/panel_0018.jpg"
+    },
+    {
+      "panel_id": "P000104",
+      "uuid": "53992963-1a55-4377-a493-3615a7492358",
+      "chapter_id": "Chapter 0002",
+      "page_id": 3,
+      "reading_order": 110,
+      "image_path": "../Chapter 0002/panel_0019.jpg"
+    },
+    {
+      "panel_id": "P000105",
+      "uuid": "730a0108-bc5e-463f-89ec-f911b3d6195e",
+      "chapter_id": "Chapter 0002",
+      "page_id": 3,
+      "reading_order": 111,
+      "image_path": "../Chapter 0002/panel_0020.jpg"
+    },
+    {
+      "panel_id": "P000106",
+      "uuid": "12c3e0ab-a86a-496c-bf59-80e833bd6e28",
+      "chapter_id": "Chapter 0002",
+      "page_id": 3,
+      "reading_order": 112,
+      "image_path": "../Chapter 0002/panel_0021.jpg"
+    },
+    {
+      "panel_id": "P000107",
+      "uuid": "3b2c0261-8502-4e3e-b8c3-28ace6d0ae8e",
+      "chapter_id": "Chapter 0002",
+      "page_id": null,
+      "reading_order": 113,
+      "image_path": "../Chapter 0002/panel_0022.jpg"
+    },
+    {
+      "panel_id": "P000108",
+      "uuid": "e8c8d523-297b-4771-9463-bb2f3a118742",
+      "chapter_id": "Chapter 0002",
+      "page_id": 4,
+      "reading_order": 114,
+      "image_path": "../Chapter 0002/panel_0023.jpg"
+    },
+    {
+      "panel_id": "P000109",
+      "uuid": "3bc6bc1f-a528-417f-afcb-1ad38139d3d7",
+      "chapter_id": "Chapter 0002",
+      "page_id": 4,
+      "reading_order": 115,
+      "image_path": "../Chapter 0002/panel_0024.jpg"
+    },
+    {
+      "panel_id": "P000110",
+      "uuid": "e7286e49-b54c-44b6-81df-04f0002acec3",
+      "chapter_id": "Chapter 0002",
+      "page_id": 4,
+      "reading_order": 116,
+      "image_path": "../Chapter 0002/panel_0025.jpg"
+    },
+    {
+      "panel_id": "P000111",
+      "uuid": "ffd58856-79de-41ac-87fd-65df67f31b27",
+      "chapter_id": "Chapter 0002",
+      "page_id": 4,
+      "reading_order": 117,
+      "image_path": "../Chapter 0002/panel_0026.jpg"
+    },
+    {
+      "panel_id": "P000112",
+      "uuid": "9b36dba2-88bd-4283-936b-4bc50f997162",
+      "chapter_id": "Chapter 0002",
+      "page_id": 5,
+      "reading_order": 118,
+      "image_path": "../Chapter 0002/panel_0027.jpg"
+    },
+    {
+      "panel_id": "P000113",
+      "uuid": "adccb34d-b92c-49af-ade5-e543ffccfc9f",
+      "chapter_id": "Chapter 0002",
+      "page_id": 5,
+      "reading_order": 119,
+      "image_path": "../Chapter 0002/panel_0028.jpg"
+    },
+    {
+      "panel_id": "P000114",
+      "uuid": "b2802649-151a-4382-abae-6cfd46cc1962",
+      "chapter_id": "Chapter 0002",
+      "page_id": 5,
+      "reading_order": 120,
+      "image_path": "../Chapter 0002/panel_0029.jpg"
+    },
+    {
+      "panel_id": "P000115",
+      "uuid": "fcda5c6c-4cd9-435c-991c-3d1023fcee0e",
+      "chapter_id": "Chapter 0002",
+      "page_id": 5,
+      "reading_order": 121,
+      "image_path": "../Chapter 0002/panel_0030.jpg"
+    },
+    {
+      "panel_id": "P000116",
+      "uuid": "dcca4856-d43b-4b9c-a42d-cb81b1ca4515",
+      "chapter_id": "Chapter 0002",
+      "page_id": 5,
+      "reading_order": 122,
+      "image_path": "../Chapter 0002/panel_0031.jpg"
+    },
+    {
+      "panel_id": "P000117",
+      "uuid": "3207de79-ae77-4562-bb34-b4281ba69fbc",
+      "chapter_id": "Chapter 0002",
+      "page_id": 5,
+      "reading_order": 123,
+      "image_path": "../Chapter 0002/panel_0032.jpg"
+    },
+    {
+      "panel_id": "P000118",
+      "uuid": "a068dc05-eb6e-4897-9f5c-54cef00a6c97",
+      "chapter_id": "Chapter 0002",
+      "page_id": 5,
+      "reading_order": 124,
+      "image_path": "../Chapter 0002/panel_0033.jpg"
+    },
+    {
+      "panel_id": "P000119",
+      "uuid": "fedac160-8214-4b59-9fea-d4ead9f74ac3",
+      "chapter_id": "Chapter 0002",
+      "page_id": 6,
+      "reading_order": 125,
+      "image_path": "../Chapter 0002/panel_0034.jpg"
+    },
+    {
+      "panel_id": "P000120",
+      "uuid": "4f7c7bc9-d9fa-4357-972f-d427ead9ce04",
+      "chapter_id": "Chapter 0002",
+      "page_id": 6,
+      "reading_order": 126,
+      "image_path": "../Chapter 0002/panel_0035.jpg"
+    },
+    {
+      "panel_id": "P000121",
+      "uuid": "e86e7d68-7684-4a3c-aead-9d4bca47cc3f",
+      "chapter_id": "Chapter 0002",
+      "page_id": 6,
+      "reading_order": 127,
+      "image_path": "../Chapter 0002/panel_0036.jpg"
+    },
+    {
+      "panel_id": "P000122",
+      "uuid": "99689dc6-f57a-48fb-b2be-f8ff5808b812",
+      "chapter_id": "Chapter 0002",
+      "page_id": 6,
+      "reading_order": 128,
+      "image_path": "../Chapter 0002/panel_0037.jpg"
+    },
+    {
+      "panel_id": "P000123",
+      "uuid": "666247e4-a4f5-4f82-a3f1-14235466de85",
+      "chapter_id": "Chapter 0002",
+      "page_id": 6,
+      "reading_order": 129,
+      "image_path": "../Chapter 0002/panel_0038.jpg"
+    },
+    {
+      "panel_id": "P000124",
+      "uuid": "a7be84b3-f1e7-4feb-ba75-f5b9da49c9e9",
+      "chapter_id": "Chapter 0002",
+      "page_id": null,
+      "reading_order": 130,
+      "image_path": "../Chapter 0002/panel_0039.jpg"
+    },
+    {
+      "panel_id": "P000125",
+      "uuid": "d551a47a-52e0-4eb3-ad73-88a40628b484",
+      "chapter_id": "Chapter 0002",
+      "page_id": 7,
+      "reading_order": 131,
+      "image_path": "../Chapter 0002/panel_0040.jpg"
+    },
+    {
+      "panel_id": "P000126",
+      "uuid": "e735b639-2a0d-4544-8e09-e8fbf158dd34",
+      "chapter_id": "Chapter 0002",
+      "page_id": 7,
+      "reading_order": 132,
+      "image_path": "../Chapter 0002/panel_0041.jpg"
+    },
+    {
+      "panel_id": "P000127",
+      "uuid": "5cfb39e0-0807-46e7-84f2-27d3498ac3cb",
+      "chapter_id": "Chapter 0002",
+      "page_id": 7,
+      "reading_order": 133,
+      "image_path": "../Chapter 0002/panel_0042.jpg"
+    },
+    {
+      "panel_id": "P000128",
+      "uuid": "e31b62ad-a77c-4353-87c0-b2318dbc5a20",
+      "chapter_id": "Chapter 0002",
+      "page_id": 7,
+      "reading_order": 134,
+      "image_path": "../Chapter 0002/panel_0043.jpg"
+    },
+    {
+      "panel_id": "P000129",
+      "uuid": "35f53ddb-cdbd-4ede-af69-5d7db160111a",
+      "chapter_id": "Chapter 0002",
+      "page_id": 7,
+      "reading_order": 135,
+      "image_path": "../Chapter 0002/panel_0044.jpg"
+    },
+    {
+      "panel_id": "P000130",
+      "uuid": "6c001867-7d38-4612-9c80-573537731a92",
+      "chapter_id": "Chapter 0002",
+      "page_id": 7,
+      "reading_order": 136,
+      "image_path": "../Chapter 0002/panel_0045.jpg"
+    },
+    {
+      "panel_id": "P000131",
+      "uuid": "f8848d97-bf71-4c5b-84d8-d1aa28ccdbe2",
+      "chapter_id": "Chapter 0002",
+      "page_id": 7,
+      "reading_order": 137,
+      "image_path": "../Chapter 0002/panel_0046.jpg"
+    },
+    {
+      "panel_id": "P000132",
+      "uuid": "eac9f511-1833-4877-ba7a-682d0457e430",
+      "chapter_id": "Chapter 0002",
+      "page_id": null,
+      "reading_order": 138,
+      "image_path": "../Chapter 0002/panel_0047.jpg"
+    },
+    {
+      "panel_id": "P000133",
+      "uuid": "ddcfc3a1-766c-4a8b-8a57-58bb1e233717",
+      "chapter_id": "Chapter 0002",
+      "page_id": 8,
+      "reading_order": 139,
+      "image_path": "../Chapter 0002/panel_0048.jpg"
+    },
+    {
+      "panel_id": "P000134",
+      "uuid": "fb38d3d7-1e3c-47a7-9429-df7a708ffbe3",
+      "chapter_id": "Chapter 0002",
+      "page_id": 8,
+      "reading_order": 140,
+      "image_path": "../Chapter 0002/panel_0049.jpg"
+    },
+    {
+      "panel_id": "P000135",
+      "uuid": "5bd5c2fc-0e65-4db6-9fc3-58844861e1eb",
+      "chapter_id": "Chapter 0002",
+      "page_id": 8,
+      "reading_order": 141,
+      "image_path": "../Chapter 0002/panel_0050.jpg"
+    },
+    {
+      "panel_id": "P000136",
+      "uuid": "720ca344-7239-4aea-8e54-04df9cfdbf2a",
+      "chapter_id": "Chapter 0002",
+      "page_id": 8,
+      "reading_order": 142,
+      "image_path": "../Chapter 0002/panel_0051.jpg"
+    },
+    {
+      "panel_id": "P000137",
+      "uuid": "f4d17f05-080e-434a-b770-85370b3a0a9a",
+      "chapter_id": "Chapter 0002",
+      "page_id": 8,
+      "reading_order": 143,
+      "image_path": "../Chapter 0002/panel_0052.jpg"
+    },
+    {
+      "panel_id": "P000138",
+      "uuid": "63660ee5-ee7d-4169-91cb-e0813e69c1c1",
+      "chapter_id": "Chapter 0002",
+      "page_id": 9,
+      "reading_order": 144,
+      "image_path": "../Chapter 0002/panel_0053.jpg"
+    },
+    {
+      "panel_id": "P000139",
+      "uuid": "bf1fc74d-85d2-48cd-b64c-f5315475c3d3",
+      "chapter_id": "Chapter 0002",
+      "page_id": 9,
+      "reading_order": 145,
+      "image_path": "../Chapter 0002/panel_0054.jpg"
+    },
+    {
+      "panel_id": "P000140",
+      "uuid": "a32621d4-5447-4ce1-be20-abd77d5603d1",
+      "chapter_id": "Chapter 0002",
+      "page_id": 9,
+      "reading_order": 146,
+      "image_path": "../Chapter 0002/panel_0055.jpg"
+    },
+    {
+      "panel_id": "P000141",
+      "uuid": "1e8a74b2-dbc6-4ec9-b907-5007e65cd2b0",
+      "chapter_id": "Chapter 0002",
+      "page_id": 9,
+      "reading_order": 147,
+      "image_path": "../Chapter 0002/panel_0056.jpg"
+    },
+    {
+      "panel_id": "P000142",
+      "uuid": "ee00f683-0802-4c8c-b63c-3e37f0d3fb60",
+      "chapter_id": "Chapter 0002",
+      "page_id": 9,
+      "reading_order": 148,
+      "image_path": "../Chapter 0002/panel_0057.jpg"
+    },
+    {
+      "panel_id": "P000143",
+      "uuid": "e2bb9f24-419c-4310-baa8-0579869291e7",
+      "chapter_id": "Chapter 0002",
+      "page_id": null,
+      "reading_order": 149,
+      "image_path": "../Chapter 0002/panel_0058.jpg"
+    },
+    {
+      "panel_id": "P000144",
+      "uuid": "ece4b616-a4da-4e99-b67c-d07b7fafa0fb",
+      "chapter_id": "Chapter 0002",
+      "page_id": 10,
+      "reading_order": 150,
+      "image_path": "../Chapter 0002/panel_0059.jpg"
+    },
+    {
+      "panel_id": "P000145",
+      "uuid": "d746eb37-ee7c-4ce4-a3ca-a26ee350fe3f",
+      "chapter_id": "Chapter 0002",
+      "page_id": 10,
+      "reading_order": 151,
+      "image_path": "../Chapter 0002/panel_0060.jpg"
+    },
+    {
+      "panel_id": "P000146",
+      "uuid": "6c07a25c-1bb8-4d5d-99da-91f767e1222c",
+      "chapter_id": "Chapter 0002",
+      "page_id": 10,
+      "reading_order": 152,
+      "image_path": "../Chapter 0002/panel_0061.jpg"
+    },
+    {
+      "panel_id": "P000147",
+      "uuid": "f24918fb-7c92-49ad-9145-949ddf4b36ee",
+      "chapter_id": "Chapter 0002",
+      "page_id": 10,
+      "reading_order": 153,
+      "image_path": "../Chapter 0002/panel_0062.jpg"
+    },
+    {
+      "panel_id": "P000148",
+      "uuid": "3e9dda86-a5e0-48bf-b4a0-8328143a6c65",
+      "chapter_id": "Chapter 0002",
+      "page_id": 11,
+      "reading_order": 154,
+      "image_path": "../Chapter 0002/panel_0063.jpg"
+    },
+    {
+      "panel_id": "P000149",
+      "uuid": "b70eff71-8832-4a47-b587-590e2d01031b",
+      "chapter_id": "Chapter 0002",
+      "page_id": 11,
+      "reading_order": 155,
+      "image_path": "../Chapter 0002/panel_0064.jpg"
+    },
+    {
+      "panel_id": "P000150",
+      "uuid": "0c209b7c-e15c-4174-8528-4a0bcb997606",
+      "chapter_id": "Chapter 0002",
+      "page_id": 11,
+      "reading_order": 156,
+      "image_path": "../Chapter 0002/panel_0065.jpg"
+    },
+    {
+      "panel_id": "P000151",
+      "uuid": "9a84195b-0041-4b64-b788-956c5ad75359",
+      "chapter_id": "Chapter 0002",
+      "page_id": 11,
+      "reading_order": 157,
+      "image_path": "../Chapter 0002/panel_0066.jpg"
+    },
+    {
+      "panel_id": "P000152",
+      "uuid": "4e440991-5307-4a64-bc7c-01aa10bb2ff4",
+      "chapter_id": "Chapter 0002",
+      "page_id": 11,
+      "reading_order": 158,
+      "image_path": "../Chapter 0002/panel_0067.jpg"
+    },
+    {
+      "panel_id": "P000153",
+      "uuid": "ec92e20c-98fe-45d8-9ff6-5c947ac62273",
+      "chapter_id": "Chapter 0002",
+      "page_id": 11,
+      "reading_order": 159,
+      "image_path": "../Chapter 0002/panel_0068.jpg"
+    },
+    {
+      "panel_id": "P000154",
+      "uuid": "f1fdb082-5ebb-4f8f-a732-2e22cebe1710",
+      "chapter_id": "Chapter 0002",
+      "page_id": null,
+      "reading_order": 160,
+      "image_path": "../Chapter 0002/panel_0069.jpg"
+    },
+    {
+      "panel_id": "P000155",
+      "uuid": "f658b240-ab1a-4dc3-a015-9232e9a75183",
+      "chapter_id": "Chapter 0002",
+      "page_id": 12,
+      "reading_order": 161,
+      "image_path": "../Chapter 0002/panel_0070.jpg"
+    },
+    {
+      "panel_id": "P000156",
+      "uuid": "c27f2f1d-08d2-4a9e-890e-6d7b434d2db7",
+      "chapter_id": "Chapter 0002",
+      "page_id": 12,
+      "reading_order": 162,
+      "image_path": "../Chapter 0002/panel_0071.jpg"
+    },
+    {
+      "panel_id": "P000157",
+      "uuid": "3c55c0ad-a2ad-427e-a631-ff3b05a15cbd",
+      "chapter_id": "Chapter 0002",
+      "page_id": 12,
+      "reading_order": 163,
+      "image_path": "../Chapter 0002/panel_0072.jpg"
+    },
+    {
+      "panel_id": "P000158",
+      "uuid": "b91f2c36-986f-4389-85d3-593308f4b65a",
+      "chapter_id": "Chapter 0002",
+      "page_id": 12,
+      "reading_order": 164,
+      "image_path": "../Chapter 0002/panel_0073.jpg"
+    },
+    {
+      "panel_id": "P000159",
+      "uuid": "1542f72d-d727-4091-83d9-f51653a4aeb1",
+      "chapter_id": "Chapter 0002",
+      "page_id": 12,
+      "reading_order": 165,
+      "image_path": "../Chapter 0002/panel_0074.jpg"
+    },
+    {
+      "panel_id": "P000160",
+      "uuid": "ae584052-7f2e-4e91-a5bf-6b95bc8eb69c",
+      "chapter_id": "Chapter 0002",
+      "page_id": 12,
+      "reading_order": 166,
+      "image_path": "../Chapter 0002/panel_0075.jpg"
+    },
+    {
+      "panel_id": "P000161",
+      "uuid": "cf009476-00cc-4549-8d20-a038154389ef",
+      "chapter_id": "Chapter 0002",
+      "page_id": 13,
+      "reading_order": 167,
+      "image_path": "../Chapter 0002/panel_0076.jpg"
+    },
+    {
+      "panel_id": "P000162",
+      "uuid": "4d6b45c4-30a2-4222-9e48-3129a17f2f2a",
+      "chapter_id": "Chapter 0002",
+      "page_id": 13,
+      "reading_order": 168,
+      "image_path": "../Chapter 0002/panel_0077.jpg"
+    },
+    {
+      "panel_id": "P000163",
+      "uuid": "e185828f-21fc-4b17-b20c-89648532948e",
+      "chapter_id": "Chapter 0002",
+      "page_id": 13,
+      "reading_order": 169,
+      "image_path": "../Chapter 0002/panel_0078.jpg"
+    },
+    {
+      "panel_id": "P000164",
+      "uuid": "1b2af7ac-1129-489e-8016-400515d3025f",
+      "chapter_id": "Chapter 0002",
+      "page_id": null,
+      "reading_order": 170,
+      "image_path": "../Chapter 0002/panel_0079.jpg"
+    },
+    {
+      "panel_id": "P000215",
+      "uuid": "4175b516-8a98-4a77-8175-bee65e8e1f75",
+      "chapter_id": "Chapter 0002",
+      "page_id": 14,
+      "reading_order": 171,
+      "image_path": "../Chapter 0002/panel_0080.jpg"
+    },
+    {
+      "panel_id": "P000216",
+      "uuid": "e693ef6f-8f39-4c89-a5c6-48c60682a0fb",
+      "chapter_id": "Chapter 0002",
+      "page_id": 14,
+      "reading_order": 172,
+      "image_path": "../Chapter 0002/panel_0080_part002.jpg"
+    },
+    {
+      "panel_id": "P000166",
+      "uuid": "cf1a9d20-fcf0-47d9-97c4-0a380933ad89",
+      "chapter_id": "Chapter 0002",
+      "page_id": 14,
+      "reading_order": 173,
+      "image_path": "../Chapter 0002/panel_0081.jpg"
+    },
+    {
+      "panel_id": "P000217",
+      "uuid": "8fc932d8-323e-4a6b-92a2-9a8c305fd5a0",
+      "chapter_id": "Chapter 0002",
+      "page_id": null,
+      "reading_order": 174,
+      "image_path": "../Chapter 0002/panel_0082.jpg"
+    },
+    {
+      "panel_id": "P000218",
+      "uuid": "a0134c0b-4259-4c94-b300-62ded8c17cf4",
+      "chapter_id": "Chapter 0002",
+      "page_id": null,
+      "reading_order": 175,
+      "image_path": "../Chapter 0002/panel_0082_part002.jpg"
+    },
+    {
+      "panel_id": "P000168",
+      "uuid": "ff992e46-fcf0-4098-8c62-14b3ece53716",
+      "chapter_id": "Chapter 0002",
+      "page_id": 15,
+      "reading_order": 176,
+      "image_path": "../Chapter 0002/panel_0083.jpg"
+    },
+    {
+      "panel_id": "P000169",
+      "uuid": "159ba4bf-fc04-40be-a139-59a53646aa5b",
+      "chapter_id": "Chapter 0002",
+      "page_id": 15,
+      "reading_order": 177,
+      "image_path": "../Chapter 0002/panel_0084.jpg"
+    },
+    {
+      "panel_id": "P000170",
+      "uuid": "ceabdc68-51ed-41b0-80fd-866f264c08e5",
+      "chapter_id": "Chapter 0002",
+      "page_id": 15,
+      "reading_order": 178,
+      "image_path": "../Chapter 0002/panel_0085.jpg"
+    },
+    {
+      "panel_id": "P000171",
+      "uuid": "7c8470d0-4e8c-4d5a-869c-fba0095a4bf8",
+      "chapter_id": "Chapter 0002",
+      "page_id": 15,
+      "reading_order": 179,
+      "image_path": "../Chapter 0002/panel_0086.jpg"
+    },
+    {
+      "panel_id": "P000172",
+      "uuid": "7e5a7708-0cae-4817-b269-8b6242cb8d51",
+      "chapter_id": "Chapter 0002",
+      "page_id": 15,
+      "reading_order": 180,
+      "image_path": "../Chapter 0002/panel_0087.jpg"
+    },
+    {
+      "panel_id": "P000173",
+      "uuid": "2e6bc2c8-04c0-4f36-bd8b-2cbd1b6fc043",
+      "chapter_id": "Chapter 0002",
+      "page_id": 16,
+      "reading_order": 181,
+      "image_path": "../Chapter 0002/panel_0088.jpg"
+    },
+    {
+      "panel_id": "P000174",
+      "uuid": "58ac8981-a2df-4f42-b0fd-dba35a61abea",
+      "chapter_id": "Chapter 0002",
+      "page_id": 16,
+      "reading_order": 182,
+      "image_path": "../Chapter 0002/panel_0089.jpg"
+    },
+    {
+      "panel_id": "P000175",
+      "uuid": "3a9646ce-91c9-4c71-accf-23e723c6d5a6",
+      "chapter_id": "Chapter 0002",
+      "page_id": 16,
+      "reading_order": 183,
+      "image_path": "../Chapter 0002/panel_0090.jpg"
+    },
+    {
+      "panel_id": "P000176",
+      "uuid": "bfd4eff0-4a80-4f42-a91f-559694be0c1f",
+      "chapter_id": "Chapter 0002",
+      "page_id": 16,
+      "reading_order": 184,
+      "image_path": "../Chapter 0002/panel_0091.jpg"
+    },
+    {
+      "panel_id": "P000177",
+      "uuid": "afce77a6-92fc-43e2-b102-25c9cbd4436d",
+      "chapter_id": "Chapter 0002",
+      "page_id": 16,
+      "reading_order": 185,
+      "image_path": "../Chapter 0002/panel_0092.jpg"
+    },
+    {
+      "panel_id": "P000178",
+      "uuid": "f7d123ad-c503-4ce6-862c-030d70430a3d",
+      "chapter_id": "Chapter 0002",
+      "page_id": 16,
+      "reading_order": 186,
+      "image_path": "../Chapter 0002/panel_0093.jpg"
+    },
+    {
+      "panel_id": "P000179",
+      "uuid": "49a82863-1e49-46f7-944b-0f89c258b6a7",
+      "chapter_id": "Chapter 0002",
+      "page_id": 16,
+      "reading_order": 187,
+      "image_path": "../Chapter 0002/panel_0094.jpg"
+    },
+    {
+      "panel_id": "P000180",
+      "uuid": "a56204ce-9195-46db-aae3-4d97afccc62d",
+      "chapter_id": "Chapter 0002",
+      "page_id": 17,
+      "reading_order": 188,
+      "image_path": "../Chapter 0002/panel_0095.jpg"
+    },
+    {
+      "panel_id": "P000181",
+      "uuid": "77a5b7e0-5bfa-4fdd-b45e-20eee36bee2f",
+      "chapter_id": "Chapter 0002",
+      "page_id": 17,
+      "reading_order": 189,
+      "image_path": "../Chapter 0002/panel_0096.jpg"
+    },
+    {
+      "panel_id": "P000182",
+      "uuid": "b9aeea3a-f8b2-454f-a63d-9c2a835ab2da",
+      "chapter_id": "Chapter 0002",
+      "page_id": 17,
+      "reading_order": 190,
+      "image_path": "../Chapter 0002/panel_0097.jpg"
+    },
+    {
+      "panel_id": "P000183",
+      "uuid": "7bcfcd58-87d0-44dd-8b55-66d7ad32ffe1",
+      "chapter_id": "Chapter 0002",
+      "page_id": 17,
+      "reading_order": 191,
+      "image_path": "../Chapter 0002/panel_0098.jpg"
+    },
+    {
+      "panel_id": "P000184",
+      "uuid": "9b48d0ab-12f9-4528-a413-de5ef3672d44",
+      "chapter_id": "Chapter 0002",
+      "page_id": 17,
+      "reading_order": 192,
+      "image_path": "../Chapter 0002/panel_0099.jpg"
+    },
+    {
+      "panel_id": "P000219",
+      "uuid": "741c8a43-c308-4b1a-a2ba-825cf0617e3c",
+      "chapter_id": "Chapter 0002",
+      "page_id": null,
+      "reading_order": 193,
+      "image_path": "../Chapter 0002/panel_0100.jpg"
+    },
+    {
+      "panel_id": "P000220",
+      "uuid": "7e013b01-d33d-44c9-afde-3c19c4d3377a",
+      "chapter_id": "Chapter 0002",
+      "page_id": null,
+      "reading_order": 194,
+      "image_path": "../Chapter 0002/panel_0100_part002.jpg"
+    },
+    {
+      "panel_id": "P000186",
+      "uuid": "14e32f02-5960-47fe-ac89-5c34282e747a",
+      "chapter_id": "Chapter 0002",
+      "page_id": 18,
+      "reading_order": 195,
+      "image_path": "../Chapter 0002/panel_0101.jpg"
+    }
+  ]
+}
