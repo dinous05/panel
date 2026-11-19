@@ -5,7 +5,7 @@ import { joinStripProfiles, mapStripCropToSources } from './strip-document.js';
 import { mangaPanelPath, stripPanelPath } from './output-layout.js';
 import { moveMangaPanel, reindexPanelPaths } from './result-editing.js';
 import { combineSourceRegions, makeMergeIdentityKey, makeSplitIdentityKeys, sourceIdentityKey, splitSourceRegions, createProjectMetadata, validateManifest } from './manifest-core.js';
-import { layoutSequentialRows, partitionPanelsByChapter } from './contact-sheet-layout.js';
+import { DEFAULT_VERTICAL_LAYOUT, layoutVerticalSequential, partitionPanelsByChapter } from './contact-sheet-layout.js';
 
 // Mức chất lượng JPEG cân bằng dung lượng và độ rõ nét của nét vẽ truyện.
 // Canvas bỏ qua tham số này với PNG, nên PNG vẫn được mã hóa lossless.
@@ -876,39 +876,33 @@ $('#save-output').addEventListener('click', async () => {
 });
 
 async function buildContactSheet(sheet, sheetIndex, chapterIndex, format) {
-  const canvasWidth = 2400, margin = 48, gap = 24, labelHeight = 44, headerHeight = 92;
-  const rows = layoutSequentialRows(sheet.panels, { canvasWidth, margin, gap });
-  const canvasHeight = headerHeight + rows.reduce((sum, row) => sum + row.height + labelHeight + gap, 0) + margin;
-  const canvas = document.createElement('canvas'); canvas.width = canvasWidth; canvas.height = canvasHeight;
+  const plan = layoutVerticalSequential(sheet.panels, DEFAULT_VERTICAL_LAYOUT);
+  if (plan.length !== 1) throw new Error('Một batch capacity tạo nhiều layout; hãy kiểm tra giới hạn sheet.');
+  const sheetLayout = plan[0];
+  const canvas = document.createElement('canvas'); canvas.width = sheetLayout.width; canvas.height = sheetLayout.height;
   const context = canvas.getContext('2d');
   context.fillStyle = '#f4f5f7'; context.fillRect(0, 0, canvas.width, canvas.height);
   context.fillStyle = '#202633'; context.font = 'bold 30px system-ui';
-  context.fillText(`${sheet.chapterId}  ·  SHEET ${pad(sheetIndex + 1, 3)}`, margin, 44);
+  context.fillText(`${sheet.chapterId}  ·  SHEET ${pad(sheetIndex + 1, 3)}${sheetLayout.overflow ? ' · OVERFLOW' : ''}`, DEFAULT_VERTICAL_LAYOUT.margin, 44);
   context.fillStyle = '#626b78'; context.font = '18px system-ui';
-  context.fillText(`Panel ${sheet.panels[0].order}–${sheet.panels.at(-1).order} · ${sheet.panels.length} panel · thứ tự đọc được giữ nguyên`, margin, 74);
+  context.fillText(`Panel ${sheet.panels[0].order}–${sheet.panels.at(-1).order} · ${sheet.panels.length} panel · xếp dọc từng cột`, DEFAULT_VERTICAL_LAYOUT.margin, 74);
   const layoutPanels = [];
-  let y = headerHeight;
-  for (const row of rows) {
-    const rowStart = margin + Math.max(0, (canvasWidth - margin * 2 - row.occupiedWidth) / 2);
-    let cursor = state.style === 'manga' && state.reading === 'rtl' ? rowStart + row.occupiedWidth : rowStart;
-    for (let i = 0; i < row.items.length; i++) {
-      const placed = row.items[i], tileWidth = row.tileWidths[i], item = sheet.panels.find(panel => panel.uuid === placed.uuid);
-      const x = state.style === 'manga' && state.reading === 'rtl' ? (cursor -= tileWidth) : cursor;
-      if (!(state.style === 'manga' && state.reading === 'rtl')) cursor += tileWidth;
-      const response = await api.readExportedPanel({ token: state.token, relativePath: item.relativePath });
-      const bitmap = await createImageBitmap(new Blob([response.data], { type: /\.png$/i.test(item.relativePath) ? 'image/png' : 'image/jpeg' }));
-      const drawWidth = bitmap.width * row.height / bitmap.height;
-      const drawX = x + (tileWidth - drawWidth) / 2;
-      context.fillStyle = '#ffffff'; context.fillRect(x, y, tileWidth, row.height + labelHeight - 4);
-      context.drawImage(bitmap, drawX, y + (row.height - row.height) / 2, drawWidth, row.height);
-      bitmap.close();
-      context.fillStyle = placed.detail_required ? '#9b3e22' : '#202633';
-      context.font = 'bold 18px system-ui';
-      const label = `${placed.panel_id} · #${String(placed.reading_order).padStart(4, '0')}${placed.detail_required ? ' · XEM ẢNH GỐC' : ''}`;
-      context.fillText(label, x + 8, y + row.height + 27, Math.max(tileWidth - 16, 150));
-      layoutPanels.push({ ...placed, sheet_id: `sheet_${String(sheetIndex + 1).padStart(3, '0')}` });
+  for (const placed of sheetLayout.panels) {
+    const item = sheet.panels.find(panel => panel.uuid === placed.uuid);
+    const response = await api.readExportedPanel({ token: state.token, relativePath: item.relativePath });
+    const bitmap = await createImageBitmap(new Blob([response.data], { type: /\.png$/i.test(item.relativePath) ? 'image/png' : 'image/jpeg' }));
+    if (bitmap.width !== placed.width || bitmap.height !== placed.height) {
+      bitmap.close(); throw new Error(`Kích thước panel thay đổi ngoài dự kiến: ${placed.panel_id}.`);
     }
-    y += row.height + labelHeight + gap;
+    context.drawImage(bitmap, placed.x, placed.y);
+    bitmap.close();
+    context.fillStyle = '#ffffff';
+    context.fillRect(placed.x, placed.y + placed.height, placed.width, DEFAULT_VERTICAL_LAYOUT.labelHeight);
+    context.fillStyle = placed.overflow_height || placed.overflow_width ? '#9b3e22' : '#202633';
+    context.font = 'bold 18px system-ui';
+    const label = `${placed.panel_id} · #${String(placed.reading_order).padStart(4, '0')}${placed.overflow_height || placed.overflow_width ? ' · VƯỢT GIỚI HẠN' : ''}`;
+    context.fillText(label, placed.x + 6, placed.y + placed.height + 24, Math.max(placed.width - 12, 140));
+    layoutPanels.push({ ...placed, sheet_id: `sheet_${String(sheetIndex + 1).padStart(3, '0')}` });
   }
   const mime = format === 'png' ? 'image/png' : 'image/jpeg';
   const blob = await new Promise((resolve, reject) => canvas.toBlob(value => value ? resolve(value) : reject(new Error('Không tạo được Contact Sheet.')), mime, 0.92));
@@ -916,6 +910,7 @@ async function buildContactSheet(sheet, sheetIndex, chapterIndex, format) {
   return {
     format, data: await blob.arrayBuffer(), chapter_id: sheet.chapterId, chapter_index: chapterIndex,
     sheet_index: sheetIndex + 1, panel_uuids: sheet.panels.map(item => item.uuid), layout_panels: layoutPanels,
+    layout_width: sheetLayout.width, layout_height: sheetLayout.height, overflow: sheetLayout.overflow,
   };
 }
 
@@ -926,13 +921,19 @@ $('#export-ai-button').addEventListener('click', async () => {
   try {
     const perSheet = Number($('#ai-sheet-size').value) || 10;
     const format = $('#ai-sheet-format').value === 'png' ? 'png' : 'jpg';
-    const chapterSheets = partitionPanelsByChapter(state.results, perSheet);
+    const chapterBatches = partitionPanelsByChapter(state.results, perSheet);
     const sheets = [], chapterIndexes = new Map();
-    for (let index = 0; index < chapterSheets.length; index++) {
-      const sheet = chapterSheets[index];
-      if (!chapterIndexes.has(sheet.chapterId)) chapterIndexes.set(sheet.chapterId, chapterIndexes.size + 1);
-      setProgress(Math.round(index / chapterSheets.length * 90), 'Đang tạo AI Package', `${sheet.chapterId} · sheet ${index + 1}/${chapterSheets.length}…`);
-      sheets.push(await buildContactSheet(sheet, sheets.filter(value => value.chapter_id === sheet.chapterId).length, chapterIndexes.get(sheet.chapterId), format));
+    for (let index = 0; index < chapterBatches.length; index++) {
+      const batch = chapterBatches[index];
+      const plannedSheets = layoutVerticalSequential(batch.panels, DEFAULT_VERTICAL_LAYOUT);
+      for (let localIndex = 0; localIndex < plannedSheets.length; localIndex++) {
+        const plan = plannedSheets[localIndex];
+        const sheet = { chapterId: batch.chapterId, panels: plan.panels.map(entry => batch.panels.find(panel => panel.uuid === entry.uuid)) };
+        if (!chapterIndexes.has(sheet.chapterId)) chapterIndexes.set(sheet.chapterId, chapterIndexes.size + 1);
+        const sheetIndex = sheets.filter(value => value.chapter_id === sheet.chapterId).length;
+        setProgress(Math.round(sheets.length / Math.max(1, chapterBatches.length) * 90), 'Đang tạo AI Package', `${sheet.chapterId} · sheet ${sheetIndex + 1}…`);
+        sheets.push(await buildContactSheet(sheet, sheetIndex, chapterIndexes.get(sheet.chapterId), format));
+      }
     }
     const result = await api.exportAiPackage({ token: state.token, sheets });
     setProgress(100, 'Đã xuất AI Package', `${result.panelCount} panel · ${result.sheetCount} Contact Sheet.`);

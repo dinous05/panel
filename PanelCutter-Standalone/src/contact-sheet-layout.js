@@ -1,8 +1,14 @@
 const DEFAULT_CAPACITY = 10;
-const MAX_COLUMNS = 4;
-const TARGET_ROW_HEIGHT = 520;
-const MIN_ROW_HEIGHT = 300;
-const MIN_TILE_WIDTH = 160;
+const DEFAULT_LAYOUT = Object.freeze({
+  maxHeight: 3200,
+  maxWidth: 2400,
+  maxColumns: 4,
+  panelGap: 16,
+  columnGap: 24,
+  margin: 48,
+  headerHeight: 92,
+  labelHeight: 36,
+});
 
 export function partitionPanelsByChapter(panels, capacity = DEFAULT_CAPACITY) {
   if (!Array.isArray(panels)) throw new Error('Danh sách panel không hợp lệ.');
@@ -25,72 +31,161 @@ export function partitionPanelsByChapter(panels, capacity = DEFAULT_CAPACITY) {
     }
     group.panels.push(panel);
   }
-  const sheets = [];
+  const batches = [];
   for (const group of groups) {
     for (let start = 0; start < group.panels.length; start += size) {
-      sheets.push({ chapterId: group.chapterId, panels: group.panels.slice(start, start + size) });
+      batches.push({ chapterId: group.chapterId, panels: group.panels.slice(start, start + size) });
     }
+  }
+  return batches;
+}
+
+function getDimensions(panel) {
+  const width = Number(panel.width), height = Number(panel.height);
+  if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1) {
+    throw new Error(`Kích thước ảnh không hợp lệ: ${panel.id || panel.uuid}`);
+  }
+  return { width, height };
+}
+
+function sheetWidth(columns, config) {
+  if (!columns.length) return config.margin * 2;
+  return config.margin * 2 + columns.reduce((sum, column) => sum + column.width, 0) + config.columnGap * (columns.length - 1);
+}
+
+function startColumn(panel, config) {
+  const { width, height } = getDimensions(panel);
+  const y = config.headerHeight + config.margin;
+  return {
+    width,
+    items: [{ panel, x: 0, y, width, height, reading_order: panel.order, uuid: panel.uuid }],
+    bottom: y + height + config.labelHeight,
+  };
+}
+
+function finalizeSheet(columns, config, extraOverflow = null) {
+  let x = config.margin;
+  const panels = [];
+  let bottom = config.headerHeight + config.margin;
+  for (let columnIndex = 0; columnIndex < columns.length; columnIndex++) {
+    const column = columns[columnIndex];
+    for (const item of column.items) {
+      panels.push({
+        panel_id: item.panel.id,
+        uuid: item.panel.uuid,
+        chapter_id: item.panel.chapterId || 'Chapter 1',
+        reading_order: item.panel.order,
+        column: columnIndex + 1,
+        x,
+        y: item.y,
+        width: item.width,
+        height: item.height,
+        overflow_height: Boolean(item.overflow_height),
+        overflow_width: Boolean(item.overflow_width),
+      });
+      bottom = Math.max(bottom, item.y + item.height + config.labelHeight);
+    }
+    x += column.width + config.columnGap;
+  }
+  const contentWidth = columns.length ? x - config.columnGap : config.margin * 2;
+  const overflowWidth = contentWidth + config.margin > config.maxWidth;
+  const overflowHeight = bottom + config.margin > config.maxHeight;
+  return {
+    width: Math.max(1, contentWidth + config.margin),
+    height: Math.max(1, bottom + config.margin),
+    panels,
+    columns: columns.length,
+    overflow: extraOverflow || overflowWidth || overflowHeight ? {
+      width: Boolean(extraOverflow?.width || overflowWidth),
+      height: Boolean(extraOverflow?.height || overflowHeight),
+      reason: extraOverflow?.reason || (overflowHeight ? 'single_panel_exceeds_max_height' : overflowWidth ? 'single_panel_exceeds_max_width' : null),
+    } : null,
+  };
+}
+
+/**
+ * Places panels at native pixel dimensions, top-to-bottom within each column,
+ * then left-to-right across columns. Panels are never resized or cropped.
+ */
+export function layoutVerticalSequential(panels, options = {}) {
+  if (!Array.isArray(panels)) throw new Error('Danh sách panel không hợp lệ.');
+  const config = { ...DEFAULT_LAYOUT };
+  for (const key of Object.keys(DEFAULT_LAYOUT)) {
+    if (options[key] !== undefined) config[key] = Number(options[key]);
+    if (!Number.isFinite(config[key]) || config[key] < 1) throw new Error(`Cấu hình ${key} không hợp lệ.`);
+  }
+  if (config.maxColumns > 20) throw new Error('MAX_COLUMNS không được lớn hơn 20.');
+  const allUuids = panels.map(panel => panel.uuid);
+  if (new Set(allUuids).size !== allUuids.length) throw new Error('UUID panel bị trùng trong layout.');
+
+  const sheets = [];
+  let columns = [];
+  let index = 0;
+  const availablePanelHeight = config.maxHeight - config.headerHeight - config.margin * 2 - config.labelHeight;
+  const availablePanelWidth = config.maxWidth - config.margin * 2;
+
+  const flush = (overflow = null) => {
+    if (columns.length) sheets.push(finalizeSheet(columns, config, overflow));
+    columns = [];
+  };
+  const startNewSheetWith = panel => {
+    const { width, height } = getDimensions(panel);
+    const tooTall = height > availablePanelHeight;
+    const tooWide = width > availablePanelWidth;
+    const column = startColumn(panel, config);
+    if (tooTall || tooWide) {
+      column.items[0].overflow_height = tooTall;
+      column.items[0].overflow_width = tooWide;
+      sheets.push(finalizeSheet([column], config, { height: tooTall, width: tooWide, reason: tooTall ? 'single_panel_exceeds_max_height' : 'single_panel_exceeds_max_width' }));
+      index++;
+      return;
+    }
+    columns = [column];
+    index++;
+  };
+
+  while (index < panels.length) {
+    const panel = panels[index];
+    const { width, height } = getDimensions(panel);
+    if (!columns.length) {
+      startNewSheetWith(panel);
+      continue;
+    }
+
+    const lastColumn = columns.at(-1);
+    const lastItem = lastColumn.items.at(-1);
+    const nextY = lastItem.y + lastItem.height + config.labelHeight + config.panelGap;
+    const nextBottom = nextY + height + config.labelHeight;
+    const newColumnWidth = Math.max(lastColumn.width, width);
+    const projectedWidths = columns.reduce((sum, column) => sum + column.width, 0) - lastColumn.width + newColumnWidth;
+    const projectedSheetWidth = config.margin * 2 + projectedWidths + config.columnGap * (columns.length - 1);
+
+    if (nextBottom + config.margin <= config.maxHeight && projectedSheetWidth <= config.maxWidth) {
+      lastColumn.items.push({ panel, x: 0, y: nextY, width, height, reading_order: panel.order, uuid: panel.uuid });
+      lastColumn.width = newColumnWidth;
+      lastColumn.bottom = nextBottom;
+      index++;
+      continue;
+    }
+
+    const candidateWidth = sheetWidth(columns, config) + config.columnGap + width;
+    if (columns.length < config.maxColumns && candidateWidth <= config.maxWidth && height <= availablePanelHeight && width <= availablePanelWidth) {
+      const column = startColumn(panel, config);
+      column.width = width;
+      columns.push(column);
+      index++;
+      continue;
+    }
+
+    flush();
+  }
+  flush();
+
+  const actual = sheets.flatMap(sheet => sheet.panels.map(panel => panel.uuid));
+  if (actual.length !== allUuids.length || allUuids.some((uuid, i) => actual[i] !== uuid)) {
+    throw new Error('Layout không bảo toàn thứ tự hoặc số lượng panel.');
   }
   return sheets;
 }
 
-function dimensions(panel) {
-  const width = Number(panel.width), height = Number(panel.height);
-  if (!(width > 0) || !(height > 0) || !Number.isFinite(width) || !Number.isFinite(height)) {
-    throw new Error(`Kích thước ảnh không hợp lệ: ${panel.id || panel.uuid}`);
-  }
-  return { width, height, ratio: width / height };
-}
-
-export function layoutSequentialRows(panels, options = {}) {
-  const canvasWidth = Number(options.canvasWidth) || 2400;
-  const margin = Number(options.margin) || 48;
-  const gap = Number(options.gap) || 24;
-  const targetHeight = Number(options.targetRowHeight) || TARGET_ROW_HEIGHT;
-  const minRowHeight = Number(options.minRowHeight) || MIN_ROW_HEIGHT;
-  const maxColumns = Math.max(1, Math.min(6, Number(options.maxColumns) || MAX_COLUMNS));
-  const availableWidth = canvasWidth - margin * 2;
-  const rows = [];
-  let index = 0;
-  while (index < panels.length) {
-    let best = null;
-    const maxCount = Math.min(maxColumns, panels.length - index);
-    for (let count = 1; count <= maxCount; count++) {
-      const meta = panels.slice(index, index + count).map(dimensions);
-      const ratioWidth = meta.reduce((sum, item) => sum + Math.max(MIN_TILE_WIDTH, item.ratio * targetHeight), 0);
-      const rowHeight = Math.min(targetHeight, (availableWidth - gap * (count - 1)) / ratioWidth * targetHeight);
-      if (rowHeight < minRowHeight && count > 1) continue;
-      const tileWidths = meta.map(item => Math.max(MIN_TILE_WIDTH, item.ratio * rowHeight));
-      const occupiedWidth = tileWidths.reduce((sum, value) => sum + value, 0) + gap * (count - 1);
-      const area = meta.reduce((sum, item, i) => sum + Math.min(item.ratio * rowHeight, tileWidths[i]) * rowHeight, 0);
-      const score = area - Math.max(0, availableWidth - occupiedWidth) * rowHeight * 0.12;
-      if (!best || score > best.score) best = { count, rowHeight, tileWidths, occupiedWidth, score, meta };
-    }
-    if (!best) {
-      const meta = dimensions(panels[index]);
-      const rowHeight = Math.max(1, Math.min(targetHeight, availableWidth / Math.max(meta.ratio, 0.001)));
-      best = { count: 1, rowHeight, tileWidths: [Math.max(MIN_TILE_WIDTH, meta.ratio * rowHeight)], occupiedWidth: Math.max(MIN_TILE_WIDTH, meta.ratio * rowHeight), meta: [meta] };
-    }
-    const items = panels.slice(index, index + best.count).map((panel, offset) => {
-      const meta = best.meta[offset];
-      const displayWidth = meta.ratio * best.rowHeight;
-      return {
-        panel_id: panel.id,
-        uuid: panel.uuid,
-        chapter_id: panel.chapterId || 'Chapter 1',
-        reading_order: panel.order,
-        row: rows.length + 1,
-        column: offset + 1,
-        display_width: Math.round(displayWidth),
-        display_height: Math.round(best.rowHeight),
-        detail_required: displayWidth < 260 || best.rowHeight < 280 || meta.ratio < 0.22,
-      };
-    });
-    rows.push({ items, height: Math.round(best.rowHeight), tileWidths: best.tileWidths.map(Math.round), occupiedWidth: Math.round(best.occupiedWidth) });
-    index += best.count;
-  }
-  const expected = panels.map(panel => panel.uuid);
-  const actual = rows.flatMap(row => row.items.map(panel => panel.uuid));
-  if (expected.length !== actual.length || expected.some((uuid, i) => uuid !== actual[i])) throw new Error('Layout không bảo toàn thứ tự hoặc số lượng panel.');
-  return rows;
-}
+export const DEFAULT_VERTICAL_LAYOUT = DEFAULT_LAYOUT;

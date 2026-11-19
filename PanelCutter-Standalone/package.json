@@ -1,6 +1,6 @@
 {
   "name": "panel-cutter-offline",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Offline comic panel splitter for Windows",
   "type": "module",
   "main": "electron/main.js",
